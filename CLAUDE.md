@@ -21,15 +21,24 @@
 n8n (Cron 주1회)
   → POST /digest/run → reg-watch (FastAPI)
                           collect → 1차 screen → 2차 screen → dedup/diff → synthesize(HTML)
-  ← { html, summary, stats } ←
-사람 검토 게이트 (review_first)
+                          pending 저장 (data/state/pending/)
+  ← { digest_id, html, summary, stats, status } ←
+
+[review_first]
+  운영자 검토 게이트
+  → POST /digest/{digest_id}/approve → reg-watch
+      ← { digest_id, html, summary, status:"approved" }
   → n8n SMTP 발송 → R&D 본부 1통
-  → 발송본을 Weekly State에 저장 (다음 주 diff 기준)
+  → ★ 이 시점에만 Weekly State 기준선 갱신 (data/state/sent/last.json)
+
+[auto_send]
+  /digest/run 에서 즉시 기준선 커밋 + status=ready_to_send
+  → n8n SMTP 발송
 ```
 
 - **n8n 책임**: Cron 스케줄, SMTP 발송, credential 관리. (기존 워크플로우와 동일 인프라 재사용)
-- **reg-watch 서비스 책임**: 수집, 2단계 스크리닝, dedup/diff, synthesis, HTML 생성
-- 둘은 단 한 번의 HTTP 호출로만 결합. 경계가 얇아야 각자 독립적으로 테스트·교체 가능.
+- **reg-watch 서비스 책임**: 수집, 2단계 스크리닝, dedup/diff, synthesis, HTML 생성, pending/sent 상태 관리
+- 둘은 최소 HTTP 호출로만 결합. 경계가 얇아야 각자 독립적으로 테스트·교체 가능.
 
 ## 3. 기반 데이터 구조 (품질의 80%)
 
@@ -58,6 +67,11 @@ n8n (Cron 주1회)
 ### (C) Weekly State — 주간 스냅샷
 - 매주 결과를 저장하여 "지난주 대비 신규 변화"만 diff로 추출
 - 누적되면 규제 타임라인 DB가 됨 (audit log = 재사용 가능한 학습 데이터)
+- **2단계 상태 관리**:
+  - `data/state/pending/{digest_id}.html` + `.meta.json` — 생성 후 승인 대기
+  - `data/state/sent/last.json` — diff 기준선 (발송 확정 시에만 갱신)
+  - `data/state/sent/{digest_id}.json` — 발송 이력 (감사 로그)
+- digest_id = ISO 주차 기준 (`2026-W23`). 같은 주 재실행은 동일 ID → pending 덮어쓰기.
 
 ## 4. 파이프라인 처리 규칙
 
@@ -79,9 +93,13 @@ n8n (Cron 주1회)
 
 ## 6. 발송 정책
 
-- 수신: R&D 본부 1통 (broadcast).
+- 수신: R&D 본부 1통 (broadcast). 수신자는 .env `DIGEST_RECIPIENTS` (쉼표 구분).
 - `send_mode` 플래그: `review_first`(운영자 사전 승인 후 발송) | `auto_send`.
   - **초기에는 `review_first`로 시작**, 신뢰 누적 후 `auto_send` 전환.
+- **기준선 갱신 규칙**: 발송이 확정된 시점에만 `sent/last.json` 갱신.
+  승인 거부 / 발송 실패 시 기준선 불변 → 재생성 시 동일 신규 건수 보장.
+- **로컬 테스트**: `POST /digest/{id}/send-local` → `deliver.send_via_smtp()` 호출.
+  운영 발송은 n8n SMTP 담당. deliver.py는 개발/검증 전용.
 
 ## 7. 기술 스택 / 레포 구조 (제안)
 
@@ -92,17 +110,20 @@ n8n (Cron 주1회)
 SENTINEL/
 ├── CLAUDE.md
 ├── app/
-│   ├── main.py            # FastAPI, POST /digest/run
-│   ├── models.py          # Pydantic: ProfileSpec, SourceItem, DigestResult
+│   ├── main.py            # FastAPI: /digest/run, /{id}/approve, /{id}/send-local
+│   ├── models.py          # Pydantic: ProfileSpec, SourceItem, DigestRunResult, ApproveResult
+│   ├── config.py          # Settings (SMTP_*, SEND_MODE, DIGEST_RECIPIENTS 포함)
 │   ├── collect/           # 도메인별 수집기
 │   ├── screen.py          # 1차/2차 스크리닝
-│   ├── diff.py            # dedup + Weekly State 비교
+│   ├── diff.py            # dedup + diff_against_sent + commit_sent_state
 │   ├── synthesize.py      # HTML 생성
-│   └── deliver.py         # (n8n이 담당하나 로컬 테스트용)
+│   └── deliver.py         # send_via_smtp (로컬 테스트 전용)
 ├── data/
 │   ├── profiles/          # battery.json, green.json, hydrogen.json, space.json
 │   ├── sources.json       # Source Registry
-│   └── state/             # 주간 스냅샷
+│   └── state/
+│       ├── pending/       # {digest_id}.html + {digest_id}.meta.json
+│       └── sent/          # last.json (diff 기준선) + {digest_id}.json (이력)
 └── n8n/                   # 워크플로우 export (참고용)
 ```
 

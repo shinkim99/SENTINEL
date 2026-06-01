@@ -123,7 +123,30 @@ class ScreenedItem(BaseModel):
 
 # ── Pipeline output ───────────────────────────────────────────────────────────
 
+class DigestStatus(str, Enum):
+    pending_review = "pending_review"
+    ready_to_send = "ready_to_send"
+
+
+class DigestRunResult(BaseModel):
+    """POST /digest/run 응답. 생성 완료 + pending 저장 후 반환."""
+    digest_id: str
+    html: str
+    summary: str
+    stats: dict[str, Any]
+    status: DigestStatus
+
+
+class ApproveResult(BaseModel):
+    """POST /digest/{digest_id}/approve 응답. 승인=발송 확정 시 반환."""
+    digest_id: str
+    html: str
+    summary: str
+    status: str  # "approved"
+
+
 class DigestResult(BaseModel):
+    """레거시 호환용 — 내부 테스트에서 참조 가능."""
     html: str
     summary: str
     stats: dict[str, Any]

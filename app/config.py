@@ -21,15 +21,22 @@ class Settings(BaseSettings):
 
     law_go_kr_api_key: str = ""
 
+    # 발송 설정
+    send_mode: str = "review_first"  # review_first | auto_send
     digest_recipients: str = ""
-    send_mode: str = "review_first"
+
+    # SMTP (로컬 테스트용 — 운영 SMTP는 n8n 담당)
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
 
     sources_path: Path = Path("data/sources.json")
     profiles_dir: Path = Path("data/profiles")
     state_dir: Path = Path("data/state")
 
     # SSL — REQUESTS_CA_BUNDLE=false (bypass) | /path/to/ca.crt (custom bundle)
-    requests_ca_bundle: str = ""   # maps to REQUESTS_CA_BUNDLE in .env
+    requests_ca_bundle: str = ""
 
     @property
     def http_verify(self) -> Union[bool, str]:
