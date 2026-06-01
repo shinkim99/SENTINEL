@@ -1,14 +1,242 @@
 {
-  "_comment": "Source Registry — tier1: 1차 출처(관보·규제기관), tier2: 산업 매체(발견용, 보고 전 tier1 검증 필수)",
+  "registry_version": "0.1-draft",
+  "generated": "2026-06-01",
+  "note": "health=ok 는 직접 확인한 출처(접근 가능 검증). health=verify 는 목요일 피드백 후 1차 출처 검증 대상. tier1=관보·규제기관, tier2=산업 매체(발견용, tier1로 재검증 필수).",
   "sources": [
     {
       "id": "eu-eurlex",
+      "name": "EUR-Lex (EU Official Journal / Cellar)",
       "domain": "all",
       "country": "EU",
       "type": "api",
       "tier": 1,
-      "url": "TBD",
-      "health": "pending"
+      "url": "https://eur-lex.europa.eu",
+      "health": "ok",
+      "note": "Cellar SPARQL/REST + 예약형 RSS/ATOM 피드. EU 전 도메인 법령·관보 백본."
+    },
+    {
+      "id": "us-federal-register",
+      "name": "US Federal Register",
+      "domain": "all",
+      "country": "US",
+      "type": "api",
+      "tier": 1,
+      "url": "https://www.federalregister.gov/api/v1",
+      "health": "ok",
+      "note": "REST/JSON. agency·term·type 필터. DDTC(ITAR)·BIS(EAR)·IRS·DOE·EPA 규칙 모두 여기로 포착."
+    },
+    {
+      "id": "kr-law-go-kr",
+      "name": "국가법령정보 공동활용 (법제처)",
+      "domain": "all",
+      "country": "KR",
+      "type": "api",
+      "tier": 1,
+      "url": "https://open.law.go.kr",
+      "health": "ok",
+      "note": "Open API: law.go.kr/DRF/lawSearch.do. 신청·승인(1~2일) 필요. KR 전 도메인 법령 백본."
+    },
+    {
+      "id": "kr-lawmaking-pre",
+      "name": "국민참여입법센터 (입법예고)",
+      "domain": "all",
+      "country": "KR",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://opinion.lawmaking.go.kr",
+      "health": "verify",
+      "note": "proposed 단계(입법예고) 포착용. URL·수집방식 확인 필요."
+    },
+
+    {
+      "id": "eu-battery-reg",
+      "name": "EU Battery Regulation 2023/1542 (EC)",
+      "domain": "secondary_battery",
+      "country": "EU",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://environment.ec.europa.eu/topics/waste-and-recycling/batteries_en",
+      "health": "verify",
+      "note": "재활용 의무비율·탄소발자국·battery passport. 본문은 eur-lex로 재검증."
+    },
+    {
+      "id": "us-irs-treasury-45x",
+      "name": "IRS / Treasury (45X, FEOC 가이던스)",
+      "domain": "secondary_battery",
+      "country": "US",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.irs.gov",
+      "health": "verify",
+      "note": "IRA 45X·FEOC 적격성. 규칙 본문은 federal-register API로도 포착."
+    },
+    {
+      "id": "cn-miit-battery",
+      "name": "中国 工业和信息化部 (MIIT)",
+      "domain": "secondary_battery",
+      "country": "CN",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.miit.gov.cn",
+      "health": "verify",
+      "note": "GB 표준·배터리 산업정책. 중국어. 수집·번역 파이프라인 확인 필요."
+    },
+    {
+      "id": "battery-trade-media",
+      "name": "배터리 산업 매체 (discovery)",
+      "domain": "secondary_battery",
+      "country": "INTL",
+      "type": "rss",
+      "tier": 2,
+      "url": "https://source.benchmarkminerals.com",
+      "health": "verify",
+      "note": "tier2 발견용. RSS 유무 확인. 보고 전 tier1 재검증 필수."
+    },
+
+    {
+      "id": "eu-cbam",
+      "name": "EU CBAM (DG TAXUD)",
+      "domain": "green_eco",
+      "country": "EU",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en",
+      "health": "verify",
+      "note": "탄소국경조정. 본문은 eur-lex로 재검증."
+    },
+    {
+      "id": "eu-csrd-efrag",
+      "name": "CSRD / ESRS (EFRAG)",
+      "domain": "green_eco",
+      "country": "EU",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.efrag.org",
+      "health": "verify",
+      "note": "ESG 공시 기준(ESRS). EFRAG가 표준 개발."
+    },
+    {
+      "id": "kr-esg-fsc",
+      "name": "금융위원회 (ESG 공시) / 환경부 (K-택소노미)",
+      "domain": "green_eco",
+      "country": "KR",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.fsc.go.kr",
+      "health": "verify",
+      "note": "ESG 공시 의무 시점·K-택소노미. law.go.kr로도 포착."
+    },
+    {
+      "id": "green-trade-media",
+      "name": "탄소·ESG 매체 (discovery)",
+      "domain": "green_eco",
+      "country": "INTL",
+      "type": "rss",
+      "tier": 2,
+      "url": "https://carbon-pulse.com",
+      "health": "verify",
+      "note": "tier2 발견용. 유료/RSS 정책 확인. tier1 재검증 필수."
+    },
+
+    {
+      "id": "eu-red-hydrogen",
+      "name": "EU RED III / RFNBO (DG ENER)",
+      "domain": "hydrogen",
+      "country": "EU",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://energy.ec.europa.eu",
+      "health": "verify",
+      "note": "청정수소 정의·RFNBO delegated act. 본문은 eur-lex로 재검증."
+    },
+    {
+      "id": "us-doe-irs-hydrogen",
+      "name": "DOE Hydrogen / IRS 45V",
+      "domain": "hydrogen",
+      "country": "US",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.energy.gov/topics/hydrogen-fuel-cells",
+      "health": "verify",
+      "note": "청정수소 세액공제 45V·수소허브. 규칙 본문은 federal-register API로 포착."
+    },
+    {
+      "id": "jp-meti-hydrogen",
+      "name": "日本 経済産業省 (METI) 수소전략",
+      "domain": "hydrogen",
+      "country": "JP",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.meti.go.jp",
+      "health": "verify",
+      "note": "일본 수소전략·정책. 일본어. 수집·번역 확인 필요."
+    },
+    {
+      "id": "hydrogen-trade-media",
+      "name": "수소 산업 매체 (discovery)",
+      "domain": "hydrogen",
+      "country": "INTL",
+      "type": "rss",
+      "tier": 2,
+      "url": "https://www.hydrogeninsight.com",
+      "health": "verify",
+      "note": "tier2 발견용. RSS 확인. tier1 재검증 필수."
+    },
+
+    {
+      "id": "kr-kasa",
+      "name": "우주항공청 (KASA)",
+      "domain": "space_environment",
+      "country": "KR",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.kasa.go.kr",
+      "health": "ok",
+      "note": "우주개발진흥법·우주환경·훈령·보도자료. 보드 스크래핑."
+    },
+    {
+      "id": "us-ddtc-itar",
+      "name": "US DDTC (ITAR / USML)",
+      "domain": "space_environment",
+      "country": "US",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.pmddtc.state.gov",
+      "health": "verify",
+      "note": "USML Cat IV·XV. 규칙은 federal-register API로도 포착(89 FR 84482 등)."
+    },
+    {
+      "id": "us-bis-ear",
+      "name": "US BIS (EAR / CCL)",
+      "domain": "space_environment",
+      "country": "US",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.bis.gov",
+      "health": "verify",
+      "note": "ECCN 9A515/9C515 — 우주용 소재·코팅 통제 포함. federal-register API로도 포착."
+    },
+    {
+      "id": "intl-unoosa",
+      "name": "UNOOSA / COPUOS (궤도잔해 가이드라인)",
+      "domain": "space_environment",
+      "country": "INTL",
+      "type": "scrape",
+      "tier": 2,
+      "url": "https://www.unoosa.org",
+      "health": "verify",
+      "note": "궤도잔해 완화 가이드라인. 국제 권고(법적 구속력 낮음) — lifecycle 표기 주의."
+    },
+    {
+      "id": "space-trade-media",
+      "name": "우주 산업 매체 (discovery)",
+      "domain": "space_environment",
+      "country": "INTL",
+      "type": "rss",
+      "tier": 2,
+      "url": "https://spacenews.com",
+      "health": "verify",
+      "note": "tier2 발견용. RSS 확인. tier1 재검증 필수."
     }
   ]
 }
