@@ -1,0 +1,11 @@
+{
+  "project_id": "hydrogen",
+  "domain": "hydrogen",
+  "status": "draft",
+  "watch_countries": ["EU", "US", "KR", "JP"],
+  "keywords": ["clean hydrogen", "RFNBO", "45V", "CHPS", "청정수소 인증", "RED III", "electrolysis"],
+  "concerns": ["청정수소 정의·인증 기준", "보조금 적격성", "재생에너지 인증 요건"],
+  "lifecycle_interest": ["proposed", "enacted", "amended"],
+  "open_questions": ["RFNBO 인증 방법론 최종 확정 여부 — 담당자 확인 필요"],
+  "last_reviewed_by": null
+}

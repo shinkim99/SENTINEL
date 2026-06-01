@@ -1,0 +1,11 @@
+{
+  "project_id": "space",
+  "domain": "space_environment",
+  "status": "draft",
+  "watch_countries": ["KR", "US", "INTL"],
+  "keywords": ["수출통제", "전략물자", "ITAR", "EAR", "우주개발진흥법", "궤도잔해", "space debris"],
+  "concerns": ["수출통제 적격성", "우주용 부품·소재 규제", "우주 파편 경감 의무"],
+  "lifecycle_interest": ["proposed", "enacted", "amended"],
+  "open_questions": ["법·정책·수출통제 외 우주환경 시험규격(ASTM E595, ECSS 등 소재 spec) 포함 여부 — 담당자 확인 필요"],
+  "last_reviewed_by": null
+}

@@ -1,0 +1,14 @@
+{
+  "_comment": "Source Registry — tier1: 1차 출처(관보·규제기관), tier2: 산업 매체(발견용, 보고 전 tier1 검증 필수)",
+  "sources": [
+    {
+      "id": "eu-eurlex",
+      "domain": "all",
+      "country": "EU",
+      "type": "api",
+      "tier": 1,
+      "url": "TBD",
+      "health": "pending"
+    }
+  ]
+}

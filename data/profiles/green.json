@@ -1,0 +1,11 @@
+{
+  "project_id": "green",
+  "domain": "green_eco",
+  "status": "draft",
+  "watch_countries": ["EU", "KR", "US"],
+  "keywords": ["CBAM", "탄소국경", "ESG 공시", "K-택소노미", "ESPR", "CSRD", "그린워싱"],
+  "concerns": ["탄소국경세 적용 범위", "공시 의무 시점", "그린워싱 규제"],
+  "lifecycle_interest": ["proposed", "enacted", "amended"],
+  "open_questions": [],
+  "last_reviewed_by": null
+}

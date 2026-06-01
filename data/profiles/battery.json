@@ -1,0 +1,11 @@
+{
+  "project_id": "battery",
+  "domain": "secondary_battery",
+  "status": "draft",
+  "watch_countries": ["EU", "US", "CN", "KR"],
+  "keywords": ["recycled content", "carbon footprint", "FEOC", "battery passport", "재활용 의무비율", "EU Battery Regulation", "IRA"],
+  "concerns": ["원료 수급 규제", "재활용 의무비율", "보조금 적격성", "탄소발자국 공시"],
+  "lifecycle_interest": ["proposed", "enacted", "amended"],
+  "open_questions": ["FEOC 최종 규정 시행 시점 확정 여부 — 담당자 확인 필요"],
+  "last_reviewed_by": null
+}
