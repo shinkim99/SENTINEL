@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     send_mode: str = "review_first"  # review_first | auto_send
     digest_recipients: str = ""
 
+    # 대시보드 URL (이메일 CTA 버튼 링크 — 배포 후 실제 URL로 교체)
+    dashboard_url: str = "http://localhost:8010/dashboard"
+
     # SMTP (로컬 테스트용 — 운영 SMTP는 n8n 담당)
     smtp_host: str = ""
     smtp_port: int = 587
@@ -40,11 +43,6 @@ class Settings(BaseSettings):
 
     @property
     def http_verify(self) -> Union[bool, str]:
-        """Returns httpx verify argument.
-        'false' → skip verification (unsafe, for testing only)
-        '<path>' → custom CA bundle
-        '' → True (default system certs)
-        """
         ca = self.requests_ca_bundle or os.environ.get("SSL_CERT_FILE", "")
         if not ca:
             return True

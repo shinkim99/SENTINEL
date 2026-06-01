@@ -14,21 +14,41 @@ class LifecycleStage(str, Enum):
     repealed = "repealed"
 
 
-LIFECYCLE_LABELS_KO: dict[LifecycleStage, str] = {
-    LifecycleStage.proposed: "입법예고/제안",
-    LifecycleStage.enacted: "공포",
-    LifecycleStage.in_force: "시행",
-    LifecycleStage.amended: "개정",
-    LifecycleStage.repealed: "폐지",
+LIFECYCLE_LABELS_KO: dict[str, str] = {
+    "proposed": "입법예고/제안",
+    "enacted":  "공포",
+    "in_force": "시행",
+    "amended":  "개정",
+    "repealed": "폐지",
+    "unclear":  "불명확",
 }
 
 LIFECYCLE_COLORS: dict[str, tuple[str, str]] = {
-    "proposed":  ("#DBEAFE", "#1E40AF"),
-    "enacted":   ("#FEF3C7", "#92400E"),
-    "in_force":  ("#D1FAE5", "#065F46"),
-    "amended":   ("#EDE9FE", "#5B21B6"),
-    "repealed":  ("#FEE2E2", "#991B1B"),
-    "unclear":   ("#F3F4F6", "#374151"),
+    "proposed": ("#DBEAFE", "#1E40AF"),
+    "enacted":  ("#FEF3C7", "#92400E"),
+    "in_force": ("#D1FAE5", "#065F46"),
+    "amended":  ("#EDE9FE", "#5B21B6"),
+    "repealed": ("#FEE2E2", "#991B1B"),
+    "unclear":  ("#F3F4F6", "#374151"),
+}
+
+ALERT_LABELS_KO: dict[str, str] = {
+    "urgent": "긴급",
+    "watch":  "주시",
+    "opp":    "기회",
+    "mon":    "모니터링",
+}
+
+ALERT_COLORS: dict[str, tuple[str, str]] = {
+    "urgent": ("#FEE2E2", "#991B1B"),
+    "watch":  ("#FEF9C3", "#854D0E"),
+    "opp":    ("#D1FAE5", "#065F46"),
+    "mon":    ("#F3F4F6", "#374151"),
+}
+
+IMPACT_TYPE_LABELS_KO: dict[str, str] = {
+    "direct":   "직접",
+    "indirect": "간접",
 }
 
 DOMAIN_LABELS_KO: dict[str, str] = {
@@ -38,12 +58,19 @@ DOMAIN_LABELS_KO: dict[str, str] = {
     "space_environment": "우주환경",
 }
 
+DOMAIN_ICONS: dict[str, str] = {
+    "secondary_battery": "🔋",
+    "green_eco":         "🌿",
+    "hydrogen":          "⚡",
+    "space_environment": "🛸",
+}
+
 COUNTRY_LABELS_KO: dict[str, str] = {
-    "EU": "EU",
-    "US": "미국",
-    "KR": "한국",
-    "CN": "중국",
-    "JP": "일본",
+    "EU":   "EU",
+    "US":   "미국",
+    "KR":   "한국",
+    "CN":   "중국",
+    "JP":   "일본",
     "INTL": "국제",
 }
 
@@ -93,10 +120,10 @@ class RawItem(BaseModel):
     source_id: str
     title: str
     url: str
-    published_at: str          # ISO-8601 date string
+    published_at: str
     snippet: str
     country: str
-    raw: dict[str, Any] = {}   # original payload for citation quote extraction
+    raw: dict[str, Any] = {}
 
 
 # ── Screen layer ──────────────────────────────────────────────────────────────
@@ -107,7 +134,7 @@ class Citation(BaseModel):
 
 
 class ScreenedItem(BaseModel):
-    # RawItem fields (flattened for JSON serialization)
+    # RawItem fields (flattened)
     source_id: str
     title: str
     url: str
@@ -116,9 +143,50 @@ class ScreenedItem(BaseModel):
     country: str
     # Screening output
     domain: str
-    lifecycle_stage: str       # LifecycleStage value or "unclear"
+    lifecycle_stage: str
     impact_summary: str
     citation: Citation
+    # Registry fields (from pass2 — have defaults for backward compat)
+    canonical_key: str = ""       # normalized slug for registry matching
+    name: str = ""                # official regulation name
+    date_text: str = ""           # effective/publication date as text
+    impact_type: str = "direct"   # direct | indirect
+    alert: str = "mon"            # urgent | watch | opp | mon
+    confidence: str = "B"         # A | B | C
+
+
+# ── Registry layer ────────────────────────────────────────────────────────────
+
+class HistoryEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    date: str
+    stage: str
+    note: str
+    source: str
+
+
+class Regulation(BaseModel):
+    """Canonical registry entry for a single regulation."""
+    model_config = ConfigDict(extra="ignore")
+
+    regulation_id: str            # canonical_key + "_" + country
+    domain: str
+    country: str
+    name: str
+    summary: str
+    lifecycle_stage: str
+    date_text: str
+    rd_impact: str
+    impact_type: str = "direct"
+    alert: str = "mon"
+    source: str
+    source_url: str
+    confidence: str = "B"
+    checked_at: str
+    changed_this_week: bool = False
+    citation_quote: str = ""
+    history: list[HistoryEntry] = []
 
 
 # ── Pipeline output ───────────────────────────────────────────────────────────
@@ -129,7 +197,6 @@ class DigestStatus(str, Enum):
 
 
 class DigestRunResult(BaseModel):
-    """POST /digest/run 응답. 생성 완료 + pending 저장 후 반환."""
     digest_id: str
     html: str
     summary: str
@@ -138,15 +205,7 @@ class DigestRunResult(BaseModel):
 
 
 class ApproveResult(BaseModel):
-    """POST /digest/{digest_id}/approve 응답. 승인=발송 확정 시 반환."""
     digest_id: str
     html: str
     summary: str
-    status: str  # "approved"
-
-
-class DigestResult(BaseModel):
-    """레거시 호환용 — 내부 테스트에서 참조 가능."""
-    html: str
-    summary: str
-    stats: dict[str, Any]
+    status: str
