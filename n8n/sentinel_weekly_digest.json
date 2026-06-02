@@ -1,0 +1,273 @@
+{
+  "name": "SENTINEL Weekly Digest",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "4c263274-a64e-4211-a140-54da5daa9373",
+      "name": "주1회 트리거",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://reg-watch:8010/digest/run",
+        "options": {}
+      },
+      "id": "362edfbf-2e84-466a-9152-badee29acfe1",
+      "name": "생성",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "ef7de524-4ba9-463a-96be-ff816fbe739c",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "pending_review",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cee8c4c3-45b5-438c-b8ba-87509d70778b",
+      "name": "검토모드?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "={{ $('생성').item.json.operator_email }}",
+        "subject": "=[검토요청] 주간 규제 다이제스트 {{ $('생성').item.json.digest_id }}",
+        "message": "={{ $('생성').item.json.html }}",
+        "responseType": "approval",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double",
+            "buttonApprovalLabel": "Approve",
+            "buttonDisapprovalLabel": "Disapprove"
+          }
+        },
+        "options": {
+          "messageButtonLabel": "검토하기",
+          "appendAttribution": false
+        }
+      },
+      "id": "3195f820-11bc-4cf7-8c1c-a3f53ae2437a",
+      "name": "승인대기",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        440,
+        180
+      ],
+      "webhookId": "3ef597f3-7042-4295-9ea6-a0672ad56678"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c82adfa1-1018-47bd-b15c-56c14ca24e71",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "05536dfc-ede9-40d4-a3f3-07c4a636477e",
+      "name": "승인됨?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://reg-watch:8010/digest/{{ $('생성').item.json.digest_id }}/approve",
+        "options": {}
+      },
+      "id": "c141597c-de4a-4e78-9bad-f98e0f0c6bc1",
+      "name": "승인확정",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $('생성').item.json.from_email }}",
+        "toEmail": "={{ $('생성').item.json.recipients }}",
+        "subject": "=[주간 규제 다이제스트] {{ $('생성').item.json.digest_id }}",
+        "emailFormat": "html",
+        "html": "={{ $json.html }}",
+        "options": {}
+      },
+      "id": "5ac93d43-d597-4b4f-bfff-9a6307e6e69b",
+      "name": "본부발송",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1100,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $('생성').item.json.from_email }}",
+        "toEmail": "={{ $('생성').item.json.recipients }}",
+        "subject": "=[주간 규제 다이제스트] {{ $('생성').item.json.digest_id }}",
+        "emailFormat": "html",
+        "html": "={{ $('생성').item.json.html }}",
+        "options": {}
+      },
+      "id": "6efbc1ae-9913-4e9b-81c9-16aea3dbadde",
+      "name": "본부발송(직행)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        660,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "주1회 트리거": {
+      "main": [
+        [
+          {
+            "node": "생성",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "생성": {
+      "main": [
+        [
+          {
+            "node": "검토모드?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "검토모드?": {
+      "main": [
+        [
+          {
+            "node": "승인대기",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "본부발송(직행)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "승인대기": {
+      "main": [
+        [
+          {
+            "node": "승인됨?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "승인됨?": {
+      "main": [
+        [
+          {
+            "node": "승인확정",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "승인확정": {
+      "main": [
+        [
+          {
+            "node": "본부발송",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

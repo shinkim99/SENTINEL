@@ -1,0 +1,56 @@
+# SENTINEL — n8n + reg-watch 공동 운영 스택
+# 실제 실행은 서버에서 사람이 수행한다:  docker compose up -d --build
+#
+# 시크릿/수신자/회사 도메인은 이 파일에 하드코딩하지 않는다.
+#   - reg-watch 관련 비밀(ANTHROPIC_API_KEY, DIGEST_RECIPIENTS 등)은 .env 에서만 주입.
+#   - n8n SMTP 자격증명은 import 후 n8n UI(Credentials)에서만 바인딩.
+#
+# 시작 전 반드시 교체할 자리표시자: <SERVER_HOST>  (서버의 외부 접속 호스트/IP)
+
+services:
+  reg-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sentinel/reg-watch:latest
+    container_name: sentinel-reg-watch
+    env_file:
+      - .env                      # 모든 비밀/설정은 여기서만
+    expose:
+      - "8010"                    # 내부 네트워크 전용 (n8n이 http://reg-watch:8010 으로 호출)
+    # 운영자가 호스트에서 직접 /dashboard 를 보려면 아래 포트 매핑 주석 해제.
+    # ports:
+    #   - "8010:8010"
+    volumes:
+      - regwatch_state:/app/data/state   # 주간 스냅샷/레지스트리 이력 영속화
+    restart: unless-stopped
+    networks:
+      - sentinel
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: sentinel-n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=Asia/Seoul
+      - TZ=Asia/Seoul
+      # WEBHOOK_URL: Send-and-Wait(승인) 메일의 Approve/Disapprove 링크가
+      # 외부에서 n8n으로 되돌아오려면 반드시 서버의 실제 접속 주소여야 한다.
+      # <SERVER_HOST> 를 서버 IP 또는 도메인으로 교체할 것. (예: http://10.0.0.5:5678/)
+      - WEBHOOK_URL=http://<SERVER_HOST>:5678/
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
+    depends_on:
+      - reg-watch
+    networks:
+      - sentinel
+
+networks:
+  sentinel:
+    driver: bridge
+
+volumes:
+  n8n_data:
+  regwatch_state:
