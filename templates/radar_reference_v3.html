@@ -3,140 +3,182 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SENTINEL Regulatory Radar — Reference v3</title>
+  <title>SENTINEL Regulatory Radar</title>
   <style>
-    :root {
-      --bg: #F0F4F8; --surface: #FFFFFF; --surface2: #F8FAFC;
-      --border: #E2E8F0; --text: #1E293B; --text2: #64748B; --text3: #94A3B8;
-      --accent: #0F2944; --accent-hi: #38BDF8; --shadow: rgba(0,0,0,.07);
+    :root{
+      --bg:#f4f5f7; --surface:#ffffff; --surface2:#f7f8fa;
+      --border:#e6e8ed; --text:#1a2230; --text2:#5b6472; --text3:#9aa2b1;
+      --shadow:rgba(20,30,55,.07);
+      --batt:#5b8def; --green:#22b07d; --h2:#a78bfa; --space:#ec5a9f;
+      --amber:#d98a1f; --red:#e64b6a;
+      --prism:linear-gradient(135deg,#5b8def 0%,#a78bfa 50%,#f472b6 100%);
     }
-    [data-theme="dark"] {
-      --bg: #0A0F1E; --surface: #161D2E; --surface2: #1E293B;
-      --border: #2D3748; --text: #E2E8F0; --text2: #94A3B8; --text3: #64748B;
-      --accent: #38BDF8; --accent-hi: #7DD3FC; --shadow: rgba(0,0,0,.4);
+    [data-theme="dark"]{
+      --bg:#0e1118; --surface:#151a23; --surface2:#1a202b;
+      --border:#262d3a; --text:#e5e8ee; --text2:#8a93a6; --text3:#5a6373;
+      --shadow:rgba(0,0,0,.4);
     }
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;}
+    body{background:var(--bg);color:var(--text);font-size:14px;
+      font-family:'Inter','Noto Sans KR','Malgun Gothic',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      -webkit-font-smoothing:antialiased;transition:background .2s,color .2s;}
 
-    /* ── topbar ── */
-    .topbar{background:var(--surface);border-bottom:1px solid var(--border);
-      padding:12px 24px;display:flex;align-items:center;gap:12px;
-      position:sticky;top:0;z-index:100;box-shadow:0 1px 4px var(--shadow);}
-    .logo{font-weight:800;font-size:18px;color:var(--accent);letter-spacing:-.5px;}
-    .badge{display:inline-block;font-size:11px;font-weight:700;
-      padding:3px 10px;border-radius:12px;}
-    .badge-total{background:#DBEAFE;color:#1E40AF;}
-    .badge-changed{background:#FEF3C7;color:#92400E;}
-    .spacer{flex:1;}
-    .topbar-meta{font-size:11px;color:var(--text3);}
+    /* ── header ── */
+    .header{padding:22px 26px 0;}
+    .header-band{height:4px;background:var(--prism);border-radius:99px;margin-bottom:16px;}
+    .header-row{display:flex;align-items:flex-start;gap:16px;}
+    .tag{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text3);font-weight:700;}
+    .title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:5px;}
+    .title .en{font-size:27px;font-weight:800;letter-spacing:-.5px;
+      background:var(--prism);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+    .title .ko{font-size:14px;font-weight:600;color:var(--text2);}
+    .subtitle{font-size:12.5px;color:var(--text2);margin-top:4px;}
+    .meta{font-size:11px;color:var(--text3);margin-top:5px;}
+    .theme-btn{flex-shrink:0;background:var(--surface);border:1px solid var(--border);
+      color:var(--text2);font-size:12px;padding:8px 13px;border-radius:99px;cursor:pointer;}
+    .theme-btn:hover{color:var(--text);}
+
+    /* ── metric cards ── */
+    .metrics{display:flex;gap:11px;flex-wrap:wrap;padding:18px 26px 4px;}
+    .metric{flex:1;min-width:130px;background:var(--surface);border:1px solid var(--border);
+      border-radius:12px;padding:15px 14px;text-align:center;box-shadow:0 1px 3px var(--shadow);}
+    .metric .n{font-size:26px;font-weight:800;line-height:1;}
+    .metric .l{font-size:11.5px;color:var(--text2);margin-top:6px;}
+    .metric.m-changed .n{color:var(--batt);}
+    .metric.m-urgent .n{color:var(--red);}
+    .metric.m-live .n{color:var(--green);}
+    .metric.m-opp .n{color:var(--green);}
+
+    /* ── collection status strip (stats 주입 시에만; 정적 미리보기엔 표시) ── */
+    .collect-strip{margin:12px 26px 0;background:var(--surface2);border:1px solid var(--border);
+      border-radius:10px;padding:9px 14px;font-size:12px;color:var(--text2);
+      display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+    .collect-strip b{color:var(--text);}
+    .src-ok{color:var(--green);font-weight:700;}
+    .src-fail{color:var(--red);font-weight:700;}
 
     /* ── controls ── */
-    .controls{background:var(--surface2);border-bottom:1px solid var(--border);
-      padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-    .filter-group{display:flex;gap:4px;flex-wrap:wrap;}
-    .filter-btn{background:var(--surface);border:1px solid var(--border);
-      color:var(--text2);font-size:12px;padding:5px 12px;border-radius:6px;
-      cursor:pointer;transition:all .15s;line-height:1;}
-    .filter-btn:hover{border-color:var(--accent);color:var(--accent);}
-    .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-    [data-theme="dark"] .filter-btn.active{color:#0A0F1E;}
-    .sep{height:22px;width:1px;background:var(--border);flex-shrink:0;}
-    .view-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
-    .view-btn{padding:5px 14px;font-size:12px;background:var(--surface);
-      color:var(--text2);cursor:pointer;border:none;transition:all .15s;line-height:1;}
-    .view-btn.active{background:var(--accent);color:#fff;}
-    [data-theme="dark"] .view-btn.active{color:#0A0F1E;}
-    .theme-btn{background:var(--surface);border:1px solid var(--border);
-      color:var(--text2);font-size:12px;padding:5px 12px;border-radius:6px;cursor:pointer;}
+    .controls{padding:16px 26px 4px;}
+    .ctrl-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px;}
+    .ctrl-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;min-width:46px;font-weight:600;}
+    .spacer{flex:1;}
 
-    /* ── count bar ── */
-    .count-bar{padding:10px 24px 0;font-size:12px;color:var(--text3);}
+    /* 도메인 = 큰 곡선 색칩 */
+    .dchip{font-size:13px;font-weight:600;color:var(--text2);background:var(--surface);
+      border:1.5px solid var(--border);padding:9px 17px;border-radius:14px;cursor:pointer;
+      transition:.15s;display:inline-flex;align-items:center;gap:7px;line-height:1;}
+    .dchip:hover{transform:translateY(-1px);}
+    .dchip .dot{width:8px;height:8px;border-radius:99px;background:var(--text3);}
+    .dchip[data-domain="all"].active{background:#2a3340;color:#fff;border-color:#3a4456;}
+    .dchip[data-domain="all"].active .dot{background:#fff;}
+    [data-theme="light"] .dchip[data-domain="all"].active{background:#2a3340;color:#fff;}
+    .dchip[data-domain="secondary_battery"]{--dc:var(--batt);}
+    .dchip[data-domain="green_eco"]{--dc:var(--green);}
+    .dchip[data-domain="hydrogen"]{--dc:var(--h2);}
+    .dchip[data-domain="space_environment"]{--dc:var(--space);}
+    .dchip[data-domain="secondary_battery"] .dot,
+    .dchip[data-domain="green_eco"] .dot,
+    .dchip[data-domain="hydrogen"] .dot,
+    .dchip[data-domain="space_environment"] .dot{background:var(--dc);}
+    .dchip.active:not([data-domain="all"]){color:#fff;border-color:var(--dc);background:var(--dc);
+      box-shadow:0 4px 14px -4px var(--dc);}
+    .dchip.active:not([data-domain="all"]) .dot{background:#fff;}
+
+    /* 국가 = 작은 알약 */
+    .cchip{font-size:12px;color:var(--text2);background:transparent;border:1px solid var(--border);
+      padding:5px 12px;border-radius:99px;cursor:pointer;line-height:1;transition:.15s;}
+    .cchip:hover{border-color:var(--text3);}
+    .cchip.active{color:var(--text);background:var(--surface);border-color:var(--text2);font-weight:600;}
+
+    .view-toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+    .view-btn{padding:6px 14px;font-size:12px;background:var(--surface);color:var(--text2);
+      cursor:pointer;border:none;line-height:1;}
+    .view-btn.active{background:#2a3340;color:#fff;}
+    [data-theme="light"] .view-btn.active{background:var(--batt);color:#fff;}
+
+    .count-bar{padding:8px 26px 0;font-size:12px;color:var(--text3);}
 
     /* ── card view ── */
-    #card-view{padding:16px 24px 32px;}
-    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;}
-    .reg-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;
-      padding:16px;cursor:pointer;transition:box-shadow .15s,transform .1s;position:relative;}
-    .reg-card:hover{box-shadow:0 4px 18px var(--shadow);transform:translateY(-2px);}
-    .reg-card.changed{border-left:4px solid #F59E0B;}
-    .changed-tag{position:absolute;top:10px;right:10px;background:#FEF3C7;color:#92400E;
-      font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
-    .card-badges{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;}
-    .card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.4;}
-    .card-meta{font-size:11px;color:var(--text2);margin-bottom:6px;}
+    #card-view{padding:14px 26px 34px;}
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px;}
+    .reg-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+      padding:15px;cursor:pointer;transition:box-shadow .15s,transform .1s;position:relative;
+      border-left:3px solid var(--border);}
+    .reg-card:hover{box-shadow:0 6px 20px var(--shadow);transform:translateY(-2px);}
+    .reg-card[data-dom="secondary_battery"]{border-left-color:var(--batt);}
+    .reg-card[data-dom="green_eco"]{border-left-color:var(--green);}
+    .reg-card[data-dom="hydrogen"]{border-left-color:var(--h2);}
+    .reg-card[data-dom="space_environment"]{border-left-color:var(--space);}
+    .reg-card.changed{box-shadow:0 0 0 1px rgba(91,141,239,.3);}
+    .changed-tag{position:absolute;top:11px;right:11px;background:var(--prism);color:#fff;
+      font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;}
+    .card-badges{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:9px;padding-right:64px;}
+    .card-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.4;}
     .card-summary{font-size:12px;color:var(--text2);line-height:1.5;
       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .card-foot{font-size:11px;color:var(--text3);margin-top:9px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 
     /* ── table view ── */
-    #table-view{padding:16px 24px 32px;display:none;overflow-x:auto;}
-    .reg-table{width:100%;border-collapse:collapse;min-width:760px;}
-    .reg-table th{background:var(--surface2);font-size:11px;font-weight:700;
-      color:var(--text2);padding:9px 12px;text-align:left;
-      border-bottom:2px solid var(--border);white-space:nowrap;position:sticky;top:0;}
-    .reg-table td{padding:10px 12px;border-bottom:1px solid var(--border);
-      font-size:12px;vertical-align:middle;}
+    #table-view{padding:14px 26px 34px;display:none;overflow-x:auto;}
+    .reg-table{width:100%;border-collapse:collapse;min-width:820px;}
+    .reg-table th{background:var(--surface2);font-size:11px;font-weight:700;color:var(--text2);
+      padding:9px 11px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap;}
+    .reg-table td{padding:10px 11px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle;}
     .reg-table tr:hover td{background:var(--surface2);cursor:pointer;}
-    .name-cell{font-weight:600;color:var(--text);max-width:260px;}
-    .summary-cell{max-width:200px;color:var(--text2);
-      overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+    .name-cell{font-weight:600;color:var(--text);max-width:250px;}
+    .impact-cell{max-width:230px;color:var(--text2);}
+
+    /* ── badges ── */
+    .badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:nowrap;}
+    .lc-proposed{background:#fef3c7;color:#92400e;} .lc-enacted{background:#dbeafe;color:#1e40af;}
+    .lc-in_force{background:#d1fae5;color:#065f46;} .lc-amended{background:#ede9fe;color:#5b21b6;}
+    .lc-repealed{background:#fee2e2;color:#991b1b;} .lc-unclear{background:#eef0f3;color:#4b5563;}
+    .al-urgent{background:#fee2e2;color:#991b1b;} .al-watch{background:#fef9c3;color:#854d0e;}
+    .al-opp{background:#d1fae5;color:#065f46;} .al-mon{background:#eef0f3;color:#4b5563;}
+    .dm-secondary_battery{background:rgba(91,141,239,.15);color:#3b6fd4;}
+    .dm-green_eco{background:rgba(34,176,125,.15);color:#1a8a62;}
+    .dm-hydrogen{background:rgba(167,139,250,.18);color:#7c5cd6;}
+    .dm-space_environment{background:rgba(236,90,159,.15);color:#c43b7e;}
+    .ct{background:rgba(138,147,166,.16);color:var(--text2);}
+    .it-direct{background:rgba(91,141,239,.13);color:#3b6fd4;}
+    .it-indirect{background:var(--surface2);color:var(--text3);border:1px solid var(--border);}
+    .cf-A{color:#1a8a62;font-weight:700;} .cf-B{color:#92400e;} .cf-C{color:#9aa2b1;}
 
     /* ── modal ── */
-    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);
-      z-index:200;align-items:center;justify-content:center;}
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,15,25,.5);z-index:200;
+      align-items:center;justify-content:center;padding:18px;}
     .modal-overlay.open{display:flex;}
-    .modal{background:var(--surface);border-radius:12px;max-width:560px;width:90%;
-      max-height:82vh;overflow:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
-    .modal-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;}
+    .modal{background:var(--surface);border-radius:14px;max-width:580px;width:100%;
+      max-height:84vh;overflow:auto;padding:26px;box-shadow:0 24px 70px rgba(0,0,0,.35);}
+    .modal-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
     .modal-title{font-size:16px;font-weight:700;flex:1;line-height:1.4;}
-    .modal-close{background:none;border:none;font-size:20px;cursor:pointer;
-      color:var(--text2);padding:0;flex-shrink:0;}
-    .modal-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
-    .modal-impact{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.5;}
-    .modal-src{font-size:12px;color:var(--text3);margin-bottom:16px;}
+    .modal-close{background:none;border:none;font-size:19px;cursor:pointer;color:var(--text2);flex-shrink:0;}
+    .modal-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+    .modal-impact{font-size:13px;color:var(--text);line-height:1.55;margin-bottom:12px;
+      background:var(--surface2);border-radius:9px;padding:11px 13px;}
+    .modal-impact b{color:var(--batt);}
+    .modal-cite{font-size:12px;color:var(--text2);font-style:italic;line-height:1.5;
+      border-left:2px solid var(--border);padding-left:11px;margin-bottom:14px;}
+    .modal-src{font-size:12px;color:var(--text3);margin-bottom:18px;}
+    .modal-src a{color:var(--batt);text-decoration:none;}
     .timeline-label{font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;}
     .timeline{position:relative;padding-left:22px;}
-    .timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;
-      width:2px;background:var(--border);}
-    .tl-item{position:relative;margin-bottom:16px;}
-    .tl-dot{position:absolute;left:-18px;top:4px;width:10px;height:10px;
-      border-radius:50%;background:var(--accent);border:2px solid var(--surface);}
+    .timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--border);}
+    .tl-item{position:relative;margin-bottom:15px;}
+    .tl-dot{position:absolute;left:-18px;top:3px;width:10px;height:10px;border-radius:50%;
+      background:var(--batt);border:2px solid var(--surface);}
     .tl-date{font-size:11px;color:var(--text3);margin-bottom:3px;}
     .tl-note{font-size:13px;color:var(--text);line-height:1.4;}
     .tl-src{font-size:11px;color:var(--text3);margin-top:2px;}
 
-    /* ── empty state ── */
     .empty{text-align:center;padding:60px 24px;color:var(--text3);}
-    .empty-icon{font-size:40px;margin-bottom:8px;}
-    .empty p{font-size:14px;}
-
-    /* ── badge color classes ── */
-    .lc-proposed{background:#DBEAFE;color:#1E40AF;}
-    .lc-enacted{background:#FEF3C7;color:#92400E;}
-    .lc-in_force{background:#D1FAE5;color:#065F46;}
-    .lc-amended{background:#EDE9FE;color:#5B21B6;}
-    .lc-repealed{background:#FEE2E2;color:#991B1B;}
-    .lc-unclear{background:#F3F4F6;color:#374151;}
-    .al-urgent{background:#FEE2E2;color:#991B1B;}
-    .al-watch{background:#FEF9C3;color:#854D0E;}
-    .al-opp{background:#D1FAE5;color:#065F46;}
-    .al-mon{background:#F3F4F6;color:#374151;}
-    .dm-secondary_battery{background:#EFF6FF;color:#1E40AF;}
-    .dm-green_eco{background:#ECFDF5;color:#065F46;}
-    .dm-hydrogen{background:#FFF7ED;color:#9A3412;}
-    .dm-space_environment{background:#F5F3FF;color:#5B21B6;}
-    .ct-EU{background:#FEF3C7;color:#92400E;}
-    .ct-US{background:#DBEAFE;color:#1E40AF;}
-    .ct-KR{background:#FEE2E2;color:#991B1B;}
-    .ct-CN{background:#FCE7F3;color:#9D174D;}
-    .ct-default{background:#F3F4F6;color:#374151;}
-    .cf-A{color:#065F46;font-weight:700;}
-    .cf-B{color:#92400E;}
-    .cf-C{color:#94A3B8;}
+    .empty-icon{font-size:38px;margin-bottom:8px;}
+    .foot{padding:8px 26px 30px;font-size:11px;color:var(--text3);line-height:1.6;}
   </style>
 </head>
 <body>
 
-<!-- DATA INJECTION — Python replaces REG array contents -->
+<!-- DATA INJECTION — Python은 아래 SENTINEL_REG_DATA 블록의 배열만 교체. CSS/마크업/JS는 불변. -->
 <script>
 function esc(s){
   return String(s)
@@ -235,39 +277,64 @@ var REG = [
 /* END SENTINEL_REG_DATA */
 </script>
 
-<!-- ── TOPBAR ── -->
-<div class="topbar">
-  <span class="logo">⚡ SENTINEL Regulatory Radar</span>
-  <span class="badge badge-total" id="total-badge">전체 0건</span>
-  <span class="badge badge-changed" id="changed-badge">이번 주 0건 변경</span>
-  <span class="spacer"></span>
-  <span class="topbar-meta" id="last-updated"></span>
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-band"></div>
+  <div class="header-row">
+    <div style="flex:1;">
+      <div class="tag">SENTINEL · Regulatory Watch</div>
+      <div class="title"><span class="en">Regulatory Radar</span><span class="ko">규제 레이더</span></div>
+      <div class="subtitle">2차전지 · 친환경 · 수소 · 우주환경 — 전체 추적 현황 및 변경 이력</div>
+      <div class="meta" id="last-updated"></div>
+    </div>
+    <button class="theme-btn" id="btn-theme">🌙 다크</button>
+  </div>
+</div>
+
+<!-- ── METRIC CARDS (JS updateStats가 채움) ── -->
+<div class="metrics" id="metrics">
+  <div class="metric"><div class="n" id="m-total">0</div><div class="l">총 추적 규제</div></div>
+  <div class="metric m-changed"><div class="n" id="m-changed">0</div><div class="l">이번 주 변경</div></div>
+  <div class="metric m-urgent"><div class="n" id="m-urgent">0</div><div class="l">긴급</div></div>
+  <div class="metric m-live"><div class="n" id="m-live">0</div><div class="l">시행중</div></div>
+  <div class="metric m-opp"><div class="n" id="m-opp">0</div><div class="l">R&amp;D 기회</div></div>
+</div>
+
+<!-- ── 수집 상태 스트립: stats 주입 시에만 표시. Python이 stats 있으면 #collect-strip 내용 채우고 display 켜기.
+     정적/미리보기(stats 없음) 또는 /dashboard(stats=None)에서는 숨김이 기본. ── -->
+<div class="collect-strip" id="collect-strip" style="display:none;">
+  <span id="collect-week"></span>
+  <span id="collect-sources"></span>
 </div>
 
 <!-- ── CONTROLS ── -->
 <div class="controls">
-  <div class="filter-group" id="domain-filters">
-    <button class="filter-btn active" data-domain="all">전체 도메인</button>
-    <button class="filter-btn" data-domain="secondary_battery">🔋 2차전지</button>
-    <button class="filter-btn" data-domain="green_eco">🌿 친환경</button>
-    <button class="filter-btn" data-domain="hydrogen">⚡ 수소</button>
-    <button class="filter-btn" data-domain="space_environment">🛸 우주환경</button>
+  <div class="ctrl-row">
+    <span class="ctrl-label">도메인</span>
+    <div id="domain-filters" style="display:contents;">
+      <button class="dchip active" data-domain="all">전체</button>
+      <button class="dchip" data-domain="secondary_battery"><span class="dot"></span>2차전지</button>
+      <button class="dchip" data-domain="green_eco"><span class="dot"></span>친환경</button>
+      <button class="dchip" data-domain="hydrogen"><span class="dot"></span>수소</button>
+      <button class="dchip" data-domain="space_environment"><span class="dot"></span>우주환경</button>
+    </div>
+    <span class="spacer"></span>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-card">▤ 카드</button>
+      <button class="view-btn" id="btn-table">☰ 테이블</button>
+    </div>
   </div>
-  <div class="sep"></div>
-  <div class="filter-group" id="country-filters">
-    <button class="filter-btn active" data-country="all">전체 국가</button>
-    <button class="filter-btn" data-country="EU">EU</button>
-    <button class="filter-btn" data-country="US">미국</button>
-    <button class="filter-btn" data-country="KR">한국</button>
-    <button class="filter-btn" data-country="CN">중국</button>
-    <button class="filter-btn" data-country="INTL">국제</button>
+  <div class="ctrl-row">
+    <span class="ctrl-label">국가</span>
+    <div id="country-filters" style="display:contents;">
+      <button class="cchip active" data-country="all">전체</button>
+      <button class="cchip" data-country="EU">EU</button>
+      <button class="cchip" data-country="US">미국</button>
+      <button class="cchip" data-country="KR">한국</button>
+      <button class="cchip" data-country="CN">중국</button>
+      <button class="cchip" data-country="INTL">국제</button>
+    </div>
   </div>
-  <div class="sep"></div>
-  <div class="view-toggle">
-    <button class="view-btn active" id="btn-card">▤ 카드</button>
-    <button class="view-btn" id="btn-table">☰ 테이블</button>
-  </div>
-  <button class="theme-btn" id="btn-theme">🌙 다크</button>
 </div>
 
 <div class="count-bar" id="count-bar"></div>
@@ -276,32 +343,21 @@ var REG = [
 <div id="card-view">
   <div class="card-grid" id="card-grid"></div>
   <div class="empty" id="card-empty" style="display:none">
-    <div class="empty-icon">📭</div>
-    <p>표시할 규제 항목이 없습니다</p>
+    <div class="empty-icon">📭</div><p>표시할 규제 항목이 없습니다</p>
   </div>
 </div>
 
 <!-- ── TABLE VIEW ── -->
 <div id="table-view">
   <table class="reg-table">
-    <thead>
-      <tr>
-        <th>규제명</th>
-        <th>도메인</th>
-        <th>국가</th>
-        <th>단계</th>
-        <th>Alert</th>
-        <th>영향 요약</th>
-        <th>신뢰도</th>
-        <th>확인일</th>
-        <th>변경</th>
-      </tr>
-    </thead>
+    <thead><tr>
+      <th>규제명</th><th>도메인</th><th>국가</th><th>단계</th><th>Alert</th>
+      <th>영향</th><th>R&amp;D 영향</th><th>신뢰도</th><th>확인일</th><th>변경</th>
+    </tr></thead>
     <tbody id="table-body"></tbody>
   </table>
   <div class="empty" id="table-empty" style="display:none">
-    <div class="empty-icon">📭</div>
-    <p>표시할 규제 항목이 없습니다</p>
+    <div class="empty-icon">📭</div><p>표시할 규제 항목이 없습니다</p>
   </div>
 </div>
 
@@ -314,22 +370,28 @@ var REG = [
     </div>
     <div class="modal-badges" id="modal-badges"></div>
     <div class="modal-impact" id="modal-impact"></div>
+    <div class="modal-cite" id="modal-cite" style="display:none;"></div>
     <div class="modal-src" id="modal-src"></div>
     <div class="timeline-label">이력 타임라인</div>
     <div class="timeline" id="modal-timeline"></div>
   </div>
 </div>
 
+<div class="foot">
+  1차 출처 기반 자동 수집·요약. lifecycle 단계는 명시 출처 기준이며 불명확 시 <b>불명확</b>으로 표기. 인용 출처 미확인 항목은 자동 제외. 수집 0건은 "변화 없음"과 구분하여 실패로 표기.
+  <br>SENTINEL · 사내 R&amp;D 규제 인텔리전스
+</div>
+
 <script>
 // ── label/class maps ──
 var LC_LABEL={proposed:'입법예고',enacted:'공포',in_force:'시행',amended:'개정',repealed:'폐지',unclear:'불명확'};
 var LC_CLASS={proposed:'lc-proposed',enacted:'lc-enacted',in_force:'lc-in_force',amended:'lc-amended',repealed:'lc-repealed',unclear:'lc-unclear'};
-var AL_LABEL={urgent:'긴급',watch:'주시',opp:'기회',mon:'모니터링'};
+var AL_LABEL={urgent:'● 긴급',watch:'⚠ 주시',opp:'◎ 기회',mon:'모니터링'};
 var AL_CLASS={urgent:'al-urgent',watch:'al-watch',opp:'al-opp',mon:'al-mon'};
 var DM_LABEL={secondary_battery:'2차전지',green_eco:'친환경',hydrogen:'수소',space_environment:'우주환경'};
 var DM_ICON={secondary_battery:'🔋',green_eco:'🌿',hydrogen:'⚡',space_environment:'🛸'};
 var CT_LABEL={EU:'EU',US:'미국',KR:'한국',CN:'중국',JP:'일본',INTL:'국제'};
-function ctClass(c){var m={EU:'ct-EU',US:'ct-US',KR:'ct-KR',CN:'ct-CN'};return m[c]||'ct-default';}
+var IT_LABEL={direct:'직접',indirect:'간접'};
 
 // ── state ──
 var activeDomain='all', activeCountry='all', currentView='card', isDark=false;
@@ -341,50 +403,46 @@ function filtered(){
     return true;
   });
 }
-
-function bdg(text, cls){
-  return '<span class="badge '+esc(cls)+'">'+esc(String(text))+'</span>';
-}
+function bdg(text, cls){ return '<span class="badge '+esc(cls)+'">'+esc(String(text))+'</span>'; }
+function domBadge(r){ return bdg((DM_ICON[r.domain]||'')+' '+(DM_LABEL[r.domain]||r.domain),'dm-'+r.domain); }
+function ctBadge(r){ return bdg(CT_LABEL[r.country]||r.country,'ct'); }
+function lcBadge(s){ return bdg(LC_LABEL[s]||s, LC_CLASS[s]||'lc-unclear'); }
+function alBadge(a){ return bdg(AL_LABEL[a]||a, AL_CLASS[a]||'al-mon'); }
+function itBadge(t){ return t ? bdg(IT_LABEL[t]||t, 'it-'+t) : ''; }
 
 // ── card render ──
 function renderCards(){
-  var items=filtered(), grid=document.getElementById('card-grid');
-  var empty=document.getElementById('card-empty');
+  var items=filtered(), grid=document.getElementById('card-grid'), empty=document.getElementById('card-empty');
   updateCountBar(items.length);
   if(!items.length){grid.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
   grid.innerHTML=items.map(function(r){
     var ch=r.changed_this_week;
-    return '<div class="reg-card'+(ch?' changed':'')+'" onclick="openModal(\''+esc(r.regulation_id)+'\')">'
+    return '<div class="reg-card'+(ch?' changed':'')+'" data-dom="'+esc(r.domain)+'" onclick="openModal(\''+esc(r.regulation_id)+'\')">'
       +(ch?'<span class="changed-tag">이번 주 ★</span>':'')
-      +'<div class="card-badges">'
-      +bdg((DM_ICON[r.domain]||'')+' '+(DM_LABEL[r.domain]||r.domain),'badge dm-'+r.domain)
-      +bdg(CT_LABEL[r.country]||r.country,'badge '+ctClass(r.country))
-      +bdg(LC_LABEL[r.lifecycle_stage]||r.lifecycle_stage,'badge '+(LC_CLASS[r.lifecycle_stage]||'lc-unclear'))
-      +bdg(AL_LABEL[r.alert]||r.alert,'badge '+(AL_CLASS[r.alert]||'al-mon'))
-      +'</div>'
+      +'<div class="card-badges">'+domBadge(r)+ctBadge(r)+lcBadge(r.lifecycle_stage)+alBadge(r.alert)+itBadge(r.impact_type)+'</div>'
       +'<div class="card-title">'+esc(r.name)+'</div>'
-      +'<div class="card-meta">'+esc(CT_LABEL[r.country]||r.country)+' &nbsp;|&nbsp; '+esc(r.date_text)+'</div>'
       +'<div class="card-summary">'+esc(r.summary)+'</div>'
+      +'<div class="card-foot"><span>'+esc(r.date_text)+'</span><span>·</span><span class="cf-'+esc(r.confidence)+'">신뢰도 '+esc(r.confidence)+'</span></div>'
       +'</div>';
   }).join('');
 }
 
 // ── table render ──
 function renderTable(){
-  var items=filtered(), tbody=document.getElementById('table-body');
-  var empty=document.getElementById('table-empty');
+  var items=filtered(), tbody=document.getElementById('table-body'), empty=document.getElementById('table-empty');
   updateCountBar(items.length);
   if(!items.length){tbody.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
   tbody.innerHTML=items.map(function(r){
     return '<tr onclick="openModal(\''+esc(r.regulation_id)+'\')">'
-      +'<td class="name-cell">'+esc(r.name)+(r.changed_this_week?' '+bdg('이번주','badge al-watch'):'')+'</td>'
-      +'<td>'+bdg((DM_ICON[r.domain]||'')+' '+(DM_LABEL[r.domain]||r.domain),'badge dm-'+r.domain)+'</td>'
-      +'<td>'+bdg(CT_LABEL[r.country]||r.country,'badge '+ctClass(r.country))+'</td>'
-      +'<td>'+bdg(LC_LABEL[r.lifecycle_stage]||r.lifecycle_stage,'badge '+(LC_CLASS[r.lifecycle_stage]||'lc-unclear'))+'</td>'
-      +'<td>'+bdg(AL_LABEL[r.alert]||r.alert,'badge '+(AL_CLASS[r.alert]||'al-mon'))+'</td>'
-      +'<td class="summary-cell">'+esc(r.rd_impact)+'</td>'
+      +'<td class="name-cell">'+esc(r.name)+(r.changed_this_week?' '+bdg('이번주','al-watch'):'')+'</td>'
+      +'<td>'+domBadge(r)+'</td>'
+      +'<td>'+ctBadge(r)+'</td>'
+      +'<td>'+lcBadge(r.lifecycle_stage)+'</td>'
+      +'<td>'+alBadge(r.alert)+'</td>'
+      +'<td>'+itBadge(r.impact_type)+'</td>'
+      +'<td class="impact-cell">'+esc(r.rd_impact)+'</td>'
       +'<td><span class="cf-'+esc(r.confidence)+'">'+esc(r.confidence)+'</span></td>'
       +'<td style="white-space:nowrap">'+esc(r.checked_at)+'</td>'
       +'<td style="text-align:center">'+(r.changed_this_week?'★':'—')+'</td>'
@@ -398,25 +456,23 @@ function openModal(id){
   if(!r) return;
   document.getElementById('modal-title').textContent=r.name;
   document.getElementById('modal-badges').innerHTML=
-    bdg((DM_ICON[r.domain]||'')+' '+(DM_LABEL[r.domain]||r.domain),'badge dm-'+r.domain)+' '
-    +bdg(CT_LABEL[r.country]||r.country,'badge '+ctClass(r.country))+' '
-    +bdg(LC_LABEL[r.lifecycle_stage]||r.lifecycle_stage,'badge '+(LC_CLASS[r.lifecycle_stage]||'lc-unclear'))+' '
-    +bdg(AL_LABEL[r.alert]||r.alert,'badge '+(AL_CLASS[r.alert]||'al-mon'));
-  document.getElementById('modal-impact').textContent=r.rd_impact;
+    domBadge(r)+' '+ctBadge(r)+' '+lcBadge(r.lifecycle_stage)+' '+alBadge(r.alert)+' '+itBadge(r.impact_type);
+  document.getElementById('modal-impact').innerHTML='<b>R&amp;D 영향</b> · '+esc(r.rd_impact);
+  // citation 인용 (있을 때만)
+  var cite=document.getElementById('modal-cite');
+  if(r.citation_quote){ cite.textContent='“'+r.citation_quote+'”'; cite.style.display='block'; }
+  else{ cite.style.display='none'; }
   document.getElementById('modal-src').innerHTML=
-    '출처: '+esc(r.source)+'&nbsp;|&nbsp;<a href="'+esc(r.source_url)+'" target="_blank" '
-    +'style="color:#0369A1;text-decoration:none;">원문 →</a>'
-    +'&nbsp;|&nbsp; 신뢰도: <span class="cf-'+esc(r.confidence)+'">'+esc(r.confidence)+'</span>'
-    +'&nbsp;|&nbsp; 확인일: '+esc(r.checked_at);
+    '출처: '+esc(r.source)+' | <a href="'+esc(r.source_url)+'" target="_blank" rel="noopener">원문 →</a>'
+    +' | 신뢰도 <span class="cf-'+esc(r.confidence)+'">'+esc(r.confidence)+'</span>'
+    +' | 확인 '+esc(r.checked_at);
   var hist=(r.history||[]).slice().sort(function(a,b){return b.date.localeCompare(a.date);});
   document.getElementById('modal-timeline').innerHTML=hist.length
     ?hist.map(function(h){
-      return '<div class="tl-item">'
-        +'<div class="tl-dot"></div>'
+      return '<div class="tl-item"><div class="tl-dot"></div>'
         +'<div class="tl-date">'+esc(h.date)+'</div>'
-        +'<div class="tl-note">'+bdg(LC_LABEL[h.stage]||h.stage,'badge '+(LC_CLASS[h.stage]||'lc-unclear'))+' '+esc(h.note)+'</div>'
-        +'<div class="tl-src">'+esc(h.source)+'</div>'
-        +'</div>';
+        +'<div class="tl-note">'+lcBadge(h.stage)+' '+esc(h.note)+'</div>'
+        +'<div class="tl-src">'+esc(h.source)+'</div></div>';
     }).join('')
     :'<p style="color:var(--text3);font-size:12px">이력 없음</p>';
   document.getElementById('modal-overlay').classList.add('open');
@@ -424,11 +480,18 @@ function openModal(id){
 
 // ── stats ──
 function updateStats(){
-  var total=REG.length, ch=REG.filter(function(r){return r.changed_this_week;}).length;
-  document.getElementById('total-badge').textContent='전체 '+total+'건';
-  document.getElementById('changed-badge').textContent='이번 주 '+ch+'건 변경';
+  var total=REG.length;
+  var ch=REG.filter(function(r){return r.changed_this_week;}).length;
+  var urgent=REG.filter(function(r){return r.alert==='urgent';}).length;
+  var live=REG.filter(function(r){return r.lifecycle_stage==='in_force';}).length;
+  var opp=REG.filter(function(r){return r.alert==='opp';}).length;
+  document.getElementById('m-total').textContent=total;
+  document.getElementById('m-changed').textContent=ch;
+  document.getElementById('m-urgent').textContent=urgent;
+  document.getElementById('m-live').textContent=live;
+  document.getElementById('m-opp').textContent=opp;
   var dates=REG.map(function(r){return r.checked_at;}).filter(Boolean).sort();
-  if(dates.length) document.getElementById('last-updated').textContent='최근 갱신: '+dates.pop();
+  if(dates.length) document.getElementById('last-updated').textContent='최근 갱신 '+dates.pop()+' · 매주 자동 갱신 · 이메일은 변경분만, 대시보드는 전체';
 }
 function updateCountBar(n){
   document.getElementById('count-bar').textContent='표시 '+n+'건 / 전체 '+REG.length+'건';
@@ -436,15 +499,13 @@ function updateCountBar(n){
 
 // ── events ──
 document.getElementById('domain-filters').addEventListener('click',function(e){
-  var b=e.target.closest('[data-domain]');
-  if(!b)return;
+  var b=e.target.closest('[data-domain]'); if(!b)return;
   activeDomain=b.dataset.domain;
   document.querySelectorAll('[data-domain]').forEach(function(x){x.classList.toggle('active',x===b);});
   render();
 });
 document.getElementById('country-filters').addEventListener('click',function(e){
-  var b=e.target.closest('[data-country]');
-  if(!b)return;
+  var b=e.target.closest('[data-country]'); if(!b)return;
   activeCountry=b.dataset.country;
   document.querySelectorAll('[data-country]').forEach(function(x){x.classList.toggle('active',x===b);});
   render();
@@ -453,16 +514,14 @@ document.getElementById('btn-card').addEventListener('click',function(){
   currentView='card';
   document.getElementById('card-view').style.display='block';
   document.getElementById('table-view').style.display='none';
-  document.getElementById('btn-card').classList.add('active');
-  document.getElementById('btn-table').classList.remove('active');
+  this.classList.add('active'); document.getElementById('btn-table').classList.remove('active');
   render();
 });
 document.getElementById('btn-table').addEventListener('click',function(){
   currentView='table';
   document.getElementById('card-view').style.display='none';
   document.getElementById('table-view').style.display='block';
-  document.getElementById('btn-card').classList.remove('active');
-  document.getElementById('btn-table').classList.add('active');
+  this.classList.add('active'); document.getElementById('btn-card').classList.remove('active');
   render();
 });
 document.getElementById('btn-theme').addEventListener('click',function(){
@@ -477,9 +536,7 @@ document.getElementById('modal-overlay').addEventListener('click',function(e){
   if(e.target===this)this.classList.remove('open');
 });
 
-function render(){
-  if(currentView==='card')renderCards();else renderTable();
-}
+function render(){ if(currentView==='card')renderCards(); else renderTable(); }
 
 // ── boot ──
 updateStats();
