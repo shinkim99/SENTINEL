@@ -24,8 +24,10 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://reg-watch:8010/digest/run",
-        "options": {}
+        "url": "http://host.docker.internal:8010/digest/run",
+        "options": {
+          "timeout": 300000
+        }
       },
       "id": "362edfbf-2e84-466a-9152-badee29acfe1",
       "name": "생성",
@@ -83,14 +85,11 @@
             "buttonDisapprovalLabel": "Disapprove"
           }
         },
-        "options": {
-          "messageButtonLabel": "검토하기",
-          "appendAttribution": false
-        }
+        "options": {}
       },
       "id": "3195f820-11bc-4cf7-8c1c-a3f53ae2437a",
       "name": "승인대기",
-      "type": "n8n-nodes-base.emailSend",
+      "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
         440,
@@ -135,7 +134,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=http://reg-watch:8010/digest/{{ $('생성').item.json.digest_id }}/approve",
+        "url": "=http://host.docker.internal:8010/digest/{{ $('생성').item.json.digest_id }}/approve",
         "options": {}
       },
       "id": "c141597c-de4a-4e78-9bad-f98e0f0c6bc1",
@@ -149,16 +148,17 @@
     },
     {
       "parameters": {
-        "fromEmail": "={{ $('생성').item.json.from_email }}",
-        "toEmail": "={{ $('생성').item.json.recipients }}",
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "={{ $('생성').item.json.recipients }}",
         "subject": "=[주간 규제 다이제스트] {{ $('생성').item.json.digest_id }}",
-        "emailFormat": "html",
-        "html": "={{ $json.html }}",
+        "emailType": "html",
+        "message": "={{ $json.html }}",
         "options": {}
       },
       "id": "5ac93d43-d597-4b4f-bfff-9a6307e6e69b",
       "name": "본부발송",
-      "type": "n8n-nodes-base.emailSend",
+      "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
         1100,
@@ -167,16 +167,17 @@
     },
     {
       "parameters": {
-        "fromEmail": "={{ $('생성').item.json.from_email }}",
-        "toEmail": "={{ $('생성').item.json.recipients }}",
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "={{ $('생성').item.json.recipients }}",
         "subject": "=[주간 규제 다이제스트] {{ $('생성').item.json.digest_id }}",
-        "emailFormat": "html",
-        "html": "={{ $('생성').item.json.html }}",
+        "emailType": "html",
+        "message": "={{ $('생성').item.json.html }}",
         "options": {}
       },
       "id": "6efbc1ae-9913-4e9b-81c9-16aea3dbadde",
       "name": "본부발송(직행)",
-      "type": "n8n-nodes-base.emailSend",
+      "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
         660,

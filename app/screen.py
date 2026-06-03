@@ -214,11 +214,25 @@ async def screen_pass2(
         if result is None:
             dropped_citation += 1
             continue
+        if not isinstance(result, dict):
+            logger.warning(
+                "pass2 result not a dict (got %s) — DROP [%s]",
+                type(result).__name__, item.title[:60],
+            )
+            dropped_citation += 1
+            continue
         if not result.get("relevant", False):
             dropped_irrelevant += 1
             continue
 
         cit = result.get("citation", {})
+        if not isinstance(cit, dict):
+            logger.warning(
+                "pass2 citation not a dict (got %s) — DROP [%s]",
+                type(cit).__name__, item.title[:60],
+            )
+            dropped_citation += 1
+            continue
         if cit.get("source_id") != item.source_id:
             logger.warning(
                 "citation source_id mismatch: expected %r got %r — DROP [%s]",

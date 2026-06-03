@@ -184,6 +184,8 @@ async def digest_run() -> DigestRunResult:
         summary=summary,
         stats=stats,
         status=status,
+        recipients=",".join(cfg.recipients_list),
+        operator_email=cfg.operator_email,
     )
 
 
@@ -225,6 +227,7 @@ async def digest_approve(digest_id: str) -> ApproveResult:
         html=html,
         summary=meta.get("summary", ""),
         status="approved",
+        recipients=",".join(cfg.recipients_list),
     )
 
 

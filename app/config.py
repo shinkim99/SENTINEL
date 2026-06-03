@@ -23,7 +23,9 @@ class Settings(BaseSettings):
 
     # 발송 설정
     send_mode: str = "review_first"  # review_first | auto_send
-    digest_recipients: str = ""
+    digest_recipients: str = ""       # 본부 수신(쉼표 구분) — OPERATOR_EMAIL 와 별개
+    operator_email: str = ""          # 검토 메일 수신(운영자 본인)
+    digest_from_email: str = ""       # SMTP 발송 시 From (Gmail 노드는 불필요)
 
     # 대시보드 URL (이메일 CTA 버튼 링크 — 배포 후 실제 URL로 교체)
     dashboard_url: str = "http://localhost:8010/dashboard"

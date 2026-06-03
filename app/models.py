@@ -202,6 +202,8 @@ class DigestRunResult(BaseModel):
     summary: str
     stats: dict[str, Any]
     status: DigestStatus
+    recipients: str = ""        # 본부 수신(쉼표 구분) — n8n Gmail sendTo 용
+    operator_email: str = ""    # 검토 메일 수신(운영자)
 
 
 class ApproveResult(BaseModel):
@@ -209,3 +211,4 @@ class ApproveResult(BaseModel):
     html: str
     summary: str
     status: str
+    recipients: str = ""        # 본부 수신(쉼표 구분) — n8n Gmail sendTo 용

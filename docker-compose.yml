@@ -1,11 +1,16 @@
-# SENTINEL — n8n + reg-watch 공동 운영 스택
-# 실제 실행은 서버에서 사람이 수행한다:  docker compose up -d --build
+# SENTINEL — reg-watch 단독 운영 스택
+# (n8n은 기존 인프라 재사용 → 이 파일에서는 reg-watch만 띄운다)
+#
+# 실행:  docker compose up -d --build
 #
 # 시크릿/수신자/회사 도메인은 이 파일에 하드코딩하지 않는다.
 #   - reg-watch 관련 비밀(ANTHROPIC_API_KEY, DIGEST_RECIPIENTS 등)은 .env 에서만 주입.
-#   - n8n SMTP 자격증명은 import 후 n8n UI(Credentials)에서만 바인딩.
+#   - n8n SMTP 자격증명은 기존 n8n UI(Credentials)에서 바인딩.
 #
-# 시작 전 반드시 교체할 자리표시자: <SERVER_HOST>  (서버의 외부 접속 호스트/IP)
+# ★ 기존 n8n → reg-watch 호출 경로:
+#   둘은 서로 다른 docker 스택이므로 'reg-watch' 호스트명으로는 못 부른다.
+#   reg-watch가 호스트 포트 8010 으로 노출되고, 기존 n8n 컨테이너는
+#   http://host.docker.internal:8010 으로 호출한다. (워크플로우 JSON에 반영됨)
 
 services:
   reg-watch:
@@ -16,41 +21,32 @@ services:
     container_name: sentinel-reg-watch
     env_file:
       - .env                      # 모든 비밀/설정은 여기서만
-    expose:
-      - "8010"                    # 내부 네트워크 전용 (n8n이 http://reg-watch:8010 으로 호출)
-    # 운영자가 호스트에서 직접 /dashboard 를 보려면 아래 포트 매핑 주석 해제.
-    # ports:
-    #   - "8010:8010"
+    ports:
+      - "8010:8010"               # 호스트로 노출 → 기존 n8n이 host.docker.internal:8010 으로 호출
     volumes:
       - regwatch_state:/app/data/state   # 주간 스냅샷/레지스트리 이력 영속화
     restart: unless-stopped
-    networks:
-      - sentinel
 
-  n8n:
-    image: n8nio/n8n:latest
-    container_name: sentinel-n8n
-    ports:
-      - "5678:5678"
-    environment:
-      - GENERIC_TIMEZONE=Asia/Seoul
-      - TZ=Asia/Seoul
-      # WEBHOOK_URL: Send-and-Wait(승인) 메일의 Approve/Disapprove 링크가
-      # 외부에서 n8n으로 되돌아오려면 반드시 서버의 실제 접속 주소여야 한다.
-      # <SERVER_HOST> 를 서버 IP 또는 도메인으로 교체할 것. (예: http://10.0.0.5:5678/)
-      - WEBHOOK_URL=http://<SERVER_HOST>:5678/
-    volumes:
-      - n8n_data:/home/node/.n8n
-    restart: unless-stopped
-    depends_on:
-      - reg-watch
-    networks:
-      - sentinel
-
-networks:
-  sentinel:
-    driver: bridge
+  # --- 기존 n8n을 재사용하므로 아래 n8n 서비스는 비활성 상태로 둔다. ---
+  # 별도의 새 n8n이 필요해지면 이 블록과 volumes의 n8n_data 주석을 해제하고,
+  # 워크플로우 JSON의 호출 주소를 http://reg-watch:8010 으로 되돌린 뒤 같은 네트워크에 묶을 것.
+  #
+  # n8n:
+  #   image: n8nio/n8n:latest
+  #   container_name: sentinel-n8n
+  #   ports:
+  #     - "5678:5678"
+  #   environment:
+  #     - GENERIC_TIMEZONE=Asia/Seoul
+  #     - TZ=Asia/Seoul
+  #     - WEBHOOK_URL=http://100.65.141.65:5678/
+  #     - N8N_EDITOR_BASE_URL=http://100.65.141.65:5678/
+  #   volumes:
+  #     - n8n_data:/home/node/.n8n
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - reg-watch
 
 volumes:
-  n8n_data:
   regwatch_state:
+  # n8n_data:
