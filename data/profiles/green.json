@@ -1,11 +1,33 @@
 {
   "project_id": "green",
   "domain": "green_eco",
-  "status": "draft",
   "watch_countries": ["EU", "KR", "US"],
-  "keywords": ["CBAM", "탄소국경", "ESG 공시", "K-택소노미", "ESPR", "CSRD", "그린워싱"],
-  "concerns": ["탄소국경세 적용 범위", "공시 의무 시점", "그린워싱 규제"],
-  "lifecycle_interest": ["proposed", "enacted", "amended"],
-  "open_questions": [],
-  "last_reviewed_by": null
+  "keywords": [
+    "Ecodesign", "ESPR", "PPWR", "Packaging and Packaging Waste Regulation",
+    "DPP", "Digital Product Passport", "EPR", "Extended Producer Responsibility",
+    "T2T", "Textile to Textile", "Fiber to Fiber", "EU Textile Strategy",
+    "chemical recycling", "Advanced Recycling",
+    "K-Taxonomy", "K-택소노미", "탄소중립기본법", "ESG 공시",
+    "Scope 3", "recycled content", "carbon footprint"
+  ],
+  "concerns": [
+    "Feedstock 공급망 부족",
+    "소재·부품 데이터 확보 불가 (DPP·Scope 3 산정용)",
+    "재활용 함량 의무 확대 대응",
+    "EPR 분담금 부담"
+  ],
+  "rd_triggers": [
+    "Scope 3 탄소배출량 산정 기준",
+    "재활용 원료 의무 사용 비율",
+    "섬유 자동선별 / Fiber-to-Fiber",
+    "화학적 재활용(chemical recycling)"
+  ],
+  "key_sources_2026": [
+    "DPP 의무화 일정",
+    "재활용 함량 확대",
+    "EPR 분담금",
+    "섬유별 환경등급",
+    "제품 탄소배출량 및 인증"
+  ],
+  "lifecycle_interest": ["proposed", "enacted", "in_force", "amended"]
 }

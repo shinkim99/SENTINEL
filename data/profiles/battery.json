@@ -1,11 +1,28 @@
 {
   "project_id": "battery",
   "domain": "secondary_battery",
-  "status": "draft",
   "watch_countries": ["EU", "US", "CN", "KR"],
-  "keywords": ["recycled content", "carbon footprint", "FEOC", "battery passport", "재활용 의무비율", "EU Battery Regulation", "IRA"],
-  "concerns": ["원료 수급 규제", "재활용 의무비율", "보조금 적격성", "탄소발자국 공시"],
-  "lifecycle_interest": ["proposed", "enacted", "amended"],
-  "open_questions": ["FEOC 최종 규정 시행 시점 확정 여부 — 담당자 확인 필요"],
-  "last_reviewed_by": null
+  "keywords": [
+    "Lithium metal", "Lithium metal anode", "Solid state battery",
+    "China export", "Lithium refining", "battery passport",
+    "recycled content", "carbon footprint",
+    "CRMA", "Critical Raw Materials Act",
+    "IRA 45X", "FEOC", "EU Battery Regulation",
+    "GB standard", "China export control", "MOFCOM", "Entity List",
+    "UN 38.3", "lithium content", "recycled mandate"
+  ],
+  "concerns": [
+    "원료 수급 규제 — SCM 구축 시 중국 기업 포함 여부 판단",
+    "Battery passport — BOM·원산지·재활용원료 사용여부 항목별 사전 데이터 준비",
+    "중국 수출통제 — 차세대 배터리 장비·공정·전극 제조기술 동반 통제, 장비 도입 리스크 (58호 재가동 집중 모니터링)",
+    "물류·운송 리스크 — 리튬 함량·항공운송, UN 38.3 음극재 샘플 단계 관리",
+    "재활용 원료 의무 함유량·인증 — 리튬메탈 음극재 의무 도입 시 소재사 선정 영향"
+  ],
+  "rd_triggers": ["리튬 메탈 기재(소재)", "극판 제조 장비", "재활용 의무 비율"],
+  "key_sources_2026": [
+    "중국 수출통제 (58호 재가동 여부)",
+    "미국 IRA 공급망 적격성(45X/FEOC)",
+    "글로벌 재활용 원료 함유량·인증"
+  ],
+  "lifecycle_interest": ["proposed", "enacted", "in_force", "amended"]
 }

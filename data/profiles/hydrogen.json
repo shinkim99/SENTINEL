@@ -1,11 +1,35 @@
 {
   "project_id": "hydrogen",
   "domain": "hydrogen",
-  "status": "draft",
   "watch_countries": ["EU", "US", "KR", "JP"],
-  "keywords": ["clean hydrogen", "RFNBO", "45V", "CHPS", "청정수소 인증", "RED III", "electrolysis"],
-  "concerns": ["청정수소 정의·인증 기준", "보조금 적격성", "재생에너지 인증 요건"],
-  "lifecycle_interest": ["proposed", "enacted", "amended"],
-  "open_questions": ["RFNBO 인증 방법론 최종 확정 여부 — 담당자 확인 필요"],
-  "last_reviewed_by": null
+  "keywords": [
+    "clean hydrogen", "RFNBO", "IRA 45V", "45V",
+    "CHPS", "청정수소 인증", "청정수소발전의무화",
+    "CfD", "EAC", "Guarantee of Origin", "CertifHy",
+    "three pillars", "additionality", "temporal matching",
+    "lifecycle emissions", "RED III", "수소법", "수소사회추진법"
+  ],
+  "concerns": [
+    "청정수소 정의·인증 기준 변동",
+    "보조금 적격성",
+    "환율 변동성 (CfD 등)",
+    "기존 재생에너지 설비 활용 제한",
+    "2028년 IRA 45V 착공 마감일 임박 — 프로젝트 타임라인 리스크"
+  ],
+  "rd_triggers": [
+    "수소 생산방식별 온실가스 집약도 (kgCO2eq/kg H2)",
+    "시간적 상관성·매칭 기준 (Temporal Matching, 2030~ 시간당)",
+    "IRA 45V 3대 원칙 (추가성·시간적 매칭·지역적 상관성)",
+    "IRA 45V 4단계 세액공제 구조 ($3.00~$0.60/kg, 0.45/1.5/2.5/4.0 kgCO2eq 기준)",
+    "한국 청정수소 인증 기준 (4 kgCO2eq/kg H2)"
+  ],
+  "key_sources_2026": [
+    "미국 IRA 45V 4단계 세액공제 구조 동향 (티어 기준·금액 변경)",
+    "EU RFNBO 청정수소 기준",
+    "EU RFNBO 위임법령 개정 협상 (2026 검토 중)",
+    "한국 CHPS 경매 구조 변화 / 입찰 사전검토",
+    "일본 CfD 경매 결과·일정",
+    "EU CertifHy GO 발급 동향"
+  ],
+  "lifecycle_interest": ["proposed", "enacted", "in_force", "amended"]
 }
