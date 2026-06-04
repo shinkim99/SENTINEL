@@ -1,11 +1,16 @@
-"""US Federal Register collector — REST API, no auth required."""
+"""US Federal Register collector — REST API, no auth required.
+
+403 Forbidden 대응:
+- 명시적 User-Agent 헤더 (http_util.make_client)
+- 지수 백오프 3회 재시도 (http_util.get_with_retry)
+- 최종 403 시 "IP 차단 의심" 경고 로그
+"""
 from __future__ import annotations
 
 import logging
 from typing import Union
 
-import httpx
-
+from app.collect.http_util import get_with_retry, make_client
 from app.models import RawItem
 
 logger = logging.getLogger(__name__)
@@ -27,10 +32,12 @@ class FederalRegisterCollector:
         items: list[RawItem] = []
         seen_urls: set[str] = set()
 
-        async with httpx.AsyncClient(timeout=30, verify=self._verify) as client:
+        async with make_client(verify=self._verify) as client:
             for kw in keywords:
+                resp = None
                 try:
-                    resp = await client.get(
+                    resp = await get_with_retry(
+                        client,
                         _BASE,
                         params={
                             "conditions[term]": kw,
@@ -39,11 +46,25 @@ class FederalRegisterCollector:
                             "order": "newest",
                             "fields[]": _FIELDS,
                         },
+                        tag=f"federal_register kw={kw!r}",
                     )
+                    if resp.status_code == 403:
+                        logger.error(
+                            "federal_register: 최종 403 — 러너 IP 차단 의심. "
+                            "모든 재시도 소진. keyword=%r", kw,
+                        )
+                        continue
                     resp.raise_for_status()
                     data = resp.json()
                 except Exception as exc:
-                    logger.warning("federal_register keyword=%r error: %s", kw, exc)
+                    status = resp.status_code if resp is not None else "N/A"
+                    body = resp.text[:200] if resp is not None else ""
+                    logger.warning(
+                        "federal_register keyword=%r error: type=%s msg=%r "
+                        "status=%s body=%r",
+                        kw, type(exc).__name__, str(exc) or "(empty)",
+                        status, body,
+                    )
                     continue
 
                 for doc in data.get("results", []):
