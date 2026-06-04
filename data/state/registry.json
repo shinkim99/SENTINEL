@@ -1,5 +1,5 @@
 {
-  "committed_at": "2026-06-04T05:26:46.316465",
+  "committed_at": "2026-06-04T05:48:47.364802",
   "digest_id": "2026-W23",
   "regulations": [
     {
@@ -17,7 +17,7 @@
       "source_url": "https://www.federalregister.gov/documents/2026/06/01/2026-10906/credit-for-renewable-electricity-production-and-publication-of-inflation-adjustment-factor-and",
       "confidence": "B",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "The 2026 inflation adjustment factor and reference price are used in determining the availability of the credit for renewable electricity production under section 45 (section 45 credit).",
       "history": [
         {
@@ -43,7 +43,7 @@
       "source_url": "https://www.federalregister.gov/documents/2026/05/28/2026-10575/60-day-notice-of-proposed-information-collection-application-for-permanenttemporary-export-or",
       "confidence": "A",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "Application for Permanent/Temporary Export or Temporary Import of Classified Defense Articles and Classified Technical Data",
       "history": [
         {
@@ -59,10 +59,10 @@
       "domain": "green_eco",
       "country": "US",
       "name": "Rescission of Climate-Related Disclosure Rules",
-      "summary": "The SEC proposes to rescind previously enacted climate-related disclosure requirements for registrants, directly rolling back mandatory reporting of climate information in registration statements and annual reports. For green_eco domain concerns, this eliminates a key disclosure obligation timeline and weakens the regulatory framework around greenwashing and carbon footprint transparency in US capital markets. Secondary_battery domain stakeholders monitoring 탄소발자국 공시 (carbon footprint disclosure) obligations tied to SEC rules should note this significantly reduces US-side disclosure pressure, though EU-side obligations remain unaffected.",
+      "summary": "The SEC proposes to rescind mandatory climate-related disclosure requirements for registrants, directly affecting the green_eco domain's concern around 공시 의무 시점 (disclosure obligation timing) and 그린워싱 규제 (greenwashing regulation). The rollback would eliminate federally mandated carbon-footprint and climate information reporting in registration statements and annual reports, reducing disclosure pressure on US-listed companies. This may also indirectly affect secondary_battery domain concerns around 탄소발자국 공시 (carbon footprint disclosure) for battery-sector registrants filing with the SEC.",
       "lifecycle_stage": "proposed",
       "date_text": "2026-06-03",
-      "rd_impact": "The SEC proposes to rescind previously enacted climate-related disclosure requirements for registrants, directly rolling back mandatory reporting of climate information in registration statements and annual reports. For green_eco domain concerns, this eliminates a key disclosure obligation timeline and weakens the regulatory framework around greenwashing and carbon footprint transparency in US capital markets. Secondary_battery domain stakeholders monitoring 탄소발자국 공시 (carbon footprint disclosure) obligations tied to SEC rules should note this significantly reduces US-side disclosure pressure, though EU-side obligations remain unaffected.",
+      "rd_impact": "The SEC proposes to rescind mandatory climate-related disclosure requirements for registrants, directly affecting the green_eco domain's concern around 공시 의무 시점 (disclosure obligation timing) and 그린워싱 규제 (greenwashing regulation). The rollback would eliminate federally mandated carbon-footprint and climate information reporting in registration statements and annual reports, reducing disclosure pressure on US-listed companies. This may also indirectly affect secondary_battery domain concerns around 탄소발자국 공시 (carbon footprint disclosure) for battery-sector registrants filing with the SEC.",
       "impact_type": "indirect",
       "alert": "watch",
       "source": "us-federal-register",
@@ -70,12 +70,18 @@
       "confidence": "A",
       "checked_at": "2026-06-04",
       "changed_this_week": true,
-      "citation_quote": "The Securities and Exchange Commission (\"Commission\") proposes to rescind amendments to its rules under the Securities Act of 1933 (\"Securities Act\") and Securities Exchange Act of 1934 (\"Exchange Act\") that require registrants to provide certain climate- related information in their registration statements and annual reports.",
+      "citation_quote": "The Securities and Exchange Commission (\"Commission\") proposes to rescind amendments to its rules under the Securities Act of 1933 (\"Securities Act\") and Securities Exchange Act of 1934 (\"Exchange Act\") that require registrants to provide certain climate-related information in their registration statements and annual reports.",
       "history": [
         {
           "date": "2026-06-03",
           "stage": "proposed",
           "note": "신규 등록",
+          "source": "us-federal-register"
+        },
+        {
+          "date": "2026-06-03",
+          "stage": "proposed",
+          "note": "내용 업데이트",
           "source": "us-federal-register"
         }
       ]
@@ -95,7 +101,7 @@
       "source_url": "https://www.law.go.kr/법령/군사기밀 보호법(000928)",
       "confidence": "C",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "군사기밀 보호법",
       "history": [
         {
@@ -121,7 +127,7 @@
       "source_url": "https://www.law.go.kr/법령/국가연구개발혁신법(013774)",
       "confidence": "C",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "국가연구개발혁신법",
       "history": [
         {
@@ -137,10 +143,10 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 (Space Development Promotion Act)",
-      "summary": "대한민국 우주개발 진흥법은 우주용 부품·소재 규제 및 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미친다. 수출통제 적격성 및 우주 관련 부품·소재의 개발·활용 기준을 규율하며, 우주개발 사업자의 의무 사항을 포함할 수 있어 관련 R&D 운영에 대한 면밀한 모니터링이 필요하다. 2025년 5월 27일자 공시된 최신 버전으로, 법령 개정 내용에 따라 컴플라이언스 요건이 변경될 수 있다.",
-      "lifecycle_stage": "in_force",
+      "summary": "한국의 우주개발 진흥법은 우주용 부품·소재 규제 및 수출통제 적격성, 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미치는 핵심 법령이다. 우주개발 활동에 관한 인허가, 부품·소재 기준, 우주 잔해물 관련 의무 규정을 포함할 가능성이 높으나, 제공된 본문이 제목만으로 구성되어 세부 조항 확인이 불가하다. 전문 확보 후 수출통제 적격성 및 우주 파편 경감 요건에 대한 추가 검토가 필요하다.",
+      "lifecycle_stage": "unclear",
       "date_text": "2025-05-27",
-      "rd_impact": "대한민국 우주개발 진흥법은 우주용 부품·소재 규제 및 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미친다. 수출통제 적격성 및 우주 관련 부품·소재의 개발·활용 기준을 규율하며, 우주개발 사업자의 의무 사항을 포함할 수 있어 관련 R&D 운영에 대한 면밀한 모니터링이 필요하다. 2025년 5월 27일자 공시된 최신 버전으로, 법령 개정 내용에 따라 컴플라이언스 요건이 변경될 수 있다.",
+      "rd_impact": "한국의 우주개발 진흥법은 우주용 부품·소재 규제 및 수출통제 적격성, 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미치는 핵심 법령이다. 우주개발 활동에 관한 인허가, 부품·소재 기준, 우주 잔해물 관련 의무 규정을 포함할 가능성이 높으나, 제공된 본문이 제목만으로 구성되어 세부 조항 확인이 불가하다. 전문 확보 후 수출통제 적격성 및 우주 파편 경감 요건에 대한 추가 검토가 필요하다.",
       "impact_type": "direct",
       "alert": "mon",
       "source": "kr-law-go-kr",
@@ -155,6 +161,12 @@
           "stage": "in_force",
           "note": "신규 등록",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20250527",
+          "stage": "unclear",
+          "note": "in_force → unclear",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -163,10 +175,10 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 시행령 (Enforcement Decree of the Space Development Promotion Act)",
-      "summary": "This is the enforcement decree of South Korea's Space Development Promotion Act, directly governing the regulatory framework for space development activities including components, materials, and operational requirements relevant to the space_environment domain. It may impose or detail obligations related to space debris mitigation, export control eligibility for space-use parts and materials, and qualification standards for space-related components. R&D operations in the space_environment domain should monitor compliance requirements under this decree, particularly regarding licensing, registration, and safety obligations for space assets and related hardware.",
+      "summary": "본 시행령은 우주개발 진흥법의 구체적인 집행 기준을 규정하며, 우주용 부품·소재 규제 및 수출통제 적격성 요건에 직접적인 영향을 미칠 수 있다. 우주 파편 경감 의무 등 우주 환경 관련 운용 기준이 시행령 수준에서 구체화될 가능성이 높아, space_environment 도메인의 R&D 운용 및 인허가 계획 수립 시 면밀한 검토가 필요하다. 2025년 11월 25일 공포 기준으로 최신 개정 내용을 반영한 규정이므로, 관련 사업 적격성 및 부품 조달 기준에 즉각적인 영향을 줄 수 있다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-11-25",
-      "rd_impact": "This is the enforcement decree of South Korea's Space Development Promotion Act, directly governing the regulatory framework for space development activities including components, materials, and operational requirements relevant to the space_environment domain. It may impose or detail obligations related to space debris mitigation, export control eligibility for space-use parts and materials, and qualification standards for space-related components. R&D operations in the space_environment domain should monitor compliance requirements under this decree, particularly regarding licensing, registration, and safety obligations for space assets and related hardware.",
+      "rd_impact": "본 시행령은 우주개발 진흥법의 구체적인 집행 기준을 규정하며, 우주용 부품·소재 규제 및 수출통제 적격성 요건에 직접적인 영향을 미칠 수 있다. 우주 파편 경감 의무 등 우주 환경 관련 운용 기준이 시행령 수준에서 구체화될 가능성이 높아, space_environment 도메인의 R&D 운용 및 인허가 계획 수립 시 면밀한 검토가 필요하다. 2025년 11월 25일 공포 기준으로 최신 개정 내용을 반영한 규정이므로, 관련 사업 적격성 및 부품 조달 기준에 즉각적인 영향을 줄 수 있다.",
       "impact_type": "direct",
       "alert": "mon",
       "source": "kr-law-go-kr",
@@ -181,6 +193,12 @@
           "stage": "in_force",
           "note": "신규 등록",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20251125",
+          "stage": "in_force",
+          "note": "내용 업데이트",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -189,10 +207,10 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 시행규칙 (Enforcement Rules of the Space Development Promotion Act)",
-      "summary": "본 시행규칙은 우주개발 진흥법의 세부 집행 절차를 규정하며, 우주용 부품·소재 관련 인허가 요건 및 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미친다. 수출통제 적격성 판단 및 우주 관련 부품·소재 규제의 구체적 기준을 포함할 가능성이 높으며, 관련 사업자는 시행규칙상 절차적 요건 준수 여부를 점검해야 한다. 2025년 4월 23일 공포·시행됨에 따라 즉각적인 컴플라이언스 검토가 필요하다.",
+      "summary": "본 시행규칙은 우주개발 진흥법의 세부 집행 기준을 규정하며, 우주용 부품·소재의 인증 및 규제 요건, 수출통제 적격성, 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미칠 수 있다. 우주개발 관련 기업은 본 규칙에서 정하는 절차적 요건 및 기술 기준을 준수해야 하며, 이에 따른 인허가 및 사업 운영상의 의무가 발생한다. 관련 R&D 활동 및 부품·소재 개발 시 본 규칙의 적용 범위와 요건을 면밀히 검토할 필요가 있다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-04-23",
-      "rd_impact": "본 시행규칙은 우주개발 진흥법의 세부 집행 절차를 규정하며, 우주용 부품·소재 관련 인허가 요건 및 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미친다. 수출통제 적격성 판단 및 우주 관련 부품·소재 규제의 구체적 기준을 포함할 가능성이 높으며, 관련 사업자는 시행규칙상 절차적 요건 준수 여부를 점검해야 한다. 2025년 4월 23일 공포·시행됨에 따라 즉각적인 컴플라이언스 검토가 필요하다.",
+      "rd_impact": "본 시행규칙은 우주개발 진흥법의 세부 집행 기준을 규정하며, 우주용 부품·소재의 인증 및 규제 요건, 수출통제 적격성, 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미칠 수 있다. 우주개발 관련 기업은 본 규칙에서 정하는 절차적 요건 및 기술 기준을 준수해야 하며, 이에 따른 인허가 및 사업 운영상의 의무가 발생한다. 관련 R&D 활동 및 부품·소재 개발 시 본 규칙의 적용 범위와 요건을 면밀히 검토할 필요가 있다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
@@ -204,6 +222,142 @@
       "history": [
         {
           "date": "20250423",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20250423",
+          "stage": "in_force",
+          "note": "내용 업데이트",
+          "source": "kr-law-go-kr"
+        }
+      ]
+    },
+    {
+      "regulation_id": "us-irc-sec45-renewable-electricity-credit-inflation-2026_US",
+      "domain": "hydrogen",
+      "country": "US",
+      "name": "Credit for Renewable Electricity Production and Publication of Inflation Adjustment Factor and Reference Price for Calendar Year 2026",
+      "summary": "The 2026 inflation adjustment factor and reference price under IRC Section 45 directly affect the economic viability of renewable electricity production credits, which are a key subsidy eligibility factor for hydrogen producers using electrolysis powered by qualifying renewable energy. Changes to the reference price can gate or reduce the Section 45 credit, impacting the cost structure of green hydrogen projects. Hydrogen domain stakeholders must verify whether their renewable electricity supply contracts and production facilities remain within the credit availability thresholds under the updated 2026 figures.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2026-06-01",
+      "rd_impact": "The 2026 inflation adjustment factor and reference price under IRC Section 45 directly affect the economic viability of renewable electricity production credits, which are a key subsidy eligibility factor for hydrogen producers using electrolysis powered by qualifying renewable energy. Changes to the reference price can gate or reduce the Section 45 credit, impacting the cost structure of green hydrogen projects. Hydrogen domain stakeholders must verify whether their renewable electricity supply contracts and production facilities remain within the credit availability thresholds under the updated 2026 figures.",
+      "impact_type": "direct",
+      "alert": "opp",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/06/01/2026-10906/credit-for-renewable-electricity-production-and-publication-of-inflation-adjustment-factor-and",
+      "confidence": "B",
+      "checked_at": "2026-06-04",
+      "changed_this_week": true,
+      "citation_quote": "The 2026 inflation adjustment factor and reference price are used in determining the availability of the credit for renewable electricity production under section 45 (section 45 credit).",
+      "history": [
+        {
+          "date": "2026-06-01",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "us-state-classified-defense-articles-export-import-info-collection_US",
+      "domain": "space_environment",
+      "country": "US",
+      "name": "60-Day Notice of Proposed Information Collection: Application for Permanent/Temporary Export or Temporary Import of Classified Defense Articles and Classified Technical Data",
+      "summary": "This notice proposes an information collection process for applications related to the export/import of classified defense articles and technical data, which directly intersects with export control eligibility for space-use components and materials — a key concern for the space_environment domain. Organizations involved in space hardware or technology development may be subject to these classification and reporting requirements. The 60-day public comment window offers an opportunity to provide input before OMB submission.",
+      "lifecycle_stage": "proposed",
+      "date_text": "2026-05-28",
+      "rd_impact": "This notice proposes an information collection process for applications related to the export/import of classified defense articles and technical data, which directly intersects with export control eligibility for space-use components and materials — a key concern for the space_environment domain. Organizations involved in space hardware or technology development may be subject to these classification and reporting requirements. The 60-day public comment window offers an opportunity to provide input before OMB submission.",
+      "impact_type": "direct",
+      "alert": "watch",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/05/28/2026-10575/60-day-notice-of-proposed-information-collection-application-for-permanenttemporary-export-or",
+      "confidence": "A",
+      "checked_at": "2026-06-04",
+      "changed_this_week": true,
+      "citation_quote": "Application for Permanent/Temporary Export or Temporary Import of Classified Defense Articles and Classified Technical Data",
+      "history": [
+        {
+          "date": "2026-05-28",
+          "stage": "proposed",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "eu-horizon-europe-annual-report-2025_EU",
+      "domain": "secondary_battery",
+      "country": "EU",
+      "name": "Annual Report on Research and Technological Development Activities of the EU and Monitoring of Horizon Europe in 2025",
+      "summary": "This annual report monitors Horizon Europe funding activities in 2025, which directly affects R&D subsidy eligibility across battery, hydrogen, and green technology domains. It signals ongoing EU-level tracking of research investments that may inform future funding decisions and compliance benchmarks for secondary battery projects seeking Horizon Europe grants.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2026-05-28",
+      "rd_impact": "This annual report monitors Horizon Europe funding activities in 2025, which directly affects R&D subsidy eligibility across battery, hydrogen, and green technology domains. It signals ongoing EU-level tracking of research investments that may inform future funding decisions and compliance benchmarks for secondary battery projects seeking Horizon Europe grants.",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "eu-eurlex",
+      "source_url": "http://publications.europa.eu/resource/cellar/b90338de-5a9c-11f1-aa6d-01aa75ed71a1",
+      "confidence": "B",
+      "checked_at": "2026-06-04",
+      "changed_this_week": true,
+      "citation_quote": "Annual Report on Research and Technological Development Activities of the European Union and Monitoring of Horizon Europe in 2025",
+      "history": [
+        {
+          "date": "2026-05-28",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "eu-eurlex"
+        }
+      ]
+    },
+    {
+      "regulation_id": "eu-ecf-regulation-com2025-0555_EU",
+      "domain": "green_eco",
+      "country": "EU",
+      "name": "European Competitiveness Fund (ECF) Regulation – Committee Opinion on Employment and Social Affairs (COM(2025)0555)",
+      "summary": "The European Competitiveness Fund (ECF) proposes to consolidate and replace several major EU R&D and industrial funding frameworks (including programmes covering health, digital, defence, environment, and space), directly reshaping subsidy eligibility and funding access for green and industrial innovation activities. The Employment and Social Affairs Committee opinion signals additional scrutiny on social/employment conditionality attached to ECF grants, which may affect how green and hydrogen R&D projects qualify for funding. Organisations in the green_eco domain should monitor whether new eligibility criteria or reporting obligations (including carbon footprint or greenwashing-related disclosures) are embedded as conditions for ECF funding.",
+      "lifecycle_stage": "proposed",
+      "date_text": "2026-05-28",
+      "rd_impact": "The European Competitiveness Fund (ECF) proposes to consolidate and replace several major EU R&D and industrial funding frameworks (including programmes covering health, digital, defence, environment, and space), directly reshaping subsidy eligibility and funding access for green and industrial innovation activities. The Employment and Social Affairs Committee opinion signals additional scrutiny on social/employment conditionality attached to ECF grants, which may affect how green and hydrogen R&D projects qualify for funding. Organisations in the green_eco domain should monitor whether new eligibility criteria or reporting obligations (including carbon footprint or greenwashing-related disclosures) are embedded as conditions for ECF funding.",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "eu-eurlex",
+      "source_url": "http://publications.europa.eu/resource/cellar/51520922-553e-11f1-b3e2-01aa75ed71a1",
+      "confidence": "B",
+      "checked_at": "2026-06-04",
+      "changed_this_week": true,
+      "citation_quote": "proposal for a regulation of the European Parliament and of the Council on establishing the European Competitiveness Fund ('ECF'), including the specific programme for defence research and innovation activities, repealing Regulations (EU) 2021/522, (EU) 2021/694, (EU) 2021/697, (EU) 2021/783, and amending Regulations (EU) 2021/696, (EU) 2023/588, (EU) [EDIP]",
+      "history": [
+        {
+          "date": "2026-05-28",
+          "stage": "proposed",
+          "note": "신규 등록",
+          "source": "eu-eurlex"
+        }
+      ]
+    },
+    {
+      "regulation_id": "kr-military-supplies-management-act_KR",
+      "domain": "space_environment",
+      "country": "KR",
+      "name": "군수품관리법 (Military Supplies Management Act)",
+      "summary": "군수품관리법은 군수품의 조달, 관리, 수출통제 등을 규율하며, 우주용 부품·소재의 수출통제 적격성 및 군수 목적 우주 관련 물자의 규제 근거로 작용할 수 있습니다. 군수품으로 분류되는 우주 관련 부품·소재는 동 법률의 적용을 받아 수출입 및 유통에 제한이 부과될 수 있습니다. space_environment 도메인 관점에서 군수품 지정 여부가 수출통제 적격성 판단에 직접적인 영향을 미칩니다.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2025-10-01",
+      "rd_impact": "군수품관리법은 군수품의 조달, 관리, 수출통제 등을 규율하며, 우주용 부품·소재의 수출통제 적격성 및 군수 목적 우주 관련 물자의 규제 근거로 작용할 수 있습니다. 군수품으로 분류되는 우주 관련 부품·소재는 동 법률의 적용을 받아 수출입 및 유통에 제한이 부과될 수 있습니다. space_environment 도메인 관점에서 군수품 지정 여부가 수출통제 적격성 판단에 직접적인 영향을 미칩니다.",
+      "impact_type": "direct",
+      "alert": "mon",
+      "source": "kr-law-go-kr",
+      "source_url": "https://www.law.go.kr/법령/군수품관리법(000936)",
+      "confidence": "C",
+      "checked_at": "2026-06-04",
+      "changed_this_week": true,
+      "citation_quote": "군수품관리법",
+      "history": [
+        {
+          "date": "20251001",
           "stage": "in_force",
           "note": "신규 등록",
           "source": "kr-law-go-kr"
