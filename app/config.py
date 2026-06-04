@@ -28,7 +28,15 @@ class Settings(BaseSettings):
     digest_from_email: str = ""       # SMTP 발송 시 From (Gmail 노드는 불필요)
 
     # 대시보드 URL (이메일 CTA 버튼 링크 — 배포 후 실제 URL로 교체)
+    # GitHub Actions(서버리스) 경로에서는 DASHBOARD_URL 환경변수로 Pages URL 주입.
     dashboard_url: str = "http://localhost:8010/dashboard"
+
+    # ── Resend API (서버리스/GitHub Actions 발송 경로) ──
+    # https://resend.com — API 키 1개로 SMTP 없이 HTTPS 발송.
+    resend_api_key: str = ""
+    # draft 모드 기본 From (Resend 테스트 도메인 — 본인 인증 주소로만 발송 가능).
+    # 도메인 인증 후 운영에서는 본인 도메인 주소로 교체.
+    resend_from_email: str = "SENTINEL <onboarding@resend.dev>"
 
     # SMTP (로컬 테스트용 — 운영 SMTP는 n8n 담당)
     smtp_host: str = ""

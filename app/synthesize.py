@@ -1,51 +1,114 @@
 """HTML 합성 모듈.
 
-build_email  : 변경 항목만 담은 이메일 HTML (email-safe, inline CSS, table 레이아웃, JS 없음).
-build_dashboard: 전체 레지스트리 대시보드 HTML (카드/테이블 2뷰, 다크/라이트 토글,
-                  도메인+국가 2축 필터, 항목 클릭 시 이력 타임라인).
+build_email     : 변경 항목만 담은 이메일 HTML (email-safe, inline CSS, table 레이아웃, JS 없음).
+                  디자인 기준: templates/sentinel_digest_email_v2.html
+                  (prism 헤더, 메트릭+funnel, 수집실패 알림 조건부, 국가 비교표,
+                   domain→country 그룹, lifecycle/alert/impact_type 배지, citation,
+                   history trail, 대시보드 CTA).
+build_dashboard : 전체 레지스트리 대시보드 HTML.
+                  디자인 기준: templates/radar_reference_v3.html (v4 — 5개 메트릭 카드,
+                  prism 그라데이션 헤더, impact_type 배지, citation 모달).
+                  템플릿 파일을 읽어 /* SENTINEL_REG_DATA */ 블록만 교체(마커·ID 보존).
 """
 from __future__ import annotations
 
 import json
+import logging
+import re
 from collections import defaultdict
 from datetime import datetime
 from html import escape
-from typing import Any
+from pathlib import Path
+from typing import Any, Optional
 
 from app.models import (
-    ALERT_COLORS,
-    ALERT_LABELS_KO,
-    COUNTRY_LABELS_KO,
-    DOMAIN_ICONS,
     DOMAIN_LABELS_KO,
-    IMPACT_TYPE_LABELS_KO,
-    LIFECYCLE_COLORS,
     LIFECYCLE_LABELS_KO,
     ProfileSpec,
     Regulation,
 )
 
-_FONT = "font-family:Arial,Helvetica,sans-serif;"
-_BASE = f"{_FONT}color:#1F2937;font-size:14px;line-height:1.6;"
+logger = logging.getLogger(__name__)
 
-_COUNTRY_ORDER = ["EU", "US", "KR", "CN", "JP", "INTL"]
+_FONT = "'Inter','Noto Sans KR','Malgun Gothic',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;"
+
+_COUNTRY_ORDER = ["US", "KR", "EU", "CN", "JP", "INTL"]
 _LIFECYCLE_SORT = ["in_force", "enacted", "amended", "proposed", "repealed", "unclear"]
+
+# 수집기 source_id → 국가 (수집 실패 시 국가 매핑용)
+_SOURCE_COUNTRY = {
+    "us-federal-register": "US",
+    "eu-eurlex": "EU",
+    "kr-law-go-kr": "KR",
+}
+
+# 도메인별 강조색 (prism 팔레트)
+_DOMAIN_COLORS = {
+    "secondary_battery": "#5b8def",
+    "green_eco": "#22b07d",
+    "hydrogen": "#a78bfa",
+    "space_environment": "#ec5a9f",
+}
+_DOMAIN_ICONS = {
+    "secondary_battery": "🔋",
+    "green_eco": "🌿",
+    "hydrogen": "⚡",
+    "space_environment": "🛸",
+}
+
+# 국가 배지 (플래그 + 라벨 + 색)
+_COUNTRY_BADGE = {
+    "US": ("🇺🇸 미국", "#9a3412", "#ffedd5"),
+    "KR": ("🇰🇷 한국", "#0e7490", "#cffafe"),
+    "EU": ("🇪🇺 EU", "#b45309", "#fef3c7"),
+    "CN": ("🇨🇳 중국", "#9d174d", "#fce7f3"),
+    "JP": ("🇯🇵 일본", "#5b21b6", "#ede9fe"),
+    "INTL": ("🌐 국제", "#4b5563", "#eef0f3"),
+}
+
+# lifecycle 배지 색 (bg, fg)
+_LC_COLORS = {
+    "proposed": ("#fef3c7", "#b45309"),
+    "enacted":  ("#dbeafe", "#1e40af"),
+    "in_force": ("#dcfce7", "#16a34a"),
+    "amended":  ("#ede9fe", "#5b21b6"),
+    "repealed": ("#fee2e2", "#991b1b"),
+    "unclear":  ("#eef0f3", "#4b5563"),
+}
+
+# alert 배지 (라벨, bg, fg)
+_AL_BADGE = {
+    "urgent": ("● 긴급", "#fee2e2", "#991b1b"),
+    "watch":  ("⚠ 주시", "#fef3c7", "#b45309"),
+    "opp":    ("◎ 기회", "#d1fae5", "#047857"),
+    "mon":    ("모니터링", "#eef0f3", "#6b7280"),
+}
+
+# impact_type 배지 (라벨, bg, fg)
+_IT_BADGE = {
+    "direct":   ("직접", "#dbeafe", "#3b6fd4"),
+    "indirect": ("간접", "#eef0f3", "#6b7280"),
+}
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# EMAIL
+# EMAIL  (디자인: templates/sentinel_digest_email_v2.html)
 # ══════════════════════════════════════════════════════════════════════════════
 
 def build_email(
     changed_items: list[Regulation],
     profiles: list[ProfileSpec],
     dashboard_url: str = "",
+    stats: Optional[dict] = None,
+    digest_id: str = "",
 ) -> str:
     """Email-safe HTML 다이제스트. changed_this_week 항목만 포함.
 
-    Design: templates/digest_reference.html
+    stats 가 주어지면 funnel/수집실패 알림/국가표를 채운다. (FastAPI 경로는 stats 생략 가능)
     """
+    stats = stats or {}
     run_date = datetime.now().strftime("%Y-%m-%d")
+    week = digest_id or stats.get("digest_id") or _iso_week()
     btn_url = dashboard_url or "#"
 
     by_domain: dict[str, dict[str, list[Regulation]]] = defaultdict(lambda: defaultdict(list))
@@ -57,533 +120,392 @@ def build_email(
         by_domain.keys(),
         key=lambda d: profile_domains.index(d) if d in profile_domains else 999,
     )
-    domain_counts = {d: sum(len(v) for v in by_domain[d].values()) for d in sorted_domains}
 
     sections = [
-        _email_header(run_date, btn_url),
-        _email_metric_cards(len(changed_items), domain_counts),
+        _email_header(week),
+        _email_metrics(len(changed_items), stats),
+        _email_failure_alert(stats),
+        _email_country_table(changed_items, profiles, stats),
     ]
     for domain in sorted_domains:
         sections.append(_email_domain_section(domain, by_domain[domain]))
-    sections.append(_email_footer(run_date, btn_url))
+    sections.append(_email_cta(btn_url))
+    sections.append(_email_footer(week))
 
-    body = "\n".join(sections)
+    body = "\n".join(s for s in sections if s)
     return (
         "<!DOCTYPE html><html lang='ko'><head>"
         "<meta charset='utf-8'>"
-        "<meta name='viewport' content='width=device-width,initial-scale=1'>"
-        f"<title>SENTINEL 주간 규제 다이제스트 {run_date}</title>"
+        "<meta name='viewport' content='width=device-width,initial-scale=1.0'>"
+        f"<title>SENTINEL 주간 규제 다이제스트 {escape(week)}</title>"
         "</head>"
-        f"<body style='margin:0;padding:0;background:#F0F4F8;{_BASE}'>"
-        "<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background:#F0F4F8;'>"
-        "<tr><td align='center' style='padding:24px 16px;'>"
-        "<table width='680' cellpadding='0' cellspacing='0' border='0' style='max-width:680px;width:100%;'>"
-        f"<tr><td>{body}</td></tr>"
+        f"<body style=\"margin:0;padding:0;background:#f4f5f7;font-family:{_FONT}-webkit-font-smoothing:antialiased;\">"
+        "<table role='presentation' width='100%' cellpadding='0' cellspacing='0' style='background:#f4f5f7;'>"
+        "<tr><td align='center' style='padding:24px 12px;'>"
+        "<table role='presentation' width='640' cellpadding='0' cellspacing='0' "
+        "style='width:640px;max-width:640px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e6e8ed;'>"
+        f"{body}"
         "</table></td></tr></table>"
         "</body></html>"
     )
 
 
-def _email_header(run_date: str, btn_url: str) -> str:
-    btn = (
-        f"<a href='{escape(btn_url)}' "
-        f"style='display:inline-block;background:#38BDF8;color:#0F172A;{_FONT}"
-        f"font-size:12px;font-weight:bold;text-decoration:none;"
-        f"padding:8px 16px;border-radius:20px;white-space:nowrap;'>"
-        f"&#x1F4CA; 전체 레이더 보기 &rarr;</a>"
-    ) if btn_url and btn_url != "#" else ""
+def _iso_week() -> str:
+    iso = datetime.now().isocalendar()
+    return f"{iso[0]}-W{iso[1]:02d}"
 
+
+def _email_header(week: str) -> str:
     return (
-        f"<table width='100%' cellpadding='0' cellspacing='0' border='0' "
-        f"style='background:#0F2944;border-radius:10px 10px 0 0;'>"
-        f"<tr><td style='padding:24px 28px;'>"
-        f"<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
-        f"<td width='4' style='background:linear-gradient(180deg,#38BDF8 0%,#6366F1 50%,#F59E0B 100%);"
-        f"border-radius:2px;vertical-align:top;'>&nbsp;</td>"
-        f"<td style='padding-left:14px;vertical-align:top;'>"
-        f"<p style='margin:0;{_FONT}font-size:21px;font-weight:bold;color:#FFFFFF;'>&#x26A1; SENTINEL</p>"
-        f"<p style='margin:4px 0 0;{_FONT}font-size:13px;color:#93C5FD;'>"
-        f"주간 규제 인텔리전스 &nbsp;|&nbsp; {escape(run_date)} &nbsp;|&nbsp; "
-        f"2차전지 · 친환경 · 수소 · 우주환경</p>"
-        f"</td>"
-        f"<td align='right' valign='middle' style='padding-left:16px;white-space:nowrap;'>{btn}</td>"
-        f"</tr></table>"
-        f"</td></tr></table>"
+        "<tr><td bgcolor='#5b8def' style=\"background:#5b8def;"
+        "background:linear-gradient(135deg,#5b8def 0%,#a78bfa 50%,#f472b6 100%);padding:26px 30px;\">"
+        "<table role='presentation' width='100%' cellpadding='0' cellspacing='0'><tr>"
+        "<td style='vertical-align:middle;'>"
+        "<div style='font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.82);font-weight:600;text-transform:uppercase;'>SENTINEL · Regulatory Watch</div>"
+        "<div style='font-size:23px;font-weight:800;color:#ffffff;margin-top:4px;'>주간 규제 다이제스트</div>"
+        "<div style='font-size:12px;color:rgba(255,255,255,.85);margin-top:3px;'>2차전지 · 친환경 · 수소 · 우주환경 — 사내 R&amp;D 본부</div>"
+        "</td>"
+        "<td align='right' style='vertical-align:middle;white-space:nowrap;'>"
+        f"<div style='display:inline-block;background:rgba(255,255,255,.18);color:#ffffff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;'>{escape(week)}</div>"
+        "</td></tr></table></td></tr>"
     )
 
 
-def _email_metric_cards(total: int, domain_counts: dict[str, int]) -> str:
-    cells = _card_cell("신규 변화", str(total), "#0369A1", "#EFF6FF", "#DBEAFE")
-    for domain, cnt in domain_counts.items():
-        label = DOMAIN_LABELS_KO.get(domain, domain)
-        cells += _card_cell(label, str(cnt), "#065F46", "#ECFDF5", "#D1FAE5")
+def _email_metrics(changed_count: int, stats: dict) -> str:
+    collected = stats.get("total_collected", "—")
+    s1 = stats.get("passed_screen1", "—")
+    s2 = stats.get("passed_screen2", "—")
+    changed = stats.get("changed_this_week", changed_count)
+    dropped = stats.get("dropped_citation_mismatch", 0)
+    noise = ""
+    if isinstance(collected, int) and isinstance(s1, int):
+        noise = f"노이즈 {max(collected - s1, 0)}건 필터 · 인용 미확인 {dropped}건 drop"
+
     return (
-        f"<table width='100%' cellpadding='0' cellspacing='8' border='0' "
-        f"style='background:#FFFFFF;padding:0;border-left:1px solid #E2E8F0;"
-        f"border-right:1px solid #E2E8F0;'>"
-        f"<tr><td style='padding:16px 20px;'>"
-        f"<table width='100%' cellpadding='0' cellspacing='8' border='0'>"
-        f"<tr>{cells}</tr></table>"
-        f"</td></tr></table>"
+        "<tr><td style='padding:20px 22px 6px 22px;'>"
+        "<table role='presentation' width='100%' cellpadding='0' cellspacing='0'><tr>"
+        "<td width='40%' style='padding:6px;'>"
+        "<div style='background:#f0f5ff;border:1px solid #d8e4fb;border-radius:12px;padding:16px;text-align:center;'>"
+        f"<div style='font-size:30px;font-weight:800;color:#3b6fd4;line-height:1;'>{changed_count}</div>"
+        "<div style='font-size:12px;color:#6b7280;margin-top:5px;'>이번 주 신규 · 변경</div>"
+        "</div></td>"
+        "<td width='60%' style='padding:6px;'>"
+        "<div style='background:#f7f8fa;border:1px solid #eceef2;border-radius:12px;padding:14px 16px;'>"
+        "<div style='font-size:11px;color:#9ca3af;margin-bottom:6px;'>수집 → 스크리닝 파이프라인</div>"
+        "<div style='font-size:13px;color:#374151;font-weight:600;'>"
+        f"수집 <span style='color:#111827;'>{collected}</span> "
+        f"<span style='color:#d1d5db;'>→</span> 1차 <span style='color:#111827;'>{s1}</span> "
+        f"<span style='color:#d1d5db;'>→</span> 2차 <span style='color:#111827;'>{s2}</span> "
+        f"<span style='color:#d1d5db;'>→</span> 변경 <span style='color:#3b6fd4;'>{changed}</span>"
+        "</div>"
+        + (f"<div style='font-size:11px;color:#9ca3af;margin-top:6px;'>{escape(noise)}</div>" if noise else "")
+        + "</div></td>"
+        "</tr></table></td></tr>"
     )
 
 
-def _card_cell(label: str, value: str, fg: str, bg: str, border: str) -> str:
+def _email_failure_alert(stats: dict) -> str:
+    failures: list[str] = stats.get("collection_failures") or []
+    if not failures:
+        return ""
+    labels = []
+    for sid in failures:
+        country = _SOURCE_COUNTRY.get(sid, "")
+        ctl = _COUNTRY_BADGE.get(country, (sid, "", ""))[0] if country else sid
+        labels.append(f"{escape(str(ctl))}({escape(sid)})")
+    joined = ", ".join(labels)
     return (
-        f"<td style='background:{bg};border-radius:8px;padding:14px;text-align:center;"
-        f"border:1px solid {border};'>"
-        f"<p style='margin:0;{_FONT}font-size:28px;font-weight:bold;color:{fg};'>{escape(value)}</p>"
-        f"<p style='margin:4px 0 0;{_FONT}font-size:11px;color:#6B7280;'>{escape(label)}</p>"
-        f"</td>"
+        "<tr><td style='padding:4px 28px 0 28px;'>"
+        "<table role='presentation' width='100%' cellpadding='0' cellspacing='0' "
+        "style='background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;'><tr><td style='padding:11px 14px;'>"
+        "<span style='font-size:12px;font-weight:700;color:#b45309;'>⚠ 수집 실패</span>"
+        f"<span style='font-size:12px;color:#92400e;'> · {joined} 0건 수집 — 네트워크/접근 문제로 추정. "
+        "<b>\"변화 없음\"이 아니라 미수집</b>이므로 해당 출처 항목은 이번 주 누락. 운영자 확인 필요.</span>"
+        "</td></tr></table></td></tr>"
+    )
+
+
+def _email_country_table(
+    changed_items: list[Regulation],
+    profiles: list[ProfileSpec],
+    stats: dict,
+) -> str:
+    by_country: dict[str, list[Regulation]] = defaultdict(list)
+    for item in changed_items:
+        by_country[item.country].append(item)
+
+    failures: list[str] = stats.get("collection_failures") or []
+    failed_countries = {_SOURCE_COUNTRY.get(sid) for sid in failures if _SOURCE_COUNTRY.get(sid)}
+
+    rows: list[str] = []
+    countries = sorted(
+        by_country.keys(),
+        key=lambda c: _COUNTRY_ORDER.index(c) if c in _COUNTRY_ORDER else 99,
+    )
+    for c in countries:
+        regs = by_country[c]
+        label = _COUNTRY_BADGE.get(c, (c, "#374151", "#eef0f3"))[0]
+        domains = " · ".join(
+            dict.fromkeys(DOMAIN_LABELS_KO.get(r.domain, r.domain) for r in regs)
+        )
+        rows.append(
+            f"<tr><td style='padding:9px 12px;color:#374151;font-weight:600;border-bottom:1px solid #f3f4f6;'>{escape(label)}</td>"
+            f"<td style='padding:9px 12px;color:#3b6fd4;font-weight:700;border-bottom:1px solid #f3f4f6;'>{len(regs)}</td>"
+            f"<td style='padding:9px 12px;color:#6b7280;border-bottom:1px solid #f3f4f6;'>{escape(domains)}</td></tr>"
+        )
+
+    for c in sorted(failed_countries - set(by_country.keys())):
+        label = _COUNTRY_BADGE.get(c, (c, "", ""))[0]
+        rows.append(
+            f"<tr><td style='padding:9px 12px;color:#b45309;font-weight:600;'>{escape(label)}</td>"
+            "<td style='padding:9px 12px;color:#9ca3af;'>—</td>"
+            "<td style='padding:9px 12px;color:#b45309;font-size:11px;'>수집 실패 (위 알림 참조)</td></tr>"
+        )
+
+    if not rows:
+        rows.append(
+            "<tr><td colspan='3' style='padding:12px;color:#9ca3af;text-align:center;'>이번 주 변경 항목 없음</td></tr>"
+        )
+
+    # 변경 없는 도메인 (추적 지속)
+    changed_domains = {r.domain for r in changed_items}
+    quiet = [
+        f"{_DOMAIN_ICONS.get(p.domain,'')} {DOMAIN_LABELS_KO.get(p.domain, p.domain)}"
+        for p in profiles
+        if p.domain not in changed_domains
+    ]
+    quiet_line = (
+        f"<div style='font-size:11px;color:#9ca3af;margin-top:7px;'>변경 없는 도메인 (추적 지속): {escape(', '.join(quiet))} — 이번 주 변화 없음</div>"
+        if quiet else ""
+    )
+
+    return (
+        "<tr><td style='padding:16px 28px 4px 28px;'>"
+        "<div style='font-size:13px;font-weight:700;color:#111827;margin-bottom:8px;'>국가별 변경 분포</div>"
+        "<table role='presentation' width='100%' cellpadding='0' cellspacing='0' "
+        "style='border:1px solid #eceef2;border-radius:10px;overflow:hidden;font-size:12.5px;'>"
+        "<tr style='background:#f7f8fa;'>"
+        "<td style='padding:8px 12px;color:#9ca3af;font-size:11px;font-weight:600;border-bottom:1px solid #eceef2;'>국가</td>"
+        "<td style='padding:8px 12px;color:#9ca3af;font-size:11px;font-weight:600;border-bottom:1px solid #eceef2;'>변경</td>"
+        "<td style='padding:8px 12px;color:#9ca3af;font-size:11px;font-weight:600;border-bottom:1px solid #eceef2;'>도메인</td>"
+        "</tr>"
+        f"{''.join(rows)}"
+        "</table>"
+        f"{quiet_line}"
+        "</td></tr>"
     )
 
 
 def _email_domain_section(domain: str, by_country: dict[str, list[Regulation]]) -> str:
     label = DOMAIN_LABELS_KO.get(domain, domain)
-    icon = DOMAIN_ICONS.get(domain, "")
+    icon = _DOMAIN_ICONS.get(domain, "")
+    color = _DOMAIN_COLORS.get(domain, "#5b8def")
     total = sum(len(v) for v in by_country.values())
 
-    country_order = _COUNTRY_ORDER
-    sorted_countries = sorted(
-        by_country.keys(),
-        key=lambda c: country_order.index(c) if c in country_order else 999,
+    header = (
+        "<tr><td style='padding:18px 28px 0 28px;'>"
+        f"<div style='font-size:15px;font-weight:700;color:#111827;border-left:3px solid {color};padding-left:10px;'>"
+        f"{escape(icon)} {escape(label)} <span style='color:#9ca3af;font-weight:500;font-size:12px;'>· {total}건</span></div>"
+        "</td></tr>"
     )
 
-    rows: list[str] = []
+    sorted_countries = sorted(
+        by_country.keys(),
+        key=lambda c: _COUNTRY_ORDER.index(c) if c in _COUNTRY_ORDER else 99,
+    )
+    cards: list[str] = []
     for country in sorted_countries:
-        c_label = COUNTRY_LABELS_KO.get(country, country)
-        rows.append(
-            f"<tr><td style='padding:12px 24px 4px;'>"
-            f"<span style='{_FONT}font-size:12px;font-weight:bold;color:#374151;"
-            f"background:#F1F5F9;padding:3px 10px;border-radius:10px;'>"
-            f"{escape(c_label)}</span></td></tr>"
-        )
         items_sorted = sorted(
             by_country[country],
             key=lambda r: _LIFECYCLE_SORT.index(r.lifecycle_stage)
             if r.lifecycle_stage in _LIFECYCLE_SORT else 99,
         )
         for reg in items_sorted:
-            rows.append(f"<tr><td style='padding:0 20px 12px;'>{_email_reg_card(reg)}</td></tr>")
+            cards.append(_email_reg_card(reg, color))
 
+    return header + "".join(cards)
+
+
+def _badge(label: str, bg: str, fg: str, *, white: bool = False) -> str:
+    fg_final = "#ffffff" if white else fg
     return (
-        f"<table width='100%' cellpadding='0' cellspacing='0' border='0' "
-        f"style='background:#FFFFFF;margin-top:16px;border-radius:8px;"
-        f"border:1px solid #E2E8F0;overflow:hidden;'>"
-        f"<tr><td style='background:#F8FAFC;padding:12px 24px;border-bottom:2px solid #0F2944;'>"
-        f"<span style='{_FONT}font-size:15px;font-weight:bold;color:#0F2944;'>"
-        f"{escape(icon)} {escape(label)}</span>"
-        f"<span style='{_FONT}font-size:12px;color:#94A3B8;margin-left:8px;'>{total}건 신규</span>"
-        f"</td></tr>"
-        f"<tr><td>"
-        f"<table width='100%' cellpadding='0' cellspacing='0' border='0'>"
-        f"{''.join(rows)}"
-        f"</table></td></tr>"
-        f"</table>"
+        f"<span style='display:inline-block;font-size:10px;font-weight:700;color:{fg_final};"
+        f"background:{bg};padding:2px 8px;border-radius:6px;margin-left:3px;'>{escape(label)}</span>"
     )
 
 
-def _email_reg_card(reg: Regulation) -> str:
-    lc_bg, lc_fg = LIFECYCLE_COLORS.get(reg.lifecycle_stage, ("#F3F4F6", "#374151"))
-    al_bg, al_fg = ALERT_COLORS.get(reg.alert, ("#F3F4F6", "#374151"))
+def _email_reg_card(reg: Regulation, domain_color: str) -> str:
+    ct_label, ct_fg, ct_bg = _COUNTRY_BADGE.get(reg.country, (reg.country, "#4b5563", "#eef0f3"))
+    lc_bg, lc_fg = _LC_COLORS.get(reg.lifecycle_stage, ("#eef0f3", "#4b5563"))
     lc_label = LIFECYCLE_LABELS_KO.get(reg.lifecycle_stage, reg.lifecycle_stage)
-    al_label = ALERT_LABELS_KO.get(reg.alert, reg.alert)
-    it_label = IMPACT_TYPE_LABELS_KO.get(reg.impact_type, reg.impact_type)
+    al_label, al_bg, al_fg = _AL_BADGE.get(reg.alert, (reg.alert, "#eef0f3", "#6b7280"))
+    it_label, it_bg, it_fg = _IT_BADGE.get(reg.impact_type, (reg.impact_type, "#eef0f3", "#6b7280"))
 
-    return (
-        f"<table width='100%' cellpadding='0' cellspacing='0' border='0' "
-        f"style='background:#FFFFFF;border:1px solid #E2E8F0;border-radius:6px;"
-        f"border-left:4px solid {lc_fg};'>"
-        f"<tr><td style='padding:14px 16px;'>"
-        # title row
-        f"<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
-        f"<td valign='top'>"
-        f"<a href='{escape(reg.source_url)}' style='{_FONT}font-size:14px;font-weight:bold;"
-        f"color:#1E40AF;text-decoration:none;'>{escape(reg.name)}</a>"
-        f"</td>"
-        f"<td style='white-space:nowrap;padding-left:10px;' valign='top'>"
-        f"<span style='background:{lc_bg};color:{lc_fg};{_FONT}font-size:11px;"
-        f"font-weight:bold;padding:2px 8px;border-radius:10px;'>{escape(lc_label)}</span>"
-        f"&nbsp;"
-        f"<span style='background:{al_bg};color:{al_fg};{_FONT}font-size:11px;"
-        f"font-weight:bold;padding:2px 8px;border-radius:10px;'>{escape(al_label)}</span>"
-        f"&nbsp;"
-        f"<span style='background:#F3F4F6;color:#374151;{_FONT}font-size:11px;"
-        f"padding:2px 8px;border-radius:10px;'>{escape(it_label)}</span>"
-        f"</td></tr></table>"
-        # meta
-        f"<p style='margin:6px 0 0;{_FONT}font-size:12px;color:#6B7280;'>"
-        f"출처: {escape(reg.source)} &nbsp;|&nbsp; {escape(reg.date_text)}"
-        f" &nbsp;|&nbsp; 신뢰도 {escape(reg.confidence)}</p>"
-        # impact
-        f"<p style='margin:8px 0 0;{_FONT}font-size:13px;color:#374151;'>"
-        f"{escape(reg.rd_impact)}</p>"
-        # citation
-        + (
-            f"<blockquote style='margin:8px 0 0 0;padding:8px 12px;"
-            f"background:#F8FAFC;border-left:3px solid #CBD5E1;"
-            f"{_FONT}font-size:12px;color:#64748B;font-style:italic;'>"
-            f"&ldquo;{escape(reg.citation_quote[:300])}&rdquo;</blockquote>"
-            if reg.citation_quote else ""
+    badges = (
+        f"<span style='display:inline-block;font-size:10px;font-weight:700;color:{ct_fg};"
+        f"background:{ct_bg};padding:2px 8px;border-radius:6px;'>{escape(ct_label)}</span>"
+        + _badge(lc_label, lc_bg, lc_fg)
+        + _badge(al_label, al_bg, al_fg)
+        + _badge(it_label, it_bg, it_fg)
+        + (_badge("● 이번 주", "#5b8def", "", white=True) if reg.changed_this_week else "")
+    )
+
+    # R&D 영향 박스: direct → 핑크 강조, indirect/기타 → 그레이
+    if reg.impact_type == "direct":
+        impact_box = (
+            "<div style='font-size:12px;color:#374151;line-height:1.5;margin-top:8px;"
+            "background:#fff5f7;border:1px solid #fbd5e3;border-radius:8px;padding:8px 10px;'>"
+            f"<b style='color:#be3a6e;'>R&amp;D 영향</b> · {escape(reg.rd_impact)}</div>"
         )
-        + f"</td></tr></table>"
+    else:
+        impact_box = (
+            "<div style='font-size:12px;color:#374151;line-height:1.5;margin-top:8px;"
+            "background:#f7f8fa;border-radius:8px;padding:8px 10px;'>"
+            f"<b style='color:#3b6fd4;'>R&amp;D 영향</b> · {escape(reg.rd_impact)}</div>"
+        )
+
+    citation = (
+        "<div style='font-size:11.5px;color:#6b7280;font-style:italic;line-height:1.5;margin-top:8px;"
+        f"border-left:2px solid #e6e8ed;padding-left:10px;'>&ldquo;{escape(reg.citation_quote[:300])}&rdquo;</div>"
+        if reg.citation_quote else ""
     )
 
+    # 이력 trail (최근 2건 인라인)
+    trail = ""
+    if reg.history:
+        recent = sorted(reg.history, key=lambda h: h.date, reverse=True)[:2]
+        parts = [
+            f"{escape(h.date)} {escape(LIFECYCLE_LABELS_KO.get(h.stage, h.stage))} {escape(h.note)}".strip()
+            for h in recent
+        ]
+        trail = (
+            "<div style='font-size:11px;color:#9ca3af;margin-top:8px;'>이력: "
+            + " → ".join(parts) + "</div>"
+        )
 
-def _email_footer(run_date: str, btn_url: str) -> str:
-    link = (
-        f"<a href='{escape(btn_url)}' style='color:#0369A1;text-decoration:none;'>"
-        f"전체 규제 레이더 보기 &rarr;</a>"
-    ) if btn_url and btn_url != "#" else ""
+    source_line = (
+        "<div style='font-size:11px;color:#9ca3af;margin-top:4px;'>출처 "
+        f"<a href='{escape(reg.source_url)}' target='_blank' style='color:#3b6fd4;text-decoration:none;'>{escape(reg.source)} ↗</a>"
+        f" · 신뢰도 {escape(reg.confidence)} · 확인 {escape(reg.checked_at)}</div>"
+    )
+
     return (
-        f"<table width='100%' cellpadding='0' cellspacing='0' border='0' "
-        f"style='background:#FFFFFF;border-radius:0 0 8px 8px;"
-        f"border:1px solid #E2E8F0;border-top:none;'>"
-        f"<tr><td style='padding:16px 24px;text-align:center;"
-        f"{_FONT}font-size:11px;color:#9CA3AF;'>"
-        f"SENTINEL 자동 생성 리포트 — {escape(run_date)}<br>"
-        f"tier-1 출처 기반 &nbsp;|&nbsp; 원문 인용 포함 &nbsp;|&nbsp; "
-        f"lifecycle 단정은 원문 명시 기준<br>{link}"
-        f"</td></tr></table>"
+        "<tr><td style='padding:10px 28px 0 28px;'>"
+        "<table role='presentation' width='100%' cellpadding='0' cellspacing='0' "
+        "style='border:1px solid #eceef2;border-radius:12px;'><tr>"
+        f"<td style='padding:14px 16px;border-left:3px solid {domain_color};border-radius:12px;'>"
+        f"<div>{badges}</div>"
+        f"<div style='font-size:14px;font-weight:700;color:#111827;margin-top:8px;'>{escape(reg.name)}</div>"
+        f"<div style='font-size:12.5px;color:#4b5563;line-height:1.55;margin-top:4px;'>{escape(reg.summary)}</div>"
+        f"{impact_box}{citation}{trail}{source_line}"
+        "</td></tr></table></td></tr>"
+    )
+
+
+def _email_cta(btn_url: str) -> str:
+    if not btn_url or btn_url == "#":
+        return ""
+    return (
+        "<tr><td align='center' style='padding:26px 28px 8px 28px;'>"
+        "<table role='presentation' cellpadding='0' cellspacing='0'><tr>"
+        "<td bgcolor='#3b6fd4' style='border-radius:10px;'>"
+        f"<a href='{escape(btn_url)}' target='_blank' style='display:inline-block;padding:13px 28px;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;'>전체 레지스트리 대시보드 보기 →</a>"
+        "</td></tr></table>"
+        "<div style='font-size:11px;color:#9ca3af;margin-top:10px;'>변경 없이 추적 중인 전체 규제 · 항목별 변경 이력 타임라인</div>"
+        "</td></tr>"
+    )
+
+
+def _email_footer(week: str) -> str:
+    return (
+        "<tr><td style='padding:18px 28px 26px 28px;'>"
+        "<div style='border-top:1px solid #eceef2;padding-top:14px;'>"
+        "<div style='font-size:11px;color:#9ca3af;line-height:1.6;'>"
+        "1차 출처 기반 자동 수집·요약. lifecycle 단계는 명시 출처 기준이며 불명확 시 "
+        "<b style='color:#6b7280;'>불명확</b>으로 표기. 인용 출처 미확인 항목은 자동 제외. "
+        "수집 0건은 \"변화 없음\"과 구분하여 실패로 표기."
+        "</div>"
+        f"<div style='font-size:11px;color:#c4c9d1;margin-top:9px;'>SENTINEL · 사내 R&amp;D 규제 인텔리전스 · 주간 발송 · {escape(week)}</div>"
+        "</div></td></tr>"
     )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# DASHBOARD
+# DASHBOARD  (디자인: templates/radar_reference_v3.html — v4)
 # ══════════════════════════════════════════════════════════════════════════════
 
-def build_dashboard(all_regs: list[Regulation]) -> str:
-    """Full-page dashboard HTML with all registry regulations.
+_TEMPLATE_PATH = Path(__file__).resolve().parent.parent / "templates" / "radar_reference_v3.html"
+_REG_DATA_RE = re.compile(
+    r"/\* SENTINEL_REG_DATA \*/.*?/\* END SENTINEL_REG_DATA \*/",
+    re.DOTALL,
+)
 
-    Design: templates/radar_reference_v3.html
-    Data injected as REG JSON array into a <script> block.
-    XSS-safe: </script> injection prevented via _safe_json().
+
+def build_dashboard(
+    all_regs: list[Regulation],
+    stats: Optional[dict] = None,
+    digest_id: str = "",
+    generated_at: str = "",
+) -> str:
+    """전체 레지스트리 대시보드 HTML.
+
+    v4 템플릿(radar_reference_v3.html)을 읽어 /* SENTINEL_REG_DATA */ 블록의
+    REG 배열만 교체한다. CSS/마크업/JS/element ID는 불변.
+    stats 가 주어지면 수집 상태 스트립(#collect-strip)을 채워 노출한다.
     """
-    reg_data = _safe_json([r.model_dump() for r in all_regs])
-    generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
-    # Replace full placeholder (including empty-array fallback) with actual data
-    return (
-        _DASHBOARD_TEMPLATE
-        .replace("/*SENTINEL_REG_DATA*/[]", reg_data)
-        .replace("/*SENTINEL_GENERATED_AT*/", generated_at)
+    template = _TEMPLATE_PATH.read_text(encoding="utf-8")
+    reg_json = _safe_json([r.model_dump() for r in all_regs])
+
+    replacement = (
+        "/* SENTINEL_REG_DATA */\n"
+        f"var REG = {reg_json};\n"
+        "/* END SENTINEL_REG_DATA */"
     )
+    html = _REG_DATA_RE.sub(lambda _m: replacement, template, count=1)
+
+    if stats:
+        html = _inject_collect_strip(html, stats, digest_id, generated_at)
+
+    return html
+
+
+def _inject_collect_strip(html: str, stats: dict, digest_id: str, generated_at: str) -> str:
+    week = digest_id or stats.get("digest_id") or _iso_week()
+    gen = generated_at or datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    by_source: dict = stats.get("by_source") or {}
+    ok = sum(1 for v in by_source.values() if v.get("status") == "ok")
+    failed = [sid for sid, v in by_source.items() if v.get("status") != "ok"]
+
+    week_html = (
+        f"<b>{escape(week)}</b> · 수집 {stats.get('total_collected', '—')} "
+        f"→ 1차 {stats.get('passed_screen1', '—')} "
+        f"→ 2차 {stats.get('passed_screen2', '—')} "
+        f"→ 변경 {stats.get('changed_this_week', '—')} · 생성 {escape(gen)}"
+    )
+    src_parts = [f"<span class='src-ok'>정상 {ok}</span>"]
+    if failed:
+        src_parts.append(
+            "<span class='src-fail'>실패 " + str(len(failed)) + "</span> ("
+            + escape(", ".join(failed)) + ")"
+        )
+    src_html = " · ".join(src_parts)
+
+    html = html.replace(
+        '<div class="collect-strip" id="collect-strip" style="display:none;">',
+        '<div class="collect-strip" id="collect-strip">',
+    )
+    html = html.replace(
+        '<span id="collect-week"></span>',
+        f'<span id="collect-week">{week_html}</span>',
+    )
+    html = html.replace(
+        '<span id="collect-sources"></span>',
+        f'<span id="collect-sources">{src_html}</span>',
+    )
+    return html
 
 
 def _safe_json(data: Any) -> str:
     raw = json.dumps(data, ensure_ascii=False)
     return raw.replace("</", "<\\/").replace("<!--", "<\\!--")
-
-
-# ── Dashboard HTML template ───────────────────────────────────────────────────
-# Mirrors radar_reference_v3.html design; REG data injected at runtime.
-
-_DASHBOARD_TEMPLATE = """<!DOCTYPE html>
-<html lang="ko" data-theme="light">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SENTINEL Regulatory Radar</title>
-<style>
-:root{--bg:#F0F4F8;--surface:#FFFFFF;--surface2:#F8FAFC;--border:#E2E8F0;
-  --text:#1E293B;--text2:#64748B;--text3:#94A3B8;--accent:#0F2944;
-  --accent-hi:#38BDF8;--shadow:rgba(0,0,0,.07);}
-[data-theme="dark"]{--bg:#0A0F1E;--surface:#161D2E;--surface2:#1E293B;
-  --border:#2D3748;--text:#E2E8F0;--text2:#94A3B8;--text3:#64748B;
-  --accent:#38BDF8;--accent-hi:#7DD3FC;--shadow:rgba(0,0,0,.4);}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;}
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);
-  padding:12px 24px;display:flex;align-items:center;gap:12px;
-  position:sticky;top:0;z-index:100;box-shadow:0 1px 4px var(--shadow);}
-.logo{font-weight:800;font-size:18px;color:var(--accent);letter-spacing:-.5px;}
-.bdg{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;}
-.bdg-tot{background:#DBEAFE;color:#1E40AF;}
-.bdg-chg{background:#FEF3C7;color:#92400E;}
-.spacer{flex:1;}
-.topbar-meta{font-size:11px;color:var(--text3);}
-.controls{background:var(--surface2);border-bottom:1px solid var(--border);
-  padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.fg{display:flex;gap:4px;flex-wrap:wrap;}
-.fb{background:var(--surface);border:1px solid var(--border);color:var(--text2);
-  font-size:12px;padding:5px 12px;border-radius:6px;cursor:pointer;transition:all .15s;line-height:1;}
-.fb:hover{border-color:var(--accent);color:var(--accent);}
-.fb.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-[data-theme="dark"] .fb.active{color:#0A0F1E;}
-.sep{height:22px;width:1px;background:var(--border);flex-shrink:0;}
-.vt{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
-.vb{padding:5px 14px;font-size:12px;background:var(--surface);color:var(--text2);
-  cursor:pointer;border:none;transition:all .15s;line-height:1;}
-.vb.active{background:var(--accent);color:#fff;}
-[data-theme="dark"] .vb.active{color:#0A0F1E;}
-.tbtn{background:var(--surface);border:1px solid var(--border);color:var(--text2);
-  font-size:12px;padding:5px 12px;border-radius:6px;cursor:pointer;}
-.count-bar{padding:10px 24px 0;font-size:12px;color:var(--text3);}
-#card-view{padding:16px 24px 32px;}
-.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;}
-.rc{background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  padding:16px;cursor:pointer;transition:box-shadow .15s,transform .1s;position:relative;}
-.rc:hover{box-shadow:0 4px 18px var(--shadow);transform:translateY(-2px);}
-.rc.chg{border-left:4px solid #F59E0B;}
-.ctag{position:absolute;top:10px;right:10px;background:#FEF3C7;color:#92400E;
-  font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
-.cb{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;}
-.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
-.ct{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.4;}
-.cm{font-size:11px;color:var(--text2);margin-bottom:6px;}
-.cs{font-size:12px;color:var(--text2);line-height:1.5;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-#table-view{padding:16px 24px 32px;display:none;overflow-x:auto;}
-.rt{width:100%;border-collapse:collapse;min-width:760px;}
-.rt th{background:var(--surface2);font-size:11px;font-weight:700;color:var(--text2);
-  padding:9px 12px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap;}
-.rt td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle;}
-.rt tr:hover td{background:var(--surface2);cursor:pointer;}
-.nc{font-weight:600;color:var(--text);max-width:260px;}
-.sc{max-width:200px;color:var(--text2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
-.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);
-  z-index:200;align-items:center;justify-content:center;}
-.modal-ov.open{display:flex;}
-.modal{background:var(--surface);border-radius:12px;max-width:560px;width:90%;
-  max-height:82vh;overflow:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
-.mhd{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;}
-.mtit{font-size:16px;font-weight:700;flex:1;line-height:1.4;}
-.mclose{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text2);padding:0;flex-shrink:0;}
-.mbd{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
-.mimp{font-size:13px;color:var(--text2);margin-bottom:8px;line-height:1.5;}
-.msrc{font-size:12px;color:var(--text3);margin-bottom:16px;}
-.tllbl{font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;}
-.tl{position:relative;padding-left:22px;}
-.tl::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--border);}
-.tli{position:relative;margin-bottom:16px;}
-.tld{position:absolute;left:-18px;top:4px;width:10px;height:10px;border-radius:50%;
-  background:var(--accent);border:2px solid var(--surface);}
-.tldate{font-size:11px;color:var(--text3);margin-bottom:3px;}
-.tlnote{font-size:13px;color:var(--text);line-height:1.4;}
-.tlsrc{font-size:11px;color:var(--text3);margin-top:2px;}
-.empty{text-align:center;padding:60px 24px;color:var(--text3);}
-.empty-icon{font-size:40px;margin-bottom:8px;}
-.lc-proposed{background:#DBEAFE;color:#1E40AF;}
-.lc-enacted{background:#FEF3C7;color:#92400E;}
-.lc-in_force{background:#D1FAE5;color:#065F46;}
-.lc-amended{background:#EDE9FE;color:#5B21B6;}
-.lc-repealed{background:#FEE2E2;color:#991B1B;}
-.lc-unclear{background:#F3F4F6;color:#374151;}
-.al-urgent{background:#FEE2E2;color:#991B1B;}
-.al-watch{background:#FEF9C3;color:#854D0E;}
-.al-opp{background:#D1FAE5;color:#065F46;}
-.al-mon{background:#F3F4F6;color:#374151;}
-.dm-secondary_battery{background:#EFF6FF;color:#1E40AF;}
-.dm-green_eco{background:#ECFDF5;color:#065F46;}
-.dm-hydrogen{background:#FFF7ED;color:#9A3412;}
-.dm-space_environment{background:#F5F3FF;color:#5B21B6;}
-.ct-EU{background:#FEF3C7;color:#92400E;}
-.ct-US{background:#DBEAFE;color:#1E40AF;}
-.ct-KR{background:#FEE2E2;color:#991B1B;}
-.ct-CN{background:#FCE7F3;color:#9D174D;}
-.ct-def{background:#F3F4F6;color:#374151;}
-.cf-A{color:#065F46;font-weight:700;}
-.cf-B{color:#92400E;}
-.cf-C{color:#94A3B8;}
-</style>
-</head>
-<body>
-<script>
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-/* SENTINEL_REG_DATA */
-var REG = /*SENTINEL_REG_DATA*/[];
-var _GEN = "/*SENTINEL_GENERATED_AT*/";
-</script>
-
-<div class="topbar">
-  <span class="logo">⚡ SENTINEL Regulatory Radar</span>
-  <span class="bdg bdg-tot" id="tot-bdg">전체 0건</span>
-  <span class="bdg bdg-chg" id="chg-bdg">이번 주 0건 변경</span>
-  <span class="spacer"></span>
-  <span class="topbar-meta" id="meta-ts"></span>
-</div>
-
-<div class="controls">
-  <div class="fg" id="df">
-    <button class="fb active" data-domain="all">전체 도메인</button>
-    <button class="fb" data-domain="secondary_battery">🔋 2차전지</button>
-    <button class="fb" data-domain="green_eco">🌿 친환경</button>
-    <button class="fb" data-domain="hydrogen">⚡ 수소</button>
-    <button class="fb" data-domain="space_environment">🛸 우주환경</button>
-  </div>
-  <div class="sep"></div>
-  <div class="fg" id="cf">
-    <button class="fb active" data-country="all">전체 국가</button>
-    <button class="fb" data-country="EU">EU</button>
-    <button class="fb" data-country="US">미국</button>
-    <button class="fb" data-country="KR">한국</button>
-    <button class="fb" data-country="CN">중국</button>
-    <button class="fb" data-country="INTL">국제</button>
-  </div>
-  <div class="sep"></div>
-  <div class="vt">
-    <button class="vb active" id="bcard">▤ 카드</button>
-    <button class="vb" id="btable">☰ 테이블</button>
-  </div>
-  <button class="tbtn" id="btheme">🌙 다크</button>
-</div>
-
-<div class="count-bar" id="cbar"></div>
-
-<div id="card-view">
-  <div class="cg" id="cgrid"></div>
-  <div class="empty" id="cempty" style="display:none"><div class="empty-icon">📭</div><p>표시할 규제 항목이 없습니다</p></div>
-</div>
-
-<div id="table-view">
-  <table class="rt">
-    <thead><tr>
-      <th>규제명</th><th>도메인</th><th>국가</th><th>단계</th>
-      <th>Alert</th><th>영향 요약</th><th>신뢰도</th><th>확인일</th><th>변경</th>
-    </tr></thead>
-    <tbody id="tbody"></tbody>
-  </table>
-  <div class="empty" id="tempty" style="display:none"><div class="empty-icon">📭</div><p>표시할 규제 항목이 없습니다</p></div>
-</div>
-
-<div class="modal-ov" id="mov">
-  <div class="modal">
-    <div class="mhd"><div class="mtit" id="mtit"></div><button class="mclose" id="mclose">✕</button></div>
-    <div class="mbd" id="mbd"></div>
-    <div class="mimp" id="mimp"></div>
-    <div class="msrc" id="msrc"></div>
-    <div class="tllbl">이력 타임라인</div>
-    <div class="tl" id="mtl"></div>
-  </div>
-</div>
-
-<script>
-var LCL={proposed:'입법예고',enacted:'공포',in_force:'시행',amended:'개정',repealed:'폐지',unclear:'불명확'};
-var LCC={proposed:'lc-proposed',enacted:'lc-enacted',in_force:'lc-in_force',amended:'lc-amended',repealed:'lc-repealed',unclear:'lc-unclear'};
-var ALL={urgent:'긴급',watch:'주시',opp:'기회',mon:'모니터링'};
-var ALC={urgent:'al-urgent',watch:'al-watch',opp:'al-opp',mon:'al-mon'};
-var DML={secondary_battery:'2차전지',green_eco:'친환경',hydrogen:'수소',space_environment:'우주환경'};
-var DMI={secondary_battery:'🔋',green_eco:'🌿',hydrogen:'⚡',space_environment:'🛸'};
-var CTL={EU:'EU',US:'미국',KR:'한국',CN:'중국',JP:'일본',INTL:'국제'};
-function ctc(c){var m={EU:'ct-EU',US:'ct-US',KR:'ct-KR',CN:'ct-CN'};return m[c]||'ct-def';}
-function b(t,c){return '<span class="badge '+esc(c)+'">'+esc(String(t))+'</span>';}
-var adm='all',act='all',view='card',dark=false;
-function filt(){return REG.filter(function(r){
-  if(adm!=='all'&&r.domain!==adm)return false;
-  if(act!=='all'&&r.country!==act)return false;
-  return true;
-});}
-function bar(n){document.getElementById('cbar').textContent='표시 '+n+'건 / 전체 '+REG.length+'건';}
-function renderCards(){
-  var items=filt(),g=document.getElementById('cgrid'),e=document.getElementById('cempty');
-  bar(items.length);
-  if(!items.length){g.innerHTML='';e.style.display='block';return;}
-  e.style.display='none';
-  g.innerHTML=items.map(function(r){
-    var ch=r.changed_this_week;
-    return '<div class="rc'+(ch?' chg':'')+'" onclick="openM(\''+esc(r.regulation_id)+'\')">'
-      +(ch?'<span class="ctag">이번 주 ★</span>':'')
-      +'<div class="cb">'
-      +b((DMI[r.domain]||'')+' '+(DML[r.domain]||r.domain),'badge dm-'+r.domain)
-      +b(CTL[r.country]||r.country,'badge '+ctc(r.country))
-      +b(LCL[r.lifecycle_stage]||r.lifecycle_stage,'badge '+(LCC[r.lifecycle_stage]||'lc-unclear'))
-      +b(ALL[r.alert]||r.alert,'badge '+(ALC[r.alert]||'al-mon'))
-      +'</div>'
-      +'<div class="ct">'+esc(r.name)+'</div>'
-      +'<div class="cm">'+esc(CTL[r.country]||r.country)+' &nbsp;|&nbsp; '+esc(r.date_text)+'</div>'
-      +'<div class="cs">'+esc(r.summary)+'</div>'
-      +'</div>';
-  }).join('');
-}
-function renderTable(){
-  var items=filt(),tb=document.getElementById('tbody'),e=document.getElementById('tempty');
-  bar(items.length);
-  if(!items.length){tb.innerHTML='';e.style.display='block';return;}
-  e.style.display='none';
-  tb.innerHTML=items.map(function(r){
-    return '<tr onclick="openM(\''+esc(r.regulation_id)+'\')">'
-      +'<td class="nc">'+esc(r.name)+(r.changed_this_week?' '+b('이번주','badge al-watch'):'')+'</td>'
-      +'<td>'+b((DMI[r.domain]||'')+' '+(DML[r.domain]||r.domain),'badge dm-'+r.domain)+'</td>'
-      +'<td>'+b(CTL[r.country]||r.country,'badge '+ctc(r.country))+'</td>'
-      +'<td>'+b(LCL[r.lifecycle_stage]||r.lifecycle_stage,'badge '+(LCC[r.lifecycle_stage]||'lc-unclear'))+'</td>'
-      +'<td>'+b(ALL[r.alert]||r.alert,'badge '+(ALC[r.alert]||'al-mon'))+'</td>'
-      +'<td class="sc">'+esc(r.rd_impact)+'</td>'
-      +'<td><span class="cf-'+esc(r.confidence)+'">'+esc(r.confidence)+'</span></td>'
-      +'<td style="white-space:nowrap">'+esc(r.checked_at)+'</td>'
-      +'<td style="text-align:center">'+(r.changed_this_week?'★':'—')+'</td>'
-      +'</tr>';
-  }).join('');
-}
-function openM(id){
-  var r=REG.find(function(x){return x.regulation_id===id;});
-  if(!r)return;
-  document.getElementById('mtit').textContent=r.name;
-  document.getElementById('mbd').innerHTML=
-    b((DMI[r.domain]||'')+' '+(DML[r.domain]||r.domain),'badge dm-'+r.domain)+' '
-    +b(CTL[r.country]||r.country,'badge '+ctc(r.country))+' '
-    +b(LCL[r.lifecycle_stage]||r.lifecycle_stage,'badge '+(LCC[r.lifecycle_stage]||'lc-unclear'))+' '
-    +b(ALL[r.alert]||r.alert,'badge '+(ALC[r.alert]||'al-mon'));
-  document.getElementById('mimp').textContent=r.rd_impact;
-  document.getElementById('msrc').innerHTML=
-    '출처: '+esc(r.source)+'&nbsp;&nbsp;<a href="'+esc(r.source_url)+'" target="_blank" '
-    +'style="color:#0369A1;text-decoration:none;">원문 →</a>'
-    +'&nbsp;&nbsp;신뢰도: <span class="cf-'+esc(r.confidence)+'">'+esc(r.confidence)+'</span>'
-    +'&nbsp;&nbsp;확인일: '+esc(r.checked_at);
-  var hist=(r.history||[]).slice().sort(function(a,b2){return b2.date.localeCompare(a.date);});
-  document.getElementById('mtl').innerHTML=hist.length
-    ?hist.map(function(h){
-      return '<div class="tli"><div class="tld"></div>'
-        +'<div class="tldate">'+esc(h.date)+'</div>'
-        +'<div class="tlnote">'+b(LCL[h.stage]||h.stage,'badge '+(LCC[h.stage]||'lc-unclear'))+' '+esc(h.note)+'</div>'
-        +'<div class="tlsrc">'+esc(h.source)+'</div></div>';
-    }).join('')
-    :'<p style="color:var(--text3);font-size:12px">이력 없음</p>';
-  document.getElementById('mov').classList.add('open');
-}
-function updateStats(){
-  var tot=REG.length,ch=REG.filter(function(r){return r.changed_this_week;}).length;
-  document.getElementById('tot-bdg').textContent='전체 '+tot+'건';
-  document.getElementById('chg-bdg').textContent='이번 주 '+ch+'건 변경';
-  document.getElementById('meta-ts').textContent=_GEN?'생성: '+_GEN:'';
-}
-function render(){if(view==='card')renderCards();else renderTable();}
-document.getElementById('df').addEventListener('click',function(e){
-  var bx=e.target.closest('[data-domain]');if(!bx)return;
-  adm=bx.dataset.domain;
-  document.querySelectorAll('[data-domain]').forEach(function(x){x.classList.toggle('active',x===bx);});
-  render();
-});
-document.getElementById('cf').addEventListener('click',function(e){
-  var bx=e.target.closest('[data-country]');if(!bx)return;
-  act=bx.dataset.country;
-  document.querySelectorAll('[data-country]').forEach(function(x){x.classList.toggle('active',x===bx);});
-  render();
-});
-document.getElementById('bcard').addEventListener('click',function(){
-  view='card';
-  document.getElementById('card-view').style.display='block';
-  document.getElementById('table-view').style.display='none';
-  this.classList.add('active');document.getElementById('btable').classList.remove('active');
-  render();
-});
-document.getElementById('btable').addEventListener('click',function(){
-  view='table';
-  document.getElementById('card-view').style.display='none';
-  document.getElementById('table-view').style.display='block';
-  this.classList.add('active');document.getElementById('bcard').classList.remove('active');
-  render();
-});
-document.getElementById('btheme').addEventListener('click',function(){
-  dark=!dark;
-  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-  this.textContent=dark?'☀️ 라이트':'🌙 다크';
-});
-document.getElementById('mclose').addEventListener('click',function(){
-  document.getElementById('mov').classList.remove('open');
-});
-document.getElementById('mov').addEventListener('click',function(e){
-  if(e.target===this)this.classList.remove('open');
-});
-updateStats();render();
-</script>
-</body>
-</html>"""

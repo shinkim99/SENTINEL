@@ -107,10 +107,10 @@ class TestEndpointFirstRun:
         assert (tmp_path / "pending" / "2026-W22.registry.json").exists()
 
     def test_run_html_contains_dashboard_button(self, tmp_path, sample_items):
-        """이메일 HTML에 대시보드 버튼이 포함된다."""
+        """이메일 HTML(v2)에 대시보드 CTA 버튼이 포함된다."""
         resp, _, _ = _run_digest(tmp_path, sample_items)
         html = resp.json()["html"]
-        assert "전체 레이더 보기" in html
+        assert "전체 레지스트리 대시보드 보기" in html
         assert "http://localhost:8010/dashboard" in html
 
 

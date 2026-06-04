@@ -2,7 +2,12 @@
 .env
 
 # 주간 스냅샷 (로컬 상태, 별도 관리)
-data/state/
+data/state/*
+# 단, diff 기준선 registry.json 은 레포에 보존 (서버리스 주간 diff 기준 — GitHub Actions가 커밋)
+!data/state/registry.json
+
+# GitHub Pages 빌드 산출물 (Actions가 매주 재생성)
+public/
 
 # Python
 __pycache__/
