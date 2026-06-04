@@ -34,8 +34,34 @@ jobs:
   digest:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout (최신 master — registry.json 포함)
         uses: actions/checkout@v4
+        with:
+          # workflow_dispatch의 ref_name은 브랜치명(master).
+          # 명시적으로 지정하여 항상 HEAD를 가져옴.
+          ref: ${{ github.ref_name }}
+
+      - name: Debug — registry 사전 확인
+        run: |
+          echo "=== checkout SHA ==="
+          git log --oneline -3
+          echo ""
+          echo "=== data/state/ 목록 ==="
+          ls -la data/state/ 2>/dev/null || echo "(data/state/ 없음 — 첫 실행)"
+          echo ""
+          echo "=== registry.json 규제 수 ==="
+          python3 -c "
+          import json, pathlib
+          p = pathlib.Path('data/state/registry.json')
+          if not p.exists():
+            print('registry.json 없음 — 전부 신규 처리 예정')
+          else:
+            d = json.loads(p.read_text())
+            regs = d.get('regulations', [])
+            print(f'registry.json 존재 — {len(regs)}건 로드 예정')
+            if regs:
+              print('첫 항목 ID:', regs[0].get('regulation_id'))
+          " 2>/dev/null || echo "(Python 파싱 실패)"
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -65,12 +91,23 @@ jobs:
           git config user.name "sentinel-bot"
           git config user.email "actions@github.com"
           git add data/state/registry.json
+
           if git diff --staged --quiet; then
             echo "registry 변경 없음 — 커밋 건너뜀"
           else
             WEEK=$(date -u +%Y-%U)
             git commit -m "chore: weekly registry update ($WEEK) [skip ci]"
-            git push
+
+            # push 실패 시 명시적으로 워크플로우를 실패시킴.
+            # (silent failure 방지 — push가 실패하면 다음 실행이 stale registry를 보게 됨)
+            git push || {
+              echo "::error::git push failed — registry.json이 저장되지 않아 다음 실행이 초기화됩니다."
+              echo "::error::원인: 다른 커밋이 push 사이에 발생했을 가능성. git pull --rebase 후 재시도 필요."
+              exit 1
+            }
+
+            echo "registry 커밋 완료 ✓"
+            git log --oneline -2
           fi
 
       - name: Setup Pages

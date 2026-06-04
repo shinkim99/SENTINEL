@@ -1,8 +1,11 @@
-"""규제 레지스트리 — regulation_id 기반 영속 상태 관리 (diff.py 승격).
+"""규제 레지스트리 — regulation_id 기반 영속 상태 관리.
 
-기준선은 data/state/registry.json — 발송 승인 시점에만 갱신된다.
-/digest/run 에서는 pending/ 에 proposed 상태를 저장하고,
-/digest/{id}/approve 에서 commit_registry() 를 호출한다.
+기준선: data/state/registry.json — 실행 완료 시점에 갱신된다.
+
+regulation_id 결정 우선순위:
+  1. 기존 레지스트리에서 URL로 역조회한 ID (stable — LLM canonical_key 불일치 방지)
+  2. LLM이 제공한 canonical_key + "_" + country
+  3. 제목에서 파생한 slug + "_" + country (fallback)
 """
 from __future__ import annotations
 
@@ -48,7 +51,7 @@ def load_registry(state_dir: Path) -> dict[str, Regulation]:
                 registry[reg.regulation_id] = reg
             except Exception as exc:
                 logger.warning("registry: skipping invalid entry %r: %s", item.get("regulation_id"), exc)
-        logger.info("registry: loaded %d regulations", len(registry))
+        logger.info("registry: loaded %d regulations from %s", len(registry), path)
         return registry
     except Exception as exc:
         logger.error("registry: load failed (%s) — starting fresh", exc)
@@ -92,7 +95,7 @@ def commit_registry(
     digest_id: str,
     state_dir: Path,
 ) -> None:
-    """Commit registry to disk. ONLY called on approve or auto_send.
+    """Commit registry to disk. Called on approve or run completion.
 
     Writes:
     - state/registry.json  — new diff baseline
@@ -137,29 +140,52 @@ def apply_screened_items(
 ) -> tuple[dict[str, Regulation], list[str]]:
     """Apply screened items onto a deep copy of the registry.
 
-    Matching key: canonical_key + country (= regulation_id).
+    Matching strategy (순서대로):
+    1. regulation_id(canonical_key + "_" + country) 직접 조회 — 가장 빠름.
+    2. source_url로 역조회 — LLM이 매 실행마다 다른 canonical_key를 반환해도(비결정적)
+       URL이 같으면 기존 항목으로 인식. 기존 ID를 유지하여 registry 안정성 보장.
 
     Rules:
     - All existing entries → changed_this_week = False (reset).
     - New entry → changed_this_week = True, history entry "신규 등록".
-    - Existing, state changed (lifecycle/summary/date_text) → changed_this_week = True,
-      history entry with diff description.
+    - Existing, state changed (lifecycle/summary/date_text) → changed_this_week = True.
     - Existing, no change → changed_this_week = False, only checked_at updated.
-
-    Returns (updated_registry_copy, changed_regulation_ids).
-    Does NOT write to disk.
     """
     reg_copy: dict[str, Regulation] = deepcopy(registry)
 
     for reg in reg_copy.values():
         reg.changed_this_week = False
 
+    # URL → regulation_id 역인덱스: canonical_key가 바뀌어도 URL로 기존 항목 찾기.
+    # source_url이 같은 항목이 여러 개일 경우 마지막 것이 우선 (중복은 dedup_screened로 예방).
+    url_index: dict[str, str] = {
+        r.source_url.rstrip("/").lower(): rid
+        for rid, r in reg_copy.items()
+    }
+
     changed_ids: list[str] = []
 
     for item in items:
         ck = item.canonical_key or _canonical_key(item.title)
         reg_id = f"{ck}_{item.country}"
+
+        # 1차: regulation_id 직접 조회
         existing = reg_copy.get(reg_id)
+
+        # 2차: URL 역조회 (canonical_key 불일치 시 fallback)
+        if existing is None:
+            url_key = item.url.rstrip("/").lower()
+            stable_id = url_index.get(url_key)
+            if stable_id is not None:
+                existing = reg_copy.get(stable_id)
+                if existing is not None:
+                    # 기존 ID를 유지 (re-key 하지 않음 — LLM이 다음 주에 또 바뀔 수 있음)
+                    reg_id = stable_id
+                    logger.info(
+                        "registry: URL match — canonical_key drift 감지. "
+                        "기존 ID 유지: %r (url=%s)",
+                        reg_id, item.url[:70],
+                    )
 
         if existing is None:
             new_reg = Regulation(
@@ -189,6 +215,8 @@ def apply_screened_items(
                 ],
             )
             reg_copy[reg_id] = new_reg
+            # URL 인덱스 갱신 (이후 동일 URL 중복 처리용)
+            url_index[item.url.rstrip("/").lower()] = reg_id
             changed_ids.append(reg_id)
             logger.info("registry: NEW %s [%s/%s]", reg_id, item.country, item.lifecycle_stage)
 

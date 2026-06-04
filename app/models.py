@@ -91,7 +91,7 @@ class ProfileSpec(BaseModel):
 
     project_id: str
     domain: str
-    status: str
+    status: str = ""          # 프로필 JSON에 없는 경우 빈 문자열로 기본 처리
     watch_countries: list[str]
     keywords: list[str]
     concerns: list[str]

@@ -86,7 +86,22 @@ async def run(mode: str) -> int:
 
     # 4. Dedup + registry diff
     deduped = dedup_screened(screened_items)
+
+    # ── registry 로드 진단 로그 ──────────────────────────────────────────────
+    registry_path = (cfg.state_dir / "registry.json").resolve()
+    registry_exists = registry_path.exists()
+    logger.info(
+        "[%s] registry 경로: %s | 파일 존재: %s",
+        digest_id, registry_path, registry_exists,
+    )
     registry = load_registry(cfg.state_dir)
+    logger.info(
+        "[%s] 기존 레지스트리 %d건 로드%s",
+        digest_id, len(registry),
+        " (첫 실행 — 전부 신규 처리)" if not registry_exists else "",
+    )
+    # ────────────────────────────────────────────────────────────────────────
+
     updated_registry, changed_ids = apply_screened_items(deduped, registry, checked_at)
     changed_items = get_changed_items(updated_registry)
 
