@@ -145,11 +145,12 @@ def apply_screened_items(
     2. source_url로 역조회 — LLM이 매 실행마다 다른 canonical_key를 반환해도(비결정적)
        URL이 같으면 기존 항목으로 인식. 기존 ID를 유지하여 registry 안정성 보장.
 
-    Rules:
-    - All existing entries → changed_this_week = False (reset).
-    - New entry → changed_this_week = True, history entry "신규 등록".
-    - Existing, state changed (lifecycle/summary/date_text) → changed_this_week = True.
-    - Existing, no change → changed_this_week = False, only checked_at updated.
+    changed_this_week 판정 기준 (의미있는 변화만):
+    - lifecycle_stage 변경 → changed=True + history append.
+    - name 변경 → changed=True + history append.
+    - date_text(시행일/예정일) 변경 → changed=True + history append.
+    - summary/rd_impact/confidence/alert/impact_type: 최신값으로 조용히 갱신.
+      LLM 자유생성 텍스트의 미세 차이만으로는 changed=False (과민 판정 방지).
     """
     reg_copy: dict[str, Regulation] = deepcopy(registry)
 
@@ -224,24 +225,29 @@ def apply_screened_items(
             changed = False
             note_parts: list[str] = []
 
+            # ── 의미있는 변화 (changed 판정) ─────────────────────────────────
             if existing.lifecycle_stage != item.lifecycle_stage:
                 note_parts.append(f"{existing.lifecycle_stage} → {item.lifecycle_stage}")
                 existing.lifecycle_stage = item.lifecycle_stage
                 changed = True
 
-            if item.impact_summary and existing.summary != item.impact_summary:
-                existing.summary = item.impact_summary
-                existing.rd_impact = item.impact_summary
-                if not note_parts:
-                    note_parts.append("내용 업데이트")
+            if item.name and existing.name != item.name:
+                note_parts.append(f"명칭 변경: {item.name[:40]}")
+                existing.name = item.name
                 changed = True
 
             if item.date_text and existing.date_text != item.date_text:
+                note_parts.append(f"시행일: {existing.date_text} → {item.date_text}")
                 existing.date_text = item.date_text
-                if not note_parts:
-                    note_parts.append("날짜 업데이트")
                 changed = True
 
+            # ── LLM 텍스트 필드 — 조용히 갱신, changed 판정 제외 ───────────
+            if item.impact_summary:
+                existing.summary = item.impact_summary
+                existing.rd_impact = item.impact_summary
+            existing.impact_type = item.impact_type
+            existing.alert = item.alert
+            existing.confidence = item.confidence
             existing.checked_at = checked_at
 
             if changed:
