@@ -233,32 +233,6 @@
       }
     ]
   },
-  "battery-ad9803_EU": {
-    "regulation_id": "battery-ad9803_EU",
-    "domain": "secondary_battery",
-    "country": "EU",
-    "name": "핵심원자재법 (CRMA)",
-    "summary": "리튬·코발트·망간 등 핵심 광물 공급망 다변화, EU 내 역량 확대 의무",
-    "lifecycle_stage": "enacted",
-    "date_text": "2024.3 발효",
-    "rd_impact": "EU 파트너십·합작 시 CRMA 지원 프로그램 활용 가능",
-    "impact_type": "indirect",
-    "alert": "opp",
-    "source": "battery-intel-portal (baseline)",
-    "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
-    "confidence": "B",
-    "checked_at": "2026-05-01",
-    "changed_this_week": false,
-    "citation_quote": "",
-    "history": [
-      {
-        "date": "2026-05-01",
-        "stage": "enacted",
-        "note": "baseline 등록 (battery-intel-portal)",
-        "source": "battery-intel-portal"
-      }
-    ]
-  },
   "battery-aaaea5_EU": {
     "regulation_id": "battery-aaaea5_EU",
     "domain": "secondary_battery",
@@ -332,32 +306,6 @@
       {
         "date": "2026-05-01",
         "stage": "enacted",
-        "note": "baseline 등록 (battery-intel-portal)",
-        "source": "battery-intel-portal"
-      }
-    ]
-  },
-  "battery-3bfe96_KR": {
-    "regulation_id": "battery-3bfe96_KR",
-    "domain": "secondary_battery",
-    "country": "KR",
-    "name": "탄소중립기본법 시행령",
-    "summary": "2030 NDC 40% 감축 목표, 소재·배터리 제조업 탄소 감축 의무 강화",
-    "lifecycle_stage": "in_force",
-    "date_text": "2022년~",
-    "rd_impact": "파일럿 라인·양산 공정 탄소 배출 관리 체계 선제 구축 권고",
-    "impact_type": "indirect",
-    "alert": "mon",
-    "source": "battery-intel-portal (baseline)",
-    "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
-    "confidence": "B",
-    "checked_at": "2026-05-01",
-    "changed_this_week": false,
-    "citation_quote": "",
-    "history": [
-      {
-        "date": "2026-05-01",
-        "stage": "in_force",
         "note": "baseline 등록 (battery-intel-portal)",
         "source": "battery-intel-portal"
       }
