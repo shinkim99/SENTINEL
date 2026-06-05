@@ -1,4 +1,9 @@
-"""Parallel collection runner — tier1 sources, asyncio gather."""
+"""Parallel collection runner — US/EU tier-1 sources, asyncio gather.
+
+KR(law.go.kr) 는 GitHub 러너(해외 IP)에서 막힘.
+→ 회사 PC에서 collect_kr.py 로 수집 후 data/inbox/kr_latest.json 에 저장.
+→ run_digest.py 가 inbox 파일을 로드하여 US/EU 결과에 합산.
+"""
 from __future__ import annotations
 
 import asyncio
@@ -7,7 +12,6 @@ from datetime import datetime, timedelta
 
 from app.collect.eurlex import EurLexCollector
 from app.collect.federal_register import FederalRegisterCollector
-from app.collect.law_go_kr import LawGoKrCollector
 from app.config import Settings
 from app.models import ProfileSpec, RawItem
 
@@ -18,8 +22,9 @@ async def collect_all(
     profiles: list[ProfileSpec],
     cfg: Settings,
 ) -> tuple[list[RawItem], dict]:
-    """Run all enabled tier-1 collectors in parallel.
+    """US/EU 수집 (tier-1 sources, asyncio gather).
 
+    KR 아이템은 data/inbox/kr_latest.json 에서 별도 로드 (run_digest.py 담당).
     Returns (deduplicated_items, stats_dict).
     """
     from_date = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
@@ -31,11 +36,6 @@ async def collect_all(
         FederalRegisterCollector(verify=verify),
         EurLexCollector(verify=verify),
     ]
-
-    if cfg.law_go_kr_api_key:
-        collectors.append(LawGoKrCollector(api_key=cfg.law_go_kr_api_key, verify=verify))
-    else:
-        logger.warning("LAW_GO_KR_API_KEY not set — KR source skipped")
 
     results = await asyncio.gather(
         *[c.collect(all_keywords, from_date) for c in collectors],

@@ -1,14 +1,23 @@
 name: SENTINEL Weekly Digest
 
-# 서버리스 주간 다이제스트:
-#  - schedule(매주 월 07:00 KST = 22:00 UTC 일요일)는 항상 draft(운영자 본인)로 발송 + 대시보드 Pages 갱신.
-#  - 본부 발송은 workflow_dispatch(mode=send) 수동 트리거로만.
-#  - registry.json 은 실행 후 레포에 commit & push (다음 주 diff 기준 보존).
+# 트리거 3종:
+#  1. schedule  : 매주 월 07:00 KST(= 일 22:00 UTC) — draft 자동 발송.
+#  2. push      : data/inbox/kr_latest.json 변경 시 자동 실행 — draft.
+#                 회사 PC 에서 collect_kr.bat push → 다이제스트 자동 트리거.
+#                 registry 자동커밋([skip ci])은 paths 한정으로 재트리거 안 됨.
+#  3. dispatch  : 수동 트리거 — mode 선택 가능.
 
 on:
   schedule:
     # GitHub Actions cron 은 UTC. 월요일 07:00 KST = 일요일 22:00 UTC.
     - cron: "0 22 * * 0"
+
+  push:
+    branches:
+      - master
+    paths:
+      - "data/inbox/kr_latest.json"
+
   workflow_dispatch:
     inputs:
       mode:
@@ -34,17 +43,19 @@ jobs:
   digest:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout (최신 master — registry.json 포함)
+      - name: Checkout (최신 master — registry.json + kr_latest.json 포함)
         uses: actions/checkout@v4
         with:
-          # workflow_dispatch의 ref_name은 브랜치명(master).
-          # 명시적으로 지정하여 항상 HEAD를 가져옴.
-          ref: ${{ github.ref_name }}
+          ref: master
 
-      - name: Debug — registry 사전 확인
+      - name: Debug — 사전 확인
         run: |
+          echo "=== 트리거: ${{ github.event_name }} ==="
           echo "=== checkout SHA ==="
           git log --oneline -3
+          echo ""
+          echo "=== data/inbox/ 목록 ==="
+          ls -la data/inbox/ 2>/dev/null || echo "(data/inbox/ 없음 — KR 수집 전)"
           echo ""
           echo "=== data/state/ 목록 ==="
           ls -la data/state/ 2>/dev/null || echo "(data/state/ 없음 — 첫 실행)"
@@ -62,6 +73,17 @@ jobs:
             if regs:
               print('첫 항목 ID:', regs[0].get('regulation_id'))
           " 2>/dev/null || echo "(Python 파싱 실패)"
+          echo ""
+          echo "=== kr_latest.json 상태 ==="
+          python3 -c "
+          import json, pathlib
+          p = pathlib.Path('data/inbox/kr_latest.json')
+          if not p.exists():
+            print('kr_latest.json 없음 — KR collection_failure 예정 (US/EU 는 정상)')
+          else:
+            d = json.loads(p.read_text())
+            print(f'week={d.get(\"week\")}, collected_at={d.get(\"collected_at\")}, items={len(d.get(\"items\",[]))}')
+          " 2>/dev/null || echo "(Python 파싱 실패)"
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -74,16 +96,16 @@ jobs:
 
       - name: Run digest
         env:
-          # schedule 트리거는 입력이 없으므로 항상 draft. dispatch 는 선택 입력.
+          # schedule/push 트리거는 inputs 없음 → 항상 draft.
+          # dispatch 는 선택 입력.
           MODE: ${{ github.event.inputs.mode || 'draft' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          LAW_GO_KR_API_KEY: ${{ secrets.LAW_GO_KR_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          # 대시보드 CTA 공개 URL (Pages). secret 아님 — 워크플로우 env.
+          # 대시보드 CTA 공개 URL (Pages). secret 아님.
           DASHBOARD_URL: "https://shinkim99.github.io/SENTINEL/"
         run: |
-          echo "mode=$MODE"
+          echo "mode=$MODE  trigger=${{ github.event_name }}"
           python -m scripts.run_digest --mode "$MODE"
 
       - name: Commit registry baseline
@@ -98,8 +120,6 @@ jobs:
             WEEK=$(date -u +%Y-%U)
             git commit -m "chore: weekly registry update ($WEEK) [skip ci]"
 
-            # push 실패 시 명시적으로 워크플로우를 실패시킴.
-            # (silent failure 방지 — push가 실패하면 다음 실행이 stale registry를 보게 됨)
             git push || {
               echo "::error::git push failed — registry.json이 저장되지 않아 다음 실행이 초기화됩니다."
               echo "::error::원인: 다른 커밋이 push 사이에 발생했을 가능성. git pull --rebase 후 재시도 필요."
