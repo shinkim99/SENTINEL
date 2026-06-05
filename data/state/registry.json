@@ -1,5 +1,5 @@
 {
-  "committed_at": "2026-06-05T00:09:26.516658",
+  "committed_at": "2026-06-05T00:57:29.541414",
   "digest_id": "2026-W23",
   "regulations": [
     {
@@ -43,7 +43,7 @@
       "source_url": "https://www.federalregister.gov/documents/2026/06/02/2026-10939/initiation-of-antidumping-and-countervailing-duty-administrative-reviews",
       "confidence": "A",
       "checked_at": "2026-06-05",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "The U.S. Department of Commerce (Commerce) has received requests to conduct administrative reviews of various antidumping duty (AD) and countervailing duty (CVD) orders with April anniversary dates. In accordance with Commerce's regulations, we are initiating those administrative reviews.",
       "history": [
         {
@@ -256,18 +256,18 @@
       "regulation_id": "kr-carbon-neutrality-green-growth-framework-act_KR",
       "domain": "green_eco",
       "country": "KR",
-      "name": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 (Carbon Neutrality and Green Growth Framework Act)",
-      "summary": "한국의 탄소중립기본법은 녹색성장 및 탄소중립 목표 달성을 위한 법적 프레임워크를 제공하며, green_eco 도메인의 재활용 함량 의무, EPR 분담금, Scope 3 산정을 위한 소재·부품 데이터 확보 등 공급망 전반에 직접적인 규제 부담을 가져올 수 있습니다. secondary_battery 도메인과도 연계되어 배터리 재활용 원료 의무 함유량 및 인증 요건 강화, 원료 수급 규제 방향성에 영향을 미칠 수 있습니다. hydrogen 도메인의 청정수소 정의·인증 기준 및 보조금 적격성 판단에도 이 기본법의 탄소중립 인증 체계가 기준선으로 작용할 가능성이 높아 지속적인 모니터링이 필요합니다.",
+      "name": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 (탄소중립기본법)",
+      "summary": "한국의 탄소중립기본법은 녹색성장·탄소중립 목표 달성을 위한 법적 프레임워크를 제공하며, green_eco 도메인에서 Scope 3 산정, 재활용 함량 의무화 및 EPR 분담금 등 공급망 전반에 직접적인 규제 부담을 부과한다. secondary_battery 도메인에서는 배터리 소재 원료 수급 및 재활용 원료 의무 함유량 인증 체계와 연계되어 배터리 패스포트(BOM·원산지) 데이터 준비에 영향을 미칠 수 있다. hydrogen 도메인에서는 청정수소 정의·인증 기준 및 보조금 적격성 판단의 국내 법적 근거로 작동하므로 지속적인 모니터링이 필요하다.",
       "lifecycle_stage": "in_force",
       "date_text": "2026-06-02",
-      "rd_impact": "한국의 탄소중립기본법은 녹색성장 및 탄소중립 목표 달성을 위한 법적 프레임워크를 제공하며, green_eco 도메인의 재활용 함량 의무, EPR 분담금, Scope 3 산정을 위한 소재·부품 데이터 확보 등 공급망 전반에 직접적인 규제 부담을 가져올 수 있습니다. secondary_battery 도메인과도 연계되어 배터리 재활용 원료 의무 함유량 및 인증 요건 강화, 원료 수급 규제 방향성에 영향을 미칠 수 있습니다. hydrogen 도메인의 청정수소 정의·인증 기준 및 보조금 적격성 판단에도 이 기본법의 탄소중립 인증 체계가 기준선으로 작용할 가능성이 높아 지속적인 모니터링이 필요합니다.",
+      "rd_impact": "한국의 탄소중립기본법은 녹색성장·탄소중립 목표 달성을 위한 법적 프레임워크를 제공하며, green_eco 도메인에서 Scope 3 산정, 재활용 함량 의무화 및 EPR 분담금 등 공급망 전반에 직접적인 규제 부담을 부과한다. secondary_battery 도메인에서는 배터리 소재 원료 수급 및 재활용 원료 의무 함유량 인증 체계와 연계되어 배터리 패스포트(BOM·원산지) 데이터 준비에 영향을 미칠 수 있다. hydrogen 도메인에서는 청정수소 정의·인증 기준 및 보조금 적격성 판단의 국내 법적 근거로 작동하므로 지속적인 모니터링이 필요하다.",
       "impact_type": "direct",
-      "alert": "watch",
+      "alert": "mon",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법(014152)",
       "confidence": "B",
-      "checked_at": "2026-06-04",
-      "changed_this_week": false,
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
       "citation_quote": "탄소중립기본법",
       "history": [
         {
@@ -281,6 +281,12 @@
           "stage": "in_force",
           "note": "명칭 변경: 기후위기 대응을 위한 탄소중립·녹색성장 기본법 (Carbon Neutra",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20260602",
+          "stage": "in_force",
+          "note": "명칭 변경: 기후위기 대응을 위한 탄소중립·녹색성장 기본법 (탄소중립기본법)",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -289,16 +295,16 @@
       "domain": "green_eco",
       "country": "KR",
       "name": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령 (Carbon Neutrality and Green Growth Framework Act Enforcement Decree)",
-      "summary": "이 시행령은 탄소중립기본법의 세부 이행 기준을 규정하며, green_eco 도메인의 Scope 3 산정·DPP 데이터 확보 의무 및 재활용 함량 기준 등 공급망 관리 요건에 직접적인 영향을 미칩니다. secondary_battery 도메인과도 연계되어 Battery passport 대응 및 재활용 원료 의무 함유량 관련 규제 근거로 작용할 수 있습니다. hydrogen 도메인에서는 청정수소 정의 및 인증 기준의 국내 법적 근거가 될 수 있어 보조금 적격성 판단 시 참조가 필요합니다.",
+      "summary": "This enforcement decree operationalizes South Korea's Carbon Neutrality and Green Growth Framework Act, establishing binding subordinate rules on carbon neutrality targets, green industry standards, and supply chain sustainability obligations. For green_eco domain concerns, it directly shapes domestic Scope 3 reporting frameworks, recycled content obligations, and EPR-related compliance pathways. It also intersects with secondary_battery concerns by potentially defining recycled raw material standards, battery material origin tracking, and green certification criteria relevant to BOM and DPP data preparation obligations.",
       "lifecycle_stage": "in_force",
       "date_text": "2026-05-06",
-      "rd_impact": "이 시행령은 탄소중립기본법의 세부 이행 기준을 규정하며, green_eco 도메인의 Scope 3 산정·DPP 데이터 확보 의무 및 재활용 함량 기준 등 공급망 관리 요건에 직접적인 영향을 미칩니다. secondary_battery 도메인과도 연계되어 Battery passport 대응 및 재활용 원료 의무 함유량 관련 규제 근거로 작용할 수 있습니다. hydrogen 도메인에서는 청정수소 정의 및 인증 기준의 국내 법적 근거가 될 수 있어 보조금 적격성 판단 시 참조가 필요합니다.",
+      "rd_impact": "This enforcement decree operationalizes South Korea's Carbon Neutrality and Green Growth Framework Act, establishing binding subordinate rules on carbon neutrality targets, green industry standards, and supply chain sustainability obligations. For green_eco domain concerns, it directly shapes domestic Scope 3 reporting frameworks, recycled content obligations, and EPR-related compliance pathways. It also intersects with secondary_battery concerns by potentially defining recycled raw material standards, battery material origin tracking, and green certification criteria relevant to BOM and DPP data preparation obligations.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법 시행령(014255)",
       "confidence": "B",
-      "checked_at": "2026-06-04",
+      "checked_at": "2026-06-05",
       "changed_this_week": false,
       "citation_quote": "탄소중립기본법 시행령",
       "history": [
@@ -315,16 +321,16 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 (Space Development Promotion Act)",
-      "summary": "대한민국 우주개발 진흥법은 우주용 부품·소재의 개발 및 활용 규제 프레임워크를 규정하며, 수출통제 적격성 및 우주 파편 경감 의무와 직접적으로 연관된다. 우주 관련 기술 및 부품의 국내외 이전에 대한 규제 준수가 요구되며, 우주 파편 경감 관련 의무 사항이 사업 운영에 영향을 미칠 수 있다. 우주개발 사업자는 관련 인허가 및 기술 기준을 준수해야 하므로, 해당 분야 R&D 활동 및 공급망 관리에 지속적인 모니터링이 필요하다.",
+      "summary": "대한민국 우주개발 진흥법은 우주용 부품·소재의 개발 및 활용, 우주 파편 경감 의무, 그리고 수출통제 적격성 등 space_environment 도메인 전반에 직접적인 영향을 미친다. 동 법률은 국내 우주개발 사업의 규제 프레임워크를 규정하며, 우주 관련 부품·소재 조달 및 기술 수출 시 준수해야 할 요건의 법적 근거가 된다. 우주 파편 경감 관련 의무 조항은 위성 운용 및 발사체 개발 R&D 활동에 직접적인 컴플라이언스 부담으로 작용할 수 있다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-05-27",
-      "rd_impact": "대한민국 우주개발 진흥법은 우주용 부품·소재의 개발 및 활용 규제 프레임워크를 규정하며, 수출통제 적격성 및 우주 파편 경감 의무와 직접적으로 연관된다. 우주 관련 기술 및 부품의 국내외 이전에 대한 규제 준수가 요구되며, 우주 파편 경감 관련 의무 사항이 사업 운영에 영향을 미칠 수 있다. 우주개발 사업자는 관련 인허가 및 기술 기준을 준수해야 하므로, 해당 분야 R&D 활동 및 공급망 관리에 지속적인 모니터링이 필요하다.",
+      "rd_impact": "대한민국 우주개발 진흥법은 우주용 부품·소재의 개발 및 활용, 우주 파편 경감 의무, 그리고 수출통제 적격성 등 space_environment 도메인 전반에 직접적인 영향을 미친다. 동 법률은 국내 우주개발 사업의 규제 프레임워크를 규정하며, 우주 관련 부품·소재 조달 및 기술 수출 시 준수해야 할 요건의 법적 근거가 된다. 우주 파편 경감 관련 의무 조항은 위성 운용 및 발사체 개발 R&D 활동에 직접적인 컴플라이언스 부담으로 작용할 수 있다.",
       "impact_type": "direct",
       "alert": "mon",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/우주개발 진흥법(009938)",
       "confidence": "B",
-      "checked_at": "2026-06-04",
+      "checked_at": "2026-06-05",
       "changed_this_week": false,
       "citation_quote": "우주개발 진흥법",
       "history": [
@@ -347,16 +353,16 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 시행령 (Enforcement Decree of the Space Development Promotion Act)",
-      "summary": "본 시행령은 대한민국의 우주개발 진흥법을 구체적으로 시행하기 위한 대통령령으로, 우주용 부품·소재 규제, 수출통제 적격성, 우주 파편 경감 의무 등 space_environment 도메인 전반에 걸쳐 직접적인 영향을 미칠 수 있다. 우주개발 사업자에 대한 허가·등록 요건 및 기술기준이 강화될 경우, 우주 부품 조달 및 수출 절차에 추가적인 규정 준수 부담이 발생할 수 있다. 우주 파편 경감 관련 의무 조항이 포함될 경우, 위성 및 발사체 개발 프로젝트의 설계 단계부터 규제 대응 요건을 반영해야 한다.",
+      "summary": "This enforcement decree implements the Space Development Promotion Act in South Korea, directly governing space development activities including regulations on space components, materials, and related export control eligibility requirements. It is directly relevant to the space_environment domain concerns around export control eligibility for space-use parts/materials and space debris mitigation obligations. Secondary battery and hydrogen domain concerns are not materially affected by this decree.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-11-25",
-      "rd_impact": "본 시행령은 대한민국의 우주개발 진흥법을 구체적으로 시행하기 위한 대통령령으로, 우주용 부품·소재 규제, 수출통제 적격성, 우주 파편 경감 의무 등 space_environment 도메인 전반에 걸쳐 직접적인 영향을 미칠 수 있다. 우주개발 사업자에 대한 허가·등록 요건 및 기술기준이 강화될 경우, 우주 부품 조달 및 수출 절차에 추가적인 규정 준수 부담이 발생할 수 있다. 우주 파편 경감 관련 의무 조항이 포함될 경우, 위성 및 발사체 개발 프로젝트의 설계 단계부터 규제 대응 요건을 반영해야 한다.",
+      "rd_impact": "This enforcement decree implements the Space Development Promotion Act in South Korea, directly governing space development activities including regulations on space components, materials, and related export control eligibility requirements. It is directly relevant to the space_environment domain concerns around export control eligibility for space-use parts/materials and space debris mitigation obligations. Secondary battery and hydrogen domain concerns are not materially affected by this decree.",
       "impact_type": "direct",
-      "alert": "watch",
+      "alert": "mon",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/우주개발 진흥법 시행령(010066)",
       "confidence": "B",
-      "checked_at": "2026-06-04",
+      "checked_at": "2026-06-05",
       "changed_this_week": false,
       "citation_quote": "우주개발 진흥법 시행령",
       "history": [
@@ -379,16 +385,16 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 시행규칙 (Enforcement Rules of the Space Development Promotion Act)",
-      "summary": "본 시행규칙은 한국의 우주개발 진흥법 이행을 위한 세부 규정으로, 우주용 부품·소재의 인증·규제 요건 및 우주 파편 경감 관련 의무사항에 직접적 영향을 미칠 수 있다. 우주 환경 도메인 관점에서 수출통제 적격성, 우주용 부품·소재 규제, 우주 파편 경감 의무 등 핵심 컴플라이언스 항목에 대한 구체적 절차 기준을 제시할 가능성이 높다. 2025년 4월 23일 공포된 최신 개정 규칙으로, 관련 프로젝트 타임라인 및 인허가 절차에 즉각적인 검토가 필요하다.",
+      "summary": "본 시행규칙은 한국의 우주개발 진흥법의 세부 집행 규정으로, 우주용 부품·소재의 허가·인증 절차 및 수출통제 적격성 요건에 직접적인 영향을 미칠 수 있다. space_environment 도메인 관점에서 우주 파편 경감 의무 및 우주용 부품·소재 규제 준수 여부 판단의 법적 근거로 작용한다. 수출통제 적격성 검토 시 본 규칙의 요건 충족 여부를 사전 확인해야 하며, 관련 인·허가 절차 변경에 대한 지속적 모니터링이 필요하다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-04-23",
-      "rd_impact": "본 시행규칙은 한국의 우주개발 진흥법 이행을 위한 세부 규정으로, 우주용 부품·소재의 인증·규제 요건 및 우주 파편 경감 관련 의무사항에 직접적 영향을 미칠 수 있다. 우주 환경 도메인 관점에서 수출통제 적격성, 우주용 부품·소재 규제, 우주 파편 경감 의무 등 핵심 컴플라이언스 항목에 대한 구체적 절차 기준을 제시할 가능성이 높다. 2025년 4월 23일 공포된 최신 개정 규칙으로, 관련 프로젝트 타임라인 및 인허가 절차에 즉각적인 검토가 필요하다.",
+      "rd_impact": "본 시행규칙은 한국의 우주개발 진흥법의 세부 집행 규정으로, 우주용 부품·소재의 허가·인증 절차 및 수출통제 적격성 요건에 직접적인 영향을 미칠 수 있다. space_environment 도메인 관점에서 우주 파편 경감 의무 및 우주용 부품·소재 규제 준수 여부 판단의 법적 근거로 작용한다. 수출통제 적격성 검토 시 본 규칙의 요건 충족 여부를 사전 확인해야 하며, 관련 인·허가 절차 변경에 대한 지속적 모니터링이 필요하다.",
       "impact_type": "direct",
-      "alert": "watch",
+      "alert": "mon",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/우주개발 진흥법 시행규칙(010078)",
       "confidence": "B",
-      "checked_at": "2026-06-04",
+      "checked_at": "2026-06-05",
       "changed_this_week": false,
       "citation_quote": "우주개발 진흥법 시행규칙",
       "history": [
@@ -410,18 +416,18 @@
       "regulation_id": "kr-hydrogen-economy-safety-management-act_KR",
       "domain": "hydrogen",
       "country": "KR",
-      "name": "수소경제 육성 및 수소 안전관리에 관한 법률 (Hydrogen Economy Promotion and Hydrogen Safety Management Act)",
-      "summary": "This South Korean statute governs the promotion of the hydrogen economy and hydrogen safety management, directly affecting hydrogen project eligibility, clean hydrogen certification standards, and subsidy frameworks in Korea. It establishes the legal basis for clean hydrogen definitions and certification criteria, which determines project financing eligibility and compliance obligations. R&D teams involved in hydrogen projects must monitor any updates to certification thresholds and safety requirements under this law, as changes could affect project timelines and cost structures.",
+      "name": "수소경제 육성 및 수소 안전관리에 관한 법률 (수소법)",
+      "summary": "본 법률은 대한민국의 수소경제 육성 및 수소 안전관리를 포괄적으로 규율하며, 청정수소 인증 기준 및 보조금 적격성 판단의 법적 근거를 제공한다. 수소 생산·유통·활용 전 주기에 걸친 규제 프레임워크가 변경될 경우 프로젝트 타임라인 및 재원 조달 구조(CfD 등)에 직접적 영향을 미칠 수 있다. 특히 청정수소 정의 및 인증 기준의 세부 변동 여부를 지속 모니터링하여 보조금 적격성 유지 및 IRA 45V 등 국제 기준과의 정합성을 사전 점검할 필요가 있다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-10-01",
-      "rd_impact": "This South Korean statute governs the promotion of the hydrogen economy and hydrogen safety management, directly affecting hydrogen project eligibility, clean hydrogen certification standards, and subsidy frameworks in Korea. It establishes the legal basis for clean hydrogen definitions and certification criteria, which determines project financing eligibility and compliance obligations. R&D teams involved in hydrogen projects must monitor any updates to certification thresholds and safety requirements under this law, as changes could affect project timelines and cost structures.",
+      "rd_impact": "본 법률은 대한민국의 수소경제 육성 및 수소 안전관리를 포괄적으로 규율하며, 청정수소 인증 기준 및 보조금 적격성 판단의 법적 근거를 제공한다. 수소 생산·유통·활용 전 주기에 걸친 규제 프레임워크가 변경될 경우 프로젝트 타임라인 및 재원 조달 구조(CfD 등)에 직접적 영향을 미칠 수 있다. 특히 청정수소 정의 및 인증 기준의 세부 변동 여부를 지속 모니터링하여 보조금 적격성 유지 및 IRA 45V 등 국제 기준과의 정합성을 사전 점검할 필요가 있다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/수소경제 육성 및 수소 안전관리에 관한 법률(013670)",
       "confidence": "B",
-      "checked_at": "2026-06-04",
-      "changed_this_week": false,
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
       "citation_quote": "수소경제 육성 및 수소 안전관리에 관한 법률",
       "history": [
         {
@@ -435,6 +441,12 @@
           "stage": "in_force",
           "note": "내용 업데이트",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20251001",
+          "stage": "in_force",
+          "note": "명칭 변경: 수소경제 육성 및 수소 안전관리에 관한 법률 (수소법)",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -443,16 +455,16 @@
       "domain": "hydrogen",
       "country": "KR",
       "name": "수소경제 육성 및 수소 안전관리에 관한 법률 시행령",
-      "summary": "본 시행령은 한국 수소경제 육성 및 수소 안전관리에 관한 법률의 하위 법령으로, 청정수소 인증 기준·절차 및 수소 관련 보조금 적격성 요건에 직접적 영향을 미친다. 청정수소 정의 및 인증 기준의 구체적 규율을 통해 수소 프로젝트의 보조금 수령 자격 및 청정수소 공급망 구성에 실질적 제약이 발생할 수 있다. 수소 안전관리 의무 강화로 수전해·수소 저장·운송 관련 설비 인증 및 운영 기준이 변동될 가능성이 있어 프로젝트 타임라인 리스크 관리가 필요하다.",
+      "summary": "본 시행령은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 집행 기준을 규정하며, 청정수소 인증 기준 및 보조금 적격성 요건에 직접적인 영향을 미친다. 청정수소의 정의·인증 절차와 관련된 하위 규정이 포함될 가능성이 높아, 수소 프로젝트의 보조금 수혜 적격성 및 공급망 구성 전략에 영향을 줄 수 있다. 2028년 IRA 45V 착공 마감일 등 국제 타임라인과의 정합성 검토가 필요하며, 국내 청정수소 인증 기준 변동에 따른 프로젝트 일정 리스크를 지속 모니터링해야 한다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-12-30",
-      "rd_impact": "본 시행령은 한국 수소경제 육성 및 수소 안전관리에 관한 법률의 하위 법령으로, 청정수소 인증 기준·절차 및 수소 관련 보조금 적격성 요건에 직접적 영향을 미친다. 청정수소 정의 및 인증 기준의 구체적 규율을 통해 수소 프로젝트의 보조금 수령 자격 및 청정수소 공급망 구성에 실질적 제약이 발생할 수 있다. 수소 안전관리 의무 강화로 수전해·수소 저장·운송 관련 설비 인증 및 운영 기준이 변동될 가능성이 있어 프로젝트 타임라인 리스크 관리가 필요하다.",
+      "rd_impact": "본 시행령은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 집행 기준을 규정하며, 청정수소 인증 기준 및 보조금 적격성 요건에 직접적인 영향을 미친다. 청정수소의 정의·인증 절차와 관련된 하위 규정이 포함될 가능성이 높아, 수소 프로젝트의 보조금 수혜 적격성 및 공급망 구성 전략에 영향을 줄 수 있다. 2028년 IRA 45V 착공 마감일 등 국제 타임라인과의 정합성 검토가 필요하며, 국내 청정수소 인증 기준 변동에 따른 프로젝트 일정 리스크를 지속 모니터링해야 한다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/수소경제 육성 및 수소 안전관리에 관한 법률 시행령(014015)",
       "confidence": "B",
-      "checked_at": "2026-06-04",
+      "checked_at": "2026-06-05",
       "changed_this_week": false,
       "citation_quote": "수소경제 육성 및 수소 안전관리에 관한 법률 시행령",
       "history": [
@@ -481,16 +493,16 @@
       "domain": "hydrogen",
       "country": "KR",
       "name": "수소경제 육성 및 수소 안전관리에 관한 법률 시행규칙",
-      "summary": "이 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 집행 기준을 규정하며, 청정수소 인증·안전관리 기준 변동에 직접적인 영향을 미친다. 수소 생산·유통·활용 전 단계에 걸친 규제 준수 요건이 명확화되어 보조금 적격성 판단 및 프로젝트 타임라인 관리에 중요한 기준으로 작용한다. 수소 관련 설비·사업자에 대한 안전관리 의무가 강화될 경우, 기존 재생에너지 연계 수전해 설비의 활용 범위 및 운영 비용에도 영향을 줄 수 있다.",
+      "summary": "본 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 시행기준을 규정하며, 청정수소 인증 기준·절차 및 수소 관련 보조금 적격성 요건에 직접적 영향을 미칠 수 있다. 청정수소 정의 및 인증 기준 변동 리스크와 관련하여, 수소 프로젝트의 인·허가 및 운영 절차 준수 의무가 구체화됨에 따라 프로젝트 타임라인 및 비용 계획 재검토가 필요하다. 수소 안전관리 기준 강화는 설비 도입·운영 단계에서 추가적인 규제 준수 부담으로 작용할 수 있다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-10-01",
-      "rd_impact": "이 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 집행 기준을 규정하며, 청정수소 인증·안전관리 기준 변동에 직접적인 영향을 미친다. 수소 생산·유통·활용 전 단계에 걸친 규제 준수 요건이 명확화되어 보조금 적격성 판단 및 프로젝트 타임라인 관리에 중요한 기준으로 작용한다. 수소 관련 설비·사업자에 대한 안전관리 의무가 강화될 경우, 기존 재생에너지 연계 수전해 설비의 활용 범위 및 운영 비용에도 영향을 줄 수 있다.",
+      "rd_impact": "본 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 시행기준을 규정하며, 청정수소 인증 기준·절차 및 수소 관련 보조금 적격성 요건에 직접적 영향을 미칠 수 있다. 청정수소 정의 및 인증 기준 변동 리스크와 관련하여, 수소 프로젝트의 인·허가 및 운영 절차 준수 의무가 구체화됨에 따라 프로젝트 타임라인 및 비용 계획 재검토가 필요하다. 수소 안전관리 기준 강화는 설비 도입·운영 단계에서 추가적인 규제 준수 부담으로 작용할 수 있다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/수소경제 육성 및 수소 안전관리에 관한 법률 시행규칙(014016)",
       "confidence": "B",
-      "checked_at": "2026-06-04",
+      "checked_at": "2026-06-05",
       "changed_this_week": false,
       "citation_quote": "수소경제 육성 및 수소 안전관리에 관한 법률 시행규칙",
       "history": [
@@ -575,7 +587,7 @@
       "source_url": "https://www.federalregister.gov/documents/2026/05/29/2026-10712/significant-new-use-rules-on-certain-chemical-substances-25-25e",
       "confidence": "A",
       "checked_at": "2026-06-05",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "The SNURs require persons to notify EPA at least 90 days before commencing the manufacture (defined by statute to include import) or processing of any of these chemical substances for an activity that is designated as a significant new use in the SNUR.",
       "history": [
         {
@@ -601,7 +613,7 @@
       "source_url": "https://www.federalregister.gov/documents/2026/06/01/2026-10911/potassium-phosphate-salts-from-china-institution-of-five-year-reviews",
       "confidence": "A",
       "checked_at": "2026-06-05",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "The Commission hereby gives notice that it has instituted reviews pursuant to the Tariff Act of 1930, as amended, to determine whether revocation of the countervailing and the antidumping duty orders on potassium phosphate salts from China would be likely to lead to continuation or recurrence of material injury.",
       "history": [
         {
@@ -627,7 +639,7 @@
       "source_url": "https://www.federalregister.gov/documents/2026/06/01/2026-10910/melamine-from-china-institution-of-five-year-reviews",
       "confidence": "A",
       "checked_at": "2026-06-05",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "the Commission hereby gives notice that it has instituted reviews pursuant to the Tariff Act of 1930, as amended, to determine whether revocation of the antidumping and countervailing duty orders on melamine from China would be likely to lead to continuation or recurrence of material injury",
       "history": [
         {
@@ -653,7 +665,7 @@
       "source_url": "https://www.federalregister.gov/documents/2026/05/29/2026-10682/in-the-matter-of-hans-de-geetere-paul-parmentierlaan-121-8300-knokke-heist-belgium-and-nyckeestraat",
       "confidence": "B",
       "checked_at": "2026-06-05",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "In the Matter of: Hans De Geetere, Paul Parmentierlaan 121, 8300 Knokke Heist, Belgium, and Nyckeestraat 4, 8300 Knokke Heist, Belgium, Knokke-Heist Support Corporation Management, a/k/a Hasa Invest, Paul Parmentierlaan 121, 8300 Knokke Heist, Belgium, and Nyckeestraat 4, 8300 Knokke Heist, Belgium; Final Decision and Order",
       "history": [
         {
@@ -661,6 +673,84 @@
           "stage": "in_force",
           "note": "신규 등록",
           "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "kr-national-rd-innovation-act_KR",
+      "domain": "secondary_battery",
+      "country": "KR",
+      "name": "국가연구개발혁신법 (National R&D Innovation Act)",
+      "summary": "국가연구개발혁신법은 한국 내 국가 R&D 과제의 기획·수행·평가·관리 전반을 규율하며, 차세대 배터리(리튬메탈 음극재, 전고체 등) 및 수소·우주 분야 R&D 과제에 직접 적용된다. 공급망(SCM) 구축·소재 데이터 확보·수출통제 관련 연구과제 수행 시 동법의 연구비 사용기준, 보안관리, 성과물 귀속 규정 준수가 필요하다. 특히 외국 기업(중국 포함) 참여 과제의 경우 연구협약·보안심사 절차에 추가적인 규제 부담이 발생할 수 있어 지속 모니터링이 요구된다.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2024-02-27",
+      "rd_impact": "국가연구개발혁신법은 한국 내 국가 R&D 과제의 기획·수행·평가·관리 전반을 규율하며, 차세대 배터리(리튬메탈 음극재, 전고체 등) 및 수소·우주 분야 R&D 과제에 직접 적용된다. 공급망(SCM) 구축·소재 데이터 확보·수출통제 관련 연구과제 수행 시 동법의 연구비 사용기준, 보안관리, 성과물 귀속 규정 준수가 필요하다. 특히 외국 기업(중국 포함) 참여 과제의 경우 연구협약·보안심사 절차에 추가적인 규제 부담이 발생할 수 있어 지속 모니터링이 요구된다.",
+      "impact_type": "direct",
+      "alert": "mon",
+      "source": "kr-law-go-kr",
+      "source_url": "https://www.law.go.kr/법령/국가연구개발혁신법(013774)",
+      "confidence": "B",
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
+      "citation_quote": "국가연구개발혁신법",
+      "history": [
+        {
+          "date": "20240227",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "kr-law-go-kr"
+        }
+      ]
+    },
+    {
+      "regulation_id": "kr-industrial-technology-research-cooperative-promotion-act_KR",
+      "domain": "secondary_battery",
+      "country": "KR",
+      "name": "산업기술연구조합 육성법 (Industrial Technology Research Cooperative Promotion Act)",
+      "summary": "본 법은 산업기술 분야의 연구조합 설립 및 육성을 지원하는 프레임워크로, 이차전지·수소·친환경 등 R&D 도메인과 간접적으로 관련됩니다. 연구조합을 통한 공동 R&D 참여 자격, 정부 지원 수혜 요건, 기술개발 협력 구조에 영향을 미칠 수 있으며, SCM 구축 및 차세대 배터리 기술 개발 컨소시엄 참여 시 조합원 자격 요건 검토가 필요합니다. 직접적인 수출통제·원료규제 조항은 확인되지 않으나, 국내 연구개발 협력 체계 구성 및 보조금 적격성 판단 시 간접적 영향이 예상됩니다.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2018-04-17",
+      "rd_impact": "본 법은 산업기술 분야의 연구조합 설립 및 육성을 지원하는 프레임워크로, 이차전지·수소·친환경 등 R&D 도메인과 간접적으로 관련됩니다. 연구조합을 통한 공동 R&D 참여 자격, 정부 지원 수혜 요건, 기술개발 협력 구조에 영향을 미칠 수 있으며, SCM 구축 및 차세대 배터리 기술 개발 컨소시엄 참여 시 조합원 자격 요건 검토가 필요합니다. 직접적인 수출통제·원료규제 조항은 확인되지 않으나, 국내 연구개발 협력 체계 구성 및 보조금 적격성 판단 시 간접적 영향이 예상됩니다.",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "kr-law-go-kr",
+      "source_url": "https://www.law.go.kr/법령/산업기술연구조합 육성법(009135)",
+      "confidence": "B",
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
+      "citation_quote": "산업기술연구조합법",
+      "history": [
+        {
+          "date": "20180417",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "kr-law-go-kr"
+        }
+      ]
+    },
+    {
+      "regulation_id": "kr-industrial-tech-research-association-enforcement-decree_KR",
+      "domain": "secondary_battery",
+      "country": "KR",
+      "name": "산업기술연구조합 육성법 시행령",
+      "summary": "이 시행령은 산업기술연구조합의 설립·운영·지원에 관한 세부 기준을 규정하며, 2차전지·수소·우주 등 첨단 산업 R&D 조합 활동의 법적 프레임워크를 구성합니다. 연구조합을 통한 공동 R&D 추진 시 조합원 자격, 출자 구조, 외국 기업(중국 포함) 참여 가능 여부에 대한 기준을 간접적으로 규율하여 SCM 파트너 선정 및 공동개발 계약 구조에 영향을 줄 수 있습니다. 직접적 규제 의무보다는 R&D 협력 거버넌스의 제도적 틀로서 모니터링이 필요합니다.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2018-12-24",
+      "rd_impact": "이 시행령은 산업기술연구조합의 설립·운영·지원에 관한 세부 기준을 규정하며, 2차전지·수소·우주 등 첨단 산업 R&D 조합 활동의 법적 프레임워크를 구성합니다. 연구조합을 통한 공동 R&D 추진 시 조합원 자격, 출자 구조, 외국 기업(중국 포함) 참여 가능 여부에 대한 기준을 간접적으로 규율하여 SCM 파트너 선정 및 공동개발 계약 구조에 영향을 줄 수 있습니다. 직접적 규제 의무보다는 R&D 협력 거버넌스의 제도적 틀로서 모니터링이 필요합니다.",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "kr-law-go-kr",
+      "source_url": "https://www.law.go.kr/법령/산업기술연구조합 육성법 시행령(003780)",
+      "confidence": "B",
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
+      "citation_quote": "산업기술연구조합법 시행령",
+      "history": [
+        {
+          "date": "20181224",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "kr-law-go-kr"
         }
       ]
     }
