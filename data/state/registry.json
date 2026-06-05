@@ -1,5 +1,5 @@
 {
-  "committed_at": "2026-06-05T14:26:37.206864",
+  "committed_at": "2026-06-05T05:40:24.407002",
   "digest_id": "2026-W23",
   "regulations": [
     {
@@ -256,13 +256,13 @@
       "regulation_id": "kr-carbon-neutrality-green-growth-framework-act_KR",
       "domain": "green_eco",
       "country": "KR",
-      "name": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법 (탄소중립기본법)",
-      "summary": "한국의 탄소중립기본법은 탄소중립 달성을 위한 전반적인 법적 프레임워크를 수립하며, green_eco 도메인에서의 Scope 3 산정, 재활용 함량 의무, EPR 분담금 등 공급망 환경 규제의 근거 법령으로 작용한다. secondary_battery 도메인에 대해서는 배터리 원료 수급, 재활용 원료 의무 함유량 인증 등 녹색 전환 의무의 상위 규범으로 직접 영향을 미친다. 수소 분야에서는 청정수소 인증 기준 및 보조금 적격성의 법적 근거를 제공하여 청정수소 프로젝트 타임라인 리스크와 연계된다.",
+      "name": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 (Carbon Neutrality and Green Growth Framework Act)",
+      "summary": "본 기본법은 탄소중립 목표 달성을 위한 녹색성장 정책 전반의 법적 근거를 제공하며, green_eco 도메인의 재활용 함량 의무, EPR 분담금, Scope 3 산정을 위한 소재·부품 데이터 확보 요건에 직접적인 영향을 미칠 수 있습니다. 또한 secondary_battery 도메인의 배터리 패스포트(BOM·원산지·재활용원료) 및 수소 도메인의 청정수소 정의·인증 기준과도 연계될 가능성이 높습니다. 법령의 하위 규정 및 시행령 변동에 따라 공급망 구축 전략과 원료 수급 규제 대응 방향이 달라질 수 있으므로 지속적인 모니터링이 필요합니다.",
       "lifecycle_stage": "in_force",
       "date_text": "2026-06-02",
-      "rd_impact": "한국의 탄소중립기본법은 탄소중립 달성을 위한 전반적인 법적 프레임워크를 수립하며, green_eco 도메인에서의 Scope 3 산정, 재활용 함량 의무, EPR 분담금 등 공급망 환경 규제의 근거 법령으로 작용한다. secondary_battery 도메인에 대해서는 배터리 원료 수급, 재활용 원료 의무 함유량 인증 등 녹색 전환 의무의 상위 규범으로 직접 영향을 미친다. 수소 분야에서는 청정수소 인증 기준 및 보조금 적격성의 법적 근거를 제공하여 청정수소 프로젝트 타임라인 리스크와 연계된다.",
+      "rd_impact": "본 기본법은 탄소중립 목표 달성을 위한 녹색성장 정책 전반의 법적 근거를 제공하며, green_eco 도메인의 재활용 함량 의무, EPR 분담금, Scope 3 산정을 위한 소재·부품 데이터 확보 요건에 직접적인 영향을 미칠 수 있습니다. 또한 secondary_battery 도메인의 배터리 패스포트(BOM·원산지·재활용원료) 및 수소 도메인의 청정수소 정의·인증 기준과도 연계될 가능성이 높습니다. 법령의 하위 규정 및 시행령 변동에 따라 공급망 구축 전략과 원료 수급 규제 대응 방향이 달라질 수 있으므로 지속적인 모니터링이 필요합니다.",
       "impact_type": "direct",
-      "alert": "mon",
+      "alert": "watch",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법(014152)",
       "confidence": "B",
@@ -299,6 +299,12 @@
           "stage": "in_force",
           "note": "명칭 변경: 기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법 (탄소중립기본법)",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20260602",
+          "stage": "in_force",
+          "note": "명칭 변경: 기후위기 대응을 위한 탄소중립·녹색성장 기본법 (Carbon Neutra",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -306,11 +312,11 @@
       "regulation_id": "kr-carbon-neutrality-green-growth-framework-act-enforcement-decree_KR",
       "domain": "green_eco",
       "country": "KR",
-      "name": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법 시행령",
-      "summary": "본 시행령은 탄소중립기본법의 하위 규정으로, 녹색성장 및 탄소중립 이행 체계를 구체화하며 green_eco 도메인의 EPR 분담금, 재활용 함량 의무, Scope 3 산정을 위한 소재·부품 데이터 확보 요건 등에 직접적인 규제 근거로 작용할 수 있습니다. 또한 secondary_battery 도메인과의 교차 영향으로, 배터리 재활용 원료 의무 함유량·인증 및 공급망 투명성 요건 강화 가능성이 있습니다. hydrogen 도메인에 대해서는 청정수소 정의 및 인증 기준의 법적 근거를 제공하는 규정이 포함될 수 있어 보조금 적격성 판단 시 면밀한 모니터링이 필요합니다.",
+      "name": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령 (Carbon Neutrality and Green Growth Framework Act Enforcement Decree)",
+      "summary": "This Korean enforcement decree operationalizes the Carbon Neutrality and Green Growth Framework Act, directly shaping regulatory obligations around carbon reduction, recycled content, and green supply chains. For green_eco concerns, it is likely to impose or reinforce EPR frameworks, recycled feedstock mandates, and Scope 3/DPP-relevant data reporting obligations on materials and components. For secondary_battery, it may tighten recycled raw material content requirements and supply chain disclosures (BOM, origin, recycled content) relevant to battery passport preparation.",
       "lifecycle_stage": "in_force",
       "date_text": "2026-05-06",
-      "rd_impact": "본 시행령은 탄소중립기본법의 하위 규정으로, 녹색성장 및 탄소중립 이행 체계를 구체화하며 green_eco 도메인의 EPR 분담금, 재활용 함량 의무, Scope 3 산정을 위한 소재·부품 데이터 확보 요건 등에 직접적인 규제 근거로 작용할 수 있습니다. 또한 secondary_battery 도메인과의 교차 영향으로, 배터리 재활용 원료 의무 함유량·인증 및 공급망 투명성 요건 강화 가능성이 있습니다. hydrogen 도메인에 대해서는 청정수소 정의 및 인증 기준의 법적 근거를 제공하는 규정이 포함될 수 있어 보조금 적격성 판단 시 면밀한 모니터링이 필요합니다.",
+      "rd_impact": "This Korean enforcement decree operationalizes the Carbon Neutrality and Green Growth Framework Act, directly shaping regulatory obligations around carbon reduction, recycled content, and green supply chains. For green_eco concerns, it is likely to impose or reinforce EPR frameworks, recycled feedstock mandates, and Scope 3/DPP-relevant data reporting obligations on materials and components. For secondary_battery, it may tighten recycled raw material content requirements and supply chain disclosures (BOM, origin, recycled content) relevant to battery passport preparation.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
@@ -331,6 +337,12 @@
           "stage": "in_force",
           "note": "명칭 변경: 기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법 시행령",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20260506",
+          "stage": "in_force",
+          "note": "명칭 변경: 기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령 (Carbon Ne",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -339,10 +351,10 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 (Space Development Promotion Act)",
-      "summary": "한국의 우주개발 진흥법은 우주용 부품·소재 규제 및 수출통제 적격성과 직접 연관되며, 우주 파편 경감 의무 등 space_environment 도메인의 핵심 규제 프레임워크를 구성한다. 동 법률은 우주개발 사업 참여 요건, 부품·소재 기준, 우주물체 등록 및 파편 관리 의무 등을 규율하여 관련 R&D 사업의 인허가 및 공급망 구성에 직접적 영향을 미친다. 수출통제 적격성 판단 및 우주용 소재·부품 조달 시 동 법률의 요건 충족 여부를 사전 검토해야 한다.",
+      "summary": "대한민국 우주개발 진흥법은 우주용 부품·소재의 인증 및 규제 프레임워크를 규정하며, 우주 파편 경감 의무 및 수출통제 적격성 요건에 직접적인 영향을 미칩니다. 해당 법령은 우주 관련 사업자에게 부품·소재의 국내외 규제 준수 의무를 부과할 수 있어, space_environment 도메인의 수출통제 적격성 및 우주 파편 경감 의무 대응 시 참조가 필요합니다. 법령의 구체적 개정 내용 및 적용 범위에 대한 추가 전문 검토가 권고됩니다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-05-27",
-      "rd_impact": "한국의 우주개발 진흥법은 우주용 부품·소재 규제 및 수출통제 적격성과 직접 연관되며, 우주 파편 경감 의무 등 space_environment 도메인의 핵심 규제 프레임워크를 구성한다. 동 법률은 우주개발 사업 참여 요건, 부품·소재 기준, 우주물체 등록 및 파편 관리 의무 등을 규율하여 관련 R&D 사업의 인허가 및 공급망 구성에 직접적 영향을 미친다. 수출통제 적격성 판단 및 우주용 소재·부품 조달 시 동 법률의 요건 충족 여부를 사전 검토해야 한다.",
+      "rd_impact": "대한민국 우주개발 진흥법은 우주용 부품·소재의 인증 및 규제 프레임워크를 규정하며, 우주 파편 경감 의무 및 수출통제 적격성 요건에 직접적인 영향을 미칩니다. 해당 법령은 우주 관련 사업자에게 부품·소재의 국내외 규제 준수 의무를 부과할 수 있어, space_environment 도메인의 수출통제 적격성 및 우주 파편 경감 의무 대응 시 참조가 필요합니다. 법령의 구체적 개정 내용 및 적용 범위에 대한 추가 전문 검토가 권고됩니다.",
       "impact_type": "direct",
       "alert": "mon",
       "source": "kr-law-go-kr",
@@ -371,10 +383,10 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 시행령 (Enforcement Decree of the Space Development Promotion Act)",
-      "summary": "This enforcement decree governs the implementation of South Korea's Space Development Promotion Act, directly affecting space_environment domain concerns including regulations on space components/materials, export control eligibility for space-use parts, and space debris mitigation obligations. As a subordinate decree to the primary Space Development Promotion Act, it likely contains detailed procedural rules on licensing, safety standards, and technical requirements for space development activities — all of which intersect with the domain concerns around export control eligibility for space-grade components and space debris reduction mandates. Full text was not provided beyond the title, limiting assessment of specific clause-level impact; close monitoring is warranted as the November 2025 publication date suggests recently updated or enacted provisions.",
+      "summary": "이 시행령은 한국의 우주개발 활동에 관한 세부 규정을 다루며, 우주용 부품·소재의 규제 요건 및 수출통제 적격성 판단 기준에 직접적인 영향을 미칩니다. space_environment 도메인의 우주용 부품·소재 규제 및 우주 파편 경감 의무와 관련하여, 국내 우주개발 프로그램 참여 기업은 시행령에서 정한 기술기준·인증 요건을 준수해야 합니다. 수출통제 적격성 측면에서도 국내외 우주 관련 기술 이전 및 부품 조달 시 본 시행령의 요건을 사전 검토할 필요가 있습니다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-11-25",
-      "rd_impact": "This enforcement decree governs the implementation of South Korea's Space Development Promotion Act, directly affecting space_environment domain concerns including regulations on space components/materials, export control eligibility for space-use parts, and space debris mitigation obligations. As a subordinate decree to the primary Space Development Promotion Act, it likely contains detailed procedural rules on licensing, safety standards, and technical requirements for space development activities — all of which intersect with the domain concerns around export control eligibility for space-grade components and space debris reduction mandates. Full text was not provided beyond the title, limiting assessment of specific clause-level impact; close monitoring is warranted as the November 2025 publication date suggests recently updated or enacted provisions.",
+      "rd_impact": "이 시행령은 한국의 우주개발 활동에 관한 세부 규정을 다루며, 우주용 부품·소재의 규제 요건 및 수출통제 적격성 판단 기준에 직접적인 영향을 미칩니다. space_environment 도메인의 우주용 부품·소재 규제 및 우주 파편 경감 의무와 관련하여, 국내 우주개발 프로그램 참여 기업은 시행령에서 정한 기술기준·인증 요건을 준수해야 합니다. 수출통제 적격성 측면에서도 국내외 우주 관련 기술 이전 및 부품 조달 시 본 시행령의 요건을 사전 검토할 필요가 있습니다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
@@ -403,10 +415,10 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 시행규칙 (Enforcement Rules of the Space Development Promotion Act)",
-      "summary": "이 시행규칙은 한국의 우주개발 활동 전반을 규율하며, 우주용 부품·소재의 인증 및 수출통제 적격성 요건에 직접적인 영향을 미칩니다. 우주 파편 경감 의무 및 우주 환경 보호 관련 절차적 기준이 포함될 가능성이 높아, 우주 관련 R&D 프로젝트의 인허가 및 부품 조달 계획 수립 시 사전 검토가 필요합니다. 수출통제 적격성 판단 기준과 우주 파편 경감 의무 이행 절차를 중심으로 규정 세부 내용의 면밀한 모니터링이 요구됩니다.",
+      "summary": "이 시행규칙은 한국의 우주개발 진흥법의 세부 집행 규정으로, 우주용 부품·소재의 인증·규제 요건 및 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미칠 수 있습니다. 2025년 4월 23일자로 공포된 최신 개정 내용은 수출통제 적격성 판단 및 우주 관련 부품·소재 규제 준수 여부 검토에 참조가 필요합니다. 다만 제공된 본문 내용이 제목 수준에 그쳐 세부 조항 확인이 필요하며, 규정의 구체적 의무사항은 원문 전문 검토 후 추가 대응이 요구됩니다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-04-23",
-      "rd_impact": "이 시행규칙은 한국의 우주개발 활동 전반을 규율하며, 우주용 부품·소재의 인증 및 수출통제 적격성 요건에 직접적인 영향을 미칩니다. 우주 파편 경감 의무 및 우주 환경 보호 관련 절차적 기준이 포함될 가능성이 높아, 우주 관련 R&D 프로젝트의 인허가 및 부품 조달 계획 수립 시 사전 검토가 필요합니다. 수출통제 적격성 판단 기준과 우주 파편 경감 의무 이행 절차를 중심으로 규정 세부 내용의 면밀한 모니터링이 요구됩니다.",
+      "rd_impact": "이 시행규칙은 한국의 우주개발 진흥법의 세부 집행 규정으로, 우주용 부품·소재의 인증·규제 요건 및 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미칠 수 있습니다. 2025년 4월 23일자로 공포된 최신 개정 내용은 수출통제 적격성 판단 및 우주 관련 부품·소재 규제 준수 여부 검토에 참조가 필요합니다. 다만 제공된 본문 내용이 제목 수준에 그쳐 세부 조항 확인이 필요하며, 규정의 구체적 의무사항은 원문 전문 검토 후 추가 대응이 요구됩니다.",
       "impact_type": "direct",
       "alert": "mon",
       "source": "kr-law-go-kr",
@@ -435,10 +447,10 @@
       "domain": "hydrogen",
       "country": "KR",
       "name": "수소경제 육성 및 수소 안전관리에 관한 법률 (수소법)",
-      "summary": "한국의 수소법은 청정수소 정의 및 인증 기준, 수소 생산·유통·활용 전반의 규제 체계를 규정하며, 수소 프로젝트의 보조금 적격성 및 인증 요건에 직접적인 영향을 미친다. 청정수소 인증 기준의 변동 가능성은 국내 수소 사업자의 보조금 수령 자격 및 프로젝트 타임라인에 리스크를 초래할 수 있다. 또한 수소 안전관리 의무 강화는 설비 도입·운영 비용 및 인허가 일정에 영향을 줄 수 있다.",
+      "summary": "본 법률은 수소경제 육성 및 수소 안전관리를 포괄하는 한국의 기본법으로, 청정수소 정의·인증 기준 및 보조금 적격성 판단의 법적 근거를 제공한다. 수소 생산·유통·활용 전반에 걸친 규제 프레임워크를 설정하여 프로젝트 인허가 및 타임라인에 직접적 영향을 미친다. 청정수소 인증 요건 변동 및 안전관리 기준 강화는 수소 관련 R&D 설비 운영 및 투자 계획 수립 시 즉각적인 컴플라이언스 검토가 필요하다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-10-01",
-      "rd_impact": "한국의 수소법은 청정수소 정의 및 인증 기준, 수소 생산·유통·활용 전반의 규제 체계를 규정하며, 수소 프로젝트의 보조금 적격성 및 인증 요건에 직접적인 영향을 미친다. 청정수소 인증 기준의 변동 가능성은 국내 수소 사업자의 보조금 수령 자격 및 프로젝트 타임라인에 리스크를 초래할 수 있다. 또한 수소 안전관리 의무 강화는 설비 도입·운영 비용 및 인허가 일정에 영향을 줄 수 있다.",
+      "rd_impact": "본 법률은 수소경제 육성 및 수소 안전관리를 포괄하는 한국의 기본법으로, 청정수소 정의·인증 기준 및 보조금 적격성 판단의 법적 근거를 제공한다. 수소 생산·유통·활용 전반에 걸친 규제 프레임워크를 설정하여 프로젝트 인허가 및 타임라인에 직접적 영향을 미친다. 청정수소 인증 요건 변동 및 안전관리 기준 강화는 수소 관련 R&D 설비 운영 및 투자 계획 수립 시 즉각적인 컴플라이언스 검토가 필요하다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
@@ -472,11 +484,11 @@
       "regulation_id": "kr-hydrogen-economy-safety-enforcement-decree_KR",
       "domain": "hydrogen",
       "country": "KR",
-      "name": "수소경제 육성 및 수소 안전관리에 관한 법률 시행령 (Hydrogen Economy Promotion and Hydrogen Safety Management Act Enforcement Decree)",
-      "summary": "이 시행령은 수소경제 육성 및 수소 안전관리에 관한 법률의 하위 규정으로, 청정수소 인증 기준·보조금 적격성 요건 및 수소 관련 사업 절차를 구체화한다. 청정수소 정의 및 인증 기준의 변동 가능성이 있어 기존 프로젝트의 보조금 적격성 재검토가 필요하다. 수소 설비 안전관리 의무 강화로 인해 신규 및 기존 수소 생산·저장·운반 설비의 규정 준수 비용이 증가할 수 있으며, 프로젝트 타임라인에 영향을 줄 수 있다.",
+      "name": "수소경제 육성 및 수소 안전관리에 관한 법률 시행령 (Enforcement Decree of the Hydrogen Economy Promotion and Hydrogen Safety Management Act)",
+      "summary": "이 시행령은 수소경제 육성을 위한 청정수소 정의·인증 기준 및 안전관리 체계를 법적으로 규정하며, 수소 프로젝트의 보조금 적격성 판단과 인증 요건에 직접적 영향을 미친다. 청정수소 인증 기준의 세부 요건이 시행령 수준에서 확정됨에 따라, 진행 중인 수소 프로젝트의 적격성 검토 및 타임라인 재조정이 필요할 수 있다. IRA 45V 착공 마감(2028년) 등 해외 규제와의 정합성도 함께 점검해야 한다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-12-30",
-      "rd_impact": "이 시행령은 수소경제 육성 및 수소 안전관리에 관한 법률의 하위 규정으로, 청정수소 인증 기준·보조금 적격성 요건 및 수소 관련 사업 절차를 구체화한다. 청정수소 정의 및 인증 기준의 변동 가능성이 있어 기존 프로젝트의 보조금 적격성 재검토가 필요하다. 수소 설비 안전관리 의무 강화로 인해 신규 및 기존 수소 생산·저장·운반 설비의 규정 준수 비용이 증가할 수 있으며, 프로젝트 타임라인에 영향을 줄 수 있다.",
+      "rd_impact": "이 시행령은 수소경제 육성을 위한 청정수소 정의·인증 기준 및 안전관리 체계를 법적으로 규정하며, 수소 프로젝트의 보조금 적격성 판단과 인증 요건에 직접적 영향을 미친다. 청정수소 인증 기준의 세부 요건이 시행령 수준에서 확정됨에 따라, 진행 중인 수소 프로젝트의 적격성 검토 및 타임라인 재조정이 필요할 수 있다. IRA 45V 착공 마감(2028년) 등 해외 규제와의 정합성도 함께 점검해야 한다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
@@ -509,6 +521,12 @@
           "stage": "in_force",
           "note": "명칭 변경: 수소경제 육성 및 수소 안전관리에 관한 법률 시행령 (Hydrogen E",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20251230",
+          "stage": "in_force",
+          "note": "명칭 변경: 수소경제 육성 및 수소 안전관리에 관한 법률 시행령 (Enforcemen",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -517,12 +535,12 @@
       "domain": "hydrogen",
       "country": "KR",
       "name": "수소경제 육성 및 수소 안전관리에 관한 법률 시행규칙",
-      "summary": "본 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 하위 규정으로, 청정수소 인증 기준·절차 및 수소 설비 안전 관리 요건을 구체화한다. 청정수소 정의 및 인증 기준의 변동 가능성이 있어 보조금 적격성 판단 및 프로젝트 타임라인(특히 2028년 IRA 45V 착공 마감일)에 직접적인 영향을 미칠 수 있다. 수소 관련 설비 운영 및 공급망 전반에 걸친 규제 준수 요건이 강화될 수 있으므로 지속적인 모니터링이 필요하다.",
+      "summary": "본 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 집행 기준을 규정하며, 청정수소 인증 기준·절차 및 수소 설비 안전관리 요건에 직접적인 영향을 미친다. 수소 생산·유통·활용 전반에 걸친 규제 요건이 구체화됨에 따라 청정수소 보조금 적격성 판단 및 프로젝트 인허가 타임라인 리스크 관리에 즉각적인 대응이 필요하다. 특히 청정수소 정의·인증 기준 변동 가능성과 연계하여 수소 프로젝트의 공급망 구성 및 설비 운영 기준 재검토가 요구된다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-10-01",
-      "rd_impact": "본 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 하위 규정으로, 청정수소 인증 기준·절차 및 수소 설비 안전 관리 요건을 구체화한다. 청정수소 정의 및 인증 기준의 변동 가능성이 있어 보조금 적격성 판단 및 프로젝트 타임라인(특히 2028년 IRA 45V 착공 마감일)에 직접적인 영향을 미칠 수 있다. 수소 관련 설비 운영 및 공급망 전반에 걸친 규제 준수 요건이 강화될 수 있으므로 지속적인 모니터링이 필요하다.",
+      "rd_impact": "본 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 집행 기준을 규정하며, 청정수소 인증 기준·절차 및 수소 설비 안전관리 요건에 직접적인 영향을 미친다. 수소 생산·유통·활용 전반에 걸친 규제 요건이 구체화됨에 따라 청정수소 보조금 적격성 판단 및 프로젝트 인허가 타임라인 리스크 관리에 즉각적인 대응이 필요하다. 특히 청정수소 정의·인증 기준 변동 가능성과 연계하여 수소 프로젝트의 공급망 구성 및 설비 운영 기준 재검토가 요구된다.",
       "impact_type": "direct",
-      "alert": "mon",
+      "alert": "watch",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/수소경제 육성 및 수소 안전관리에 관한 법률 시행규칙(014016)",
       "confidence": "B",
@@ -575,23 +593,29 @@
       "domain": "secondary_battery",
       "country": "US",
       "name": "Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States",
-      "summary": "Tariff adjustments on aluminum, steel, and copper imports directly affect the cost and availability of key raw materials used in battery cell manufacturing, EV structural components, and related supply chains. For secondary battery R&D and production, copper is a critical anode current collector material, and aluminum is used in cathode current collectors and cell casings — price shocks or supply disruptions from new tariff regimes will increase BOM costs and complicate supplier qualification, especially where Chinese entities are involved. Green/hydrogen projects reliant on steel and aluminum for electrolyzer stacks, balance-of-plant equipment, and structural infrastructure will also face cost escalation risks.",
-      "lifecycle_stage": "enacted",
+      "summary": "Tariff adjustments on aluminum, steel, and copper imports directly affect the cost and availability of key raw materials used in battery cell manufacturing, enclosures, current collectors, and structural components. Supply chain decisions regarding sourcing from China or other affected countries will face heightened cost and compliance pressure. Green/hydrogen infrastructure projects relying on these metals for electrolyzer stacks, storage tanks, and BOS components will also see upstream cost increases.",
+      "lifecycle_stage": "in_force",
       "date_text": "2026-06-04",
-      "rd_impact": "Tariff adjustments on aluminum, steel, and copper imports directly affect the cost and availability of key raw materials used in battery cell manufacturing, EV structural components, and related supply chains. For secondary battery R&D and production, copper is a critical anode current collector material, and aluminum is used in cathode current collectors and cell casings — price shocks or supply disruptions from new tariff regimes will increase BOM costs and complicate supplier qualification, especially where Chinese entities are involved. Green/hydrogen projects reliant on steel and aluminum for electrolyzer stacks, balance-of-plant equipment, and structural infrastructure will also face cost escalation risks.",
+      "rd_impact": "Tariff adjustments on aluminum, steel, and copper imports directly affect the cost and availability of key raw materials used in battery cell manufacturing, enclosures, current collectors, and structural components. Supply chain decisions regarding sourcing from China or other affected countries will face heightened cost and compliance pressure. Green/hydrogen infrastructure projects relying on these metals for electrolyzer stacks, storage tanks, and BOS components will also see upstream cost increases.",
       "impact_type": "indirect",
       "alert": "urgent",
       "source": "us-federal-register",
       "source_url": "https://www.federalregister.gov/documents/2026/06/04/2026-11314/further-adjusting-the-tariff-regimes-for-imports-of-aluminum-steel-and-copper-into-the-united-states",
       "confidence": "B",
       "checked_at": "2026-06-05",
-      "changed_this_week": false,
+      "changed_this_week": true,
       "citation_quote": "Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States",
       "history": [
         {
           "date": "2026-06-04",
           "stage": "enacted",
           "note": "신규 등록",
+          "source": "us-federal-register"
+        },
+        {
+          "date": "2026-06-04",
+          "stage": "in_force",
+          "note": "enacted → in_force",
           "source": "us-federal-register"
         }
       ]
@@ -601,10 +625,10 @@
       "domain": "secondary_battery",
       "country": "US",
       "name": "Significant New Use Rules on Certain Chemical Substances (25-2.5e)",
-      "summary": "EPA's SNURs under TSCA require 90-day advance notification before manufacturing, importing, or processing designated chemical substances for any significant new use, directly impacting battery supply chain management. New or novel chemical substances relevant to battery materials (e.g., electrolytes, electrode materials, coatings) that were subjects of PMNs may fall under these rules, creating compliance obligations for sourcing and processing decisions. Companies must audit their battery material supply chains — particularly for next-generation anode/cathode materials — to determine whether any covered substances trigger SNUR notification requirements before production or import commences.",
+      "summary": "EPA's SNURs require 90-day advance notification before manufacturing, importing, or processing designated chemical substances for significant new uses, directly affecting battery material supply chains (e.g., electrode materials, electrolytes) that may fall under TSCA PMN orders. This adds regulatory lead-time and compliance overhead for secondary battery R&D operations sourcing or processing novel chemical substances in the US. Green/eco feedstock supply chains are similarly exposed if new chemical inputs lack TSCA clearance, creating procurement risk for DPP and Scope 3 data obligations.",
       "lifecycle_stage": "in_force",
       "date_text": "2026-05-29",
-      "rd_impact": "EPA's SNURs under TSCA require 90-day advance notification before manufacturing, importing, or processing designated chemical substances for any significant new use, directly impacting battery supply chain management. New or novel chemical substances relevant to battery materials (e.g., electrolytes, electrode materials, coatings) that were subjects of PMNs may fall under these rules, creating compliance obligations for sourcing and processing decisions. Companies must audit their battery material supply chains — particularly for next-generation anode/cathode materials — to determine whether any covered substances trigger SNUR notification requirements before production or import commences.",
+      "rd_impact": "EPA's SNURs require 90-day advance notification before manufacturing, importing, or processing designated chemical substances for significant new uses, directly affecting battery material supply chains (e.g., electrode materials, electrolytes) that may fall under TSCA PMN orders. This adds regulatory lead-time and compliance overhead for secondary battery R&D operations sourcing or processing novel chemical substances in the US. Green/eco feedstock supply chains are similarly exposed if new chemical inputs lack TSCA clearance, creating procurement risk for DPP and Scope 3 data obligations.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "us-federal-register",
@@ -741,7 +765,7 @@
       "source_url": "https://www.law.go.kr/법령/산업기술연구조합 육성법(009135)",
       "confidence": "B",
       "checked_at": "2026-06-05",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "산업기술연구조합법",
       "history": [
         {
@@ -799,7 +823,7 @@
       "source_url": "http://publications.europa.eu/resource/cellar/a59e99ea-5ef1-11f1-aa6d-01aa75ed71a1",
       "confidence": "B",
       "checked_at": "2026-06-05",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "The use of alternatives to testing on animals for the REACH regulation : sixth report under Article 117(3) of the REACH regulation : June 2026",
       "history": [
         {
@@ -1232,8 +1256,5 @@
         }
       ]
     }
-  ],
-  "baseline_merged": [
-    "baseline_battery"
   ]
 }
