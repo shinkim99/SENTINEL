@@ -14,9 +14,9 @@ echo ============================================================
 echo  SENTINEL KR 수집  ^|  %DATE% %TIME%
 echo ============================================================
 
-:: 1. KR 수집 (모듈 실행 — 프로젝트 루트에서 실행해야 app 패키지 인식)
+:: 1. KR 수집 (kr_latest.json 갱신)
 echo.
-echo [1/4] python -m scripts.collect_kr ...
+echo [1/5] python -m scripts.collect_kr ...
 python -m scripts.collect_kr
 if %errorlevel% neq 0 (
     echo.
@@ -24,39 +24,39 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-:: 2. 원격 최신화
+:: 2. 수집 결과 stage (pull 전에 작업트리를 깨끗하게 만들어야 rebase 가능)
 echo.
-echo [2/4] git pull --rebase ...
+echo [2/5] git add data\inbox\kr_latest.json ...
+git add data\inbox\kr_latest.json
+
+:: 3. 변경 있을 때만 커밋 (동일 결과면 스킵)
+echo.
+echo [3/5] git commit ^(변경 없으면 스킵^) ...
+git diff --staged --quiet
+if %errorlevel% equ 0 (
+    echo [알림] kr_latest.json 변경 없음 -- 커밋 스킵
+) else (
+    for /f %%i in ('python -c "import datetime; d=datetime.date.today().isocalendar(); print(str(d[0])+'-W'+str(d[1]).zfill(2))"') do set WEEK=%%i
+    echo commit: chore: KR collection %WEEK%
+    git commit -m "chore: KR collection %WEEK%"
+    if %errorlevel% neq 0 (
+        echo [오류] git commit 실패
+        exit /b 1
+    )
+)
+
+:: 4. 원격 최신화 (작업트리 깨끗한 상태에서 rebase)
+echo.
+echo [4/5] git pull --rebase ...
 git pull --rebase
 if %errorlevel% neq 0 (
     echo [오류] git pull 실패
     exit /b 1
 )
 
-:: 3. 변경 확인 후 커밋
+:: 5. Push → GitHub Actions 자동 트리거
 echo.
-echo [3/4] staging kr_latest.json ...
-git add data\inbox\kr_latest.json
-
-git diff --staged --quiet
-if %errorlevel% equ 0 (
-    echo [알림] kr_latest.json 변경 없음 -- 커밋/push 건너뜀
-    echo        ^(이번 주 이미 업로드된 내용과 동일합니다^)
-    exit /b 0
-)
-
-for /f %%i in ('python -c "import datetime; d=datetime.date.today().isocalendar(); print(str(d[0])+'-W'+str(d[1]).zfill(2))"') do set WEEK=%%i
-
-echo commit: chore: KR collection %WEEK%
-git commit -m "chore: KR collection %WEEK%"
-if %errorlevel% neq 0 (
-    echo [오류] git commit 실패
-    exit /b 1
-)
-
-:: 4. Push → GitHub Actions 자동 트리거
-echo.
-echo [4/4] git push ...
+echo [5/5] git push ...
 git push
 if %errorlevel% neq 0 (
     echo [오류] git push 실패
