@@ -1,69 +1,62 @@
 @echo off
 :: SENTINEL - KR regulatory data collection + git push
-:: Run from repo root or via Task Scheduler.
 :: Requirements: git, system python, LAW_GO_KR_API_KEY in .env
-
 setlocal
-
-:: Change to repo root (parent of scripts\)
 cd /d "%~dp0.."
 
-echo.
-echo ============================================================
-echo  SENTINEL KR collect  %DATE% %TIME%
-echo ============================================================
+echo SENTINEL KR collect - %DATE% %TIME%
 
-:: [1/5] Collect KR data -> data/inbox/kr_latest.json
 echo.
-echo [1/5] python -m scripts.collect_kr ...
+echo [1/5] python -m scripts.collect_kr
 python -m scripts.collect_kr
-if %errorlevel% neq 0 (
-    echo [ERROR] KR collection failed (exitcode=%errorlevel%) -- git push skipped
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] step 1 collect failed
     exit /b 1
 )
 
-:: [2/5] Stage result (must be clean before pull --rebase)
 echo.
-echo [2/5] git add data\inbox\kr_latest.json ...
+echo [2/5] git add
 git add data\inbox\kr_latest.json
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] step 2 git add failed
+    exit /b 1
+)
 
-:: [3/5] Commit if changed, skip if identical
 echo.
-echo [3/5] git commit (skip if no change) ...
+echo [3/5] git commit
 git diff --staged --quiet
-if %errorlevel% equ 0 (
-    echo [INFO] kr_latest.json unchanged -- commit skipped
-) else (
-    for /f %%i in ('python -c "import datetime; d=datetime.date.today().isocalendar(); print(str(d[0])+'-W'+str(d[1]).zfill(2))"') do set WEEK=%%i
-    echo commit: chore: KR collection %WEEK%
-    git commit -m "chore: KR collection %WEEK%"
-    if %errorlevel% neq 0 (
-        echo [ERROR] git commit failed
-        exit /b 1
-    )
-)
+if %ERRORLEVEL% NEQ 0 goto :do_commit
+echo [INFO] no changes - commit skipped
+goto :after_commit
 
-:: [4/5] Pull latest remote (worktree is clean -> rebase succeeds)
+:do_commit
+python -c "import datetime; g=datetime.date.today().isocalendar(); print(str(g[0])+'-W'+str(g[1]).zfill(2))" > .week.tmp
+set /p WEEK= < .week.tmp
+del .week.tmp 2>nul
+git commit -m "chore: KR collection %WEEK%"
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] step 3 commit failed
+    exit /b 1
+)
+:after_commit
+
 echo.
-echo [4/5] git pull --rebase ...
+echo [4/5] git pull --rebase
 git pull --rebase
-if %errorlevel% neq 0 (
-    echo [ERROR] git pull failed
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] step 4 pull failed
     exit /b 1
 )
 
-:: [5/5] Push -> triggers GitHub Actions digest workflow
 echo.
-echo [5/5] git push ...
+echo [5/5] git push
 git push
-if %errorlevel% neq 0 (
-    echo [ERROR] git push failed
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] step 5 push failed
     exit /b 1
 )
 
 echo.
-echo ============================================================
-echo  Done. GitHub Actions will run the digest automatically.
-echo  Status: https://github.com/shinkim99/SENTINEL/actions
-echo ============================================================
+echo Done - GitHub Actions will start automatically.
+echo https://github.com/shinkim99/SENTINEL/actions
 exit /b 0
