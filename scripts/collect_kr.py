@@ -4,8 +4,8 @@ LLM·발송 없음. LAW_GO_KR_API_KEY 만 필요.
 실행 후 collect_kr.bat 이 git add/commit/push → GitHub Actions 자동 트리거.
 
 사용:
-  python scripts\\collect_kr.py
-  (또는 collect_kr.bat 으로 git push 까지 자동화)
+  python scripts\\collect_kr.py          ← 직접 실행
+  python -m scripts.collect_kr           ← 모듈 실행 (.bat 사용 방식)
 
 환경변수:
   LAW_GO_KR_API_KEY  — 법제처 OC 키 (.env 또는 시스템 환경변수)
@@ -13,12 +13,19 @@ LLM·발송 없음. LAW_GO_KR_API_KEY 만 필요.
 """
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# 직접 실행(python scripts\collect_kr.py) 시 프로젝트 루트를 sys.path에 추가.
+# python -m scripts.collect_kr 실행 시에는 이미 루트가 path에 있어 무해.
+_ROOT = Path(__file__).resolve().parent.parent
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
 import asyncio
 import json
 import logging
-import sys
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
 
 try:
     from dotenv import load_dotenv

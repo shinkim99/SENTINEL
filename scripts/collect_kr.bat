@@ -1,7 +1,8 @@
 @echo off
 :: SENTINEL — KR 규제 수집 + git push 자동화
-:: 회사 PC에서 실행. 레포 루트에서 직접 실행하거나 작업 스케줄러에 등록.
-:: 전제: git 설치, python 가상환경 활성화, .env 에 LAW_GO_KR_API_KEY 설정.
+:: 회사 PC에서 실행. 작업 스케줄러에 등록하거나 직접 더블클릭.
+:: 전제: git 설치, 시스템 python 설치, .env 에 LAW_GO_KR_API_KEY 설정.
+:: venv 불필요 — 시스템 python 직접 사용.
 
 setlocal
 
@@ -13,10 +14,10 @@ echo ============================================================
 echo  SENTINEL KR 수집  ^|  %DATE% %TIME%
 echo ============================================================
 
-:: 1. KR 수집
+:: 1. KR 수집 (모듈 실행 — 프로젝트 루트에서 실행해야 app 패키지 인식)
 echo.
-echo [1/4] python scripts\collect_kr.py ...
-python scripts\collect_kr.py
+echo [1/4] python -m scripts.collect_kr ...
+python -m scripts.collect_kr
 if %errorlevel% neq 0 (
     echo.
     echo [오류] KR 수집 실패 ^(exitcode=%errorlevel%^) -- git push 건너뜀
