@@ -48,6 +48,9 @@ class Settings(BaseSettings):
     profiles_dir: Path = Path("data/profiles")
     state_dir: Path = Path("data/state")
 
+    # 대시보드 헤더 로고 URL (build_dashboard 전용 — 이메일엔 미사용)
+    logo_url: str = "https://shinkim99.github.io/SENTINEL/ico/icon-1.png"
+
     # SSL — REQUESTS_CA_BUNDLE=false (bypass) | /path/to/ca.crt (custom bundle)
     requests_ca_bundle: str = ""
 

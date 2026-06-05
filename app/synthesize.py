@@ -446,12 +446,14 @@ def build_dashboard(
     stats: Optional[dict] = None,
     digest_id: str = "",
     generated_at: str = "",
+    logo_url: str = "",
 ) -> str:
     """전체 레지스트리 대시보드 HTML.
 
     v4 템플릿(radar_reference_v3.html)을 읽어 /* SENTINEL_REG_DATA */ 블록의
     REG 배열만 교체한다. CSS/마크업/JS/element ID는 불변.
     stats 가 주어지면 수집 상태 스트립(#collect-strip)을 채워 노출한다.
+    logo_url 이 주어지면 헤더 좌측에 로고 이미지를 삽입한다 (이메일 불변).
     """
     template = _TEMPLATE_PATH.read_text(encoding="utf-8")
     reg_json = _safe_json([r.model_dump() for r in all_regs])
@@ -466,7 +468,28 @@ def build_dashboard(
     if stats:
         html = _inject_collect_strip(html, stats, digest_id, generated_at)
 
+    if logo_url:
+        html = _inject_logo(html, logo_url)
+
     return html
+
+
+def _inject_logo(html: str, logo_url: str) -> str:
+    """헤더 텍스트 블록 좌측에 로고 <img> 삽입 (대시보드 전용)."""
+    logo_img = (
+        f'<img src="{escape(logo_url)}" width="36" height="36" alt="SENTINEL" '
+        'style="border-radius:8px;flex-shrink:0;align-self:center;">'
+    )
+    # <div class="header-row"> 안의 첫 번째 <div style="flex:1;"> 직전에 로고 삽입
+    patched = re.sub(
+        r'(<div class="header-row">(\s|\r?\n)*\s*)(<div style="flex:1;">)',
+        lambda m: m.group(1) + logo_img + "\n    " + m.group(3),
+        html,
+        count=1,
+    )
+    if patched == html:
+        logger.warning("dashboard logo: header-row 패턴 미발견 — 로고 삽입 건너뜀")
+    return patched
 
 
 def _inject_collect_strip(html: str, stats: dict, digest_id: str, generated_at: str) -> str:

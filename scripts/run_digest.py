@@ -222,6 +222,7 @@ async def run(mode: str) -> int:
     dashboard_html = build_dashboard(
         list(updated_registry.values()), stats, digest_id,
         generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
+        logo_url=cfg.logo_url,
     )
 
     # 8. 산출물 파일 출력
