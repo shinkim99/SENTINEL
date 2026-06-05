@@ -1,5 +1,5 @@
 {
-  "committed_at": "2026-06-04T11:42:56.467006",
+  "committed_at": "2026-06-05T00:09:26.516658",
   "digest_id": "2026-W23",
   "regulations": [
     {
@@ -32,24 +32,30 @@
       "regulation_id": "us-commerce-ad-cvd-admin-reviews-april-2026_US",
       "domain": "secondary_battery",
       "country": "US",
-      "name": "Initiation of Antidumping and Countervailing Duty Administrative Reviews",
-      "summary": "AD/CVD administrative reviews of orders with April anniversary dates may directly affect the cost and availability of battery-related raw materials and components sourced from countries subject to these duties, particularly China. Companies building supply chain maps (SCM) that include Chinese suppliers must account for potential retroactive duty adjustments arising from these reviews. This also intersects with battery passport and BOM/origin data requirements, as duty status changes can alter supplier eligibility and origin declarations.",
+      "name": "Initiation of Antidumping and Countervailing Duty Administrative Reviews (April Anniversary Dates)",
+      "summary": "Commerce's initiation of AD/CVD administrative reviews for April anniversary orders signals active trade remedy enforcement that may affect Chinese battery material and component suppliers in the supply chain. Companies building SCM with Chinese entities must monitor whether specific AD/CVD orders cover battery-related inputs (e.g., anode/cathode materials, lithium compounds), as duty rate revisions from these reviews can materially shift sourcing economics. This is particularly relevant when evaluating Chinese supplier inclusion decisions and logistics cost modeling for battery passport BOM origin disclosures.",
       "lifecycle_stage": "in_force",
       "date_text": "2026-06-02",
-      "rd_impact": "AD/CVD administrative reviews of orders with April anniversary dates may directly affect the cost and availability of battery-related raw materials and components sourced from countries subject to these duties, particularly China. Companies building supply chain maps (SCM) that include Chinese suppliers must account for potential retroactive duty adjustments arising from these reviews. This also intersects with battery passport and BOM/origin data requirements, as duty status changes can alter supplier eligibility and origin declarations.",
+      "rd_impact": "Commerce's initiation of AD/CVD administrative reviews for April anniversary orders signals active trade remedy enforcement that may affect Chinese battery material and component suppliers in the supply chain. Companies building SCM with Chinese entities must monitor whether specific AD/CVD orders cover battery-related inputs (e.g., anode/cathode materials, lithium compounds), as duty rate revisions from these reviews can materially shift sourcing economics. This is particularly relevant when evaluating Chinese supplier inclusion decisions and logistics cost modeling for battery passport BOM origin disclosures.",
       "impact_type": "indirect",
-      "alert": "watch",
+      "alert": "mon",
       "source": "us-federal-register",
       "source_url": "https://www.federalregister.gov/documents/2026/06/02/2026-10939/initiation-of-antidumping-and-countervailing-duty-administrative-reviews",
       "confidence": "A",
-      "checked_at": "2026-06-04",
-      "changed_this_week": false,
-      "citation_quote": "The U.S. Department of Commerce (Commerce) has received requests to conduct administrative reviews of various antidumping duty (AD) and countervailing duty (CVD) orders with April anniversary dates.",
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
+      "citation_quote": "The U.S. Department of Commerce (Commerce) has received requests to conduct administrative reviews of various antidumping duty (AD) and countervailing duty (CVD) orders with April anniversary dates. In accordance with Commerce's regulations, we are initiating those administrative reviews.",
       "history": [
         {
           "date": "2026-06-02",
           "stage": "in_force",
           "note": "신규 등록",
+          "source": "us-federal-register"
+        },
+        {
+          "date": "2026-06-02",
+          "stage": "in_force",
+          "note": "명칭 변경: Initiation of Antidumping and Countervai",
           "source": "us-federal-register"
         }
       ]
@@ -159,7 +165,7 @@
       "source_url": "http://publications.europa.eu/resource/cellar/22219ab5-5a7f-11f1-aa6d-01aa75ed71a1",
       "confidence": "B",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "REPORT FROM THE COMMISSION TO THE EUROPEAN PARLIAMENT AND THE COUNCIL on the progress towards reaching the Union-wide target for CO2 injection capacity",
       "history": [
         {
@@ -197,7 +203,7 @@
       "source_url": "http://publications.europa.eu/resource/cellar/e9e5c105-5a39-11f1-aa6d-01aa75ed71a1",
       "confidence": "B",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "Support to implementation of 2024/1252 Critical Raw Materials Act Article 26 : national measures on circularity : priority list of waste streams, evidence and methodology",
       "history": [
         {
@@ -261,7 +267,7 @@
       "source_url": "https://www.law.go.kr/법령/기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법(014152)",
       "confidence": "B",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "탄소중립기본법",
       "history": [
         {
@@ -447,7 +453,7 @@
       "source_url": "https://www.law.go.kr/법령/수소경제 육성 및 수소 안전관리에 관한 법률 시행령(014015)",
       "confidence": "B",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "수소경제 육성 및 수소 안전관리에 관한 법률 시행령",
       "history": [
         {
@@ -517,7 +523,7 @@
       "source_url": "https://www.federalregister.gov/documents/2026/05/29/2026-10817/regulation-for-federal-financial-assistance",
       "confidence": "B",
       "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "OMB is proposing revisions that would improve transparency, accountability, and oversight for Federal awards across the Federal Government. This includes ensuring that American tax dollars are not wasted or misused",
       "history": [
         {
@@ -533,22 +539,126 @@
       "domain": "secondary_battery",
       "country": "US",
       "name": "Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States",
-      "summary": "Tariff adjustments on aluminum, steel, and copper imports directly affect the cost and availability of key raw materials used in battery cell manufacturing, enclosures, current collectors, and structural components. Supply chain sourcing decisions — particularly regarding Chinese suppliers — will face elevated cost pressure, reinforcing the need to diversify and document origins for Battery Passport BOM and recycled content compliance. Green/hydrogen and space hardware procurement are also affected via higher structural material costs.",
+      "summary": "Tariff adjustments on aluminum, steel, and copper imports directly affect the cost and availability of key raw materials used in battery cell manufacturing, EV structural components, and related supply chains. For secondary battery R&D and production, copper is a critical anode current collector material, and aluminum is used in cathode current collectors and cell casings — price shocks or supply disruptions from new tariff regimes will increase BOM costs and complicate supplier qualification, especially where Chinese entities are involved. Green/hydrogen projects reliant on steel and aluminum for electrolyzer stacks, balance-of-plant equipment, and structural infrastructure will also face cost escalation risks.",
       "lifecycle_stage": "enacted",
       "date_text": "2026-06-04",
-      "rd_impact": "Tariff adjustments on aluminum, steel, and copper imports directly affect the cost and availability of key raw materials used in battery cell manufacturing, enclosures, current collectors, and structural components. Supply chain sourcing decisions — particularly regarding Chinese suppliers — will face elevated cost pressure, reinforcing the need to diversify and document origins for Battery Passport BOM and recycled content compliance. Green/hydrogen and space hardware procurement are also affected via higher structural material costs.",
-      "impact_type": "direct",
+      "rd_impact": "Tariff adjustments on aluminum, steel, and copper imports directly affect the cost and availability of key raw materials used in battery cell manufacturing, EV structural components, and related supply chains. For secondary battery R&D and production, copper is a critical anode current collector material, and aluminum is used in cathode current collectors and cell casings — price shocks or supply disruptions from new tariff regimes will increase BOM costs and complicate supplier qualification, especially where Chinese entities are involved. Green/hydrogen projects reliant on steel and aluminum for electrolyzer stacks, balance-of-plant equipment, and structural infrastructure will also face cost escalation risks.",
+      "impact_type": "indirect",
       "alert": "urgent",
       "source": "us-federal-register",
       "source_url": "https://www.federalregister.gov/documents/2026/06/04/2026-11314/further-adjusting-the-tariff-regimes-for-imports-of-aluminum-steel-and-copper-into-the-united-states",
       "confidence": "B",
-      "checked_at": "2026-06-04",
-      "changed_this_week": true,
+      "checked_at": "2026-06-05",
+      "changed_this_week": false,
       "citation_quote": "Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States",
       "history": [
         {
           "date": "2026-06-04",
           "stage": "enacted",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "us-tsca-snur-25-2-5e_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "Significant New Use Rules on Certain Chemical Substances (25-2.5e)",
+      "summary": "EPA's SNURs under TSCA require 90-day advance notification before manufacturing, importing, or processing designated chemical substances for any significant new use, directly impacting battery supply chain management. New or novel chemical substances relevant to battery materials (e.g., electrolytes, electrode materials, coatings) that were subjects of PMNs may fall under these rules, creating compliance obligations for sourcing and processing decisions. Companies must audit their battery material supply chains — particularly for next-generation anode/cathode materials — to determine whether any covered substances trigger SNUR notification requirements before production or import commences.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2026-05-29",
+      "rd_impact": "EPA's SNURs under TSCA require 90-day advance notification before manufacturing, importing, or processing designated chemical substances for any significant new use, directly impacting battery supply chain management. New or novel chemical substances relevant to battery materials (e.g., electrolytes, electrode materials, coatings) that were subjects of PMNs may fall under these rules, creating compliance obligations for sourcing and processing decisions. Companies must audit their battery material supply chains — particularly for next-generation anode/cathode materials — to determine whether any covered substances trigger SNUR notification requirements before production or import commences.",
+      "impact_type": "direct",
+      "alert": "watch",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/05/29/2026-10712/significant-new-use-rules-on-certain-chemical-substances-25-25e",
+      "confidence": "A",
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
+      "citation_quote": "The SNURs require persons to notify EPA at least 90 days before commencing the manufacture (defined by statute to include import) or processing of any of these chemical substances for an activity that is designated as a significant new use in the SNUR.",
+      "history": [
+        {
+          "date": "2026-05-29",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "us-potassium-phosphate-salts-china-five-year-review_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "Potassium Phosphate Salts From China; Institution of Five-Year Reviews",
+      "summary": "Potassium phosphate salts (e.g., KH₂PO₄, K₃PO₄) are key precursor materials used in lithium iron phosphate (LFP) battery cathode manufacturing. The institution of five-year sunset reviews on antidumping/countervailing duty orders against Chinese suppliers raises the risk of continued or increased trade barriers on these inputs, directly affecting raw material sourcing strategies and SCM decisions regarding Chinese supplier inclusion. Battery passport and BOM preparation must account for potential origin-related compliance complications if these duties are revoked or extended.",
+      "lifecycle_stage": "proposed",
+      "date_text": "2026-06-01",
+      "rd_impact": "Potassium phosphate salts (e.g., KH₂PO₄, K₃PO₄) are key precursor materials used in lithium iron phosphate (LFP) battery cathode manufacturing. The institution of five-year sunset reviews on antidumping/countervailing duty orders against Chinese suppliers raises the risk of continued or increased trade barriers on these inputs, directly affecting raw material sourcing strategies and SCM decisions regarding Chinese supplier inclusion. Battery passport and BOM preparation must account for potential origin-related compliance complications if these duties are revoked or extended.",
+      "impact_type": "direct",
+      "alert": "watch",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/06/01/2026-10911/potassium-phosphate-salts-from-china-institution-of-five-year-reviews",
+      "confidence": "A",
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
+      "citation_quote": "The Commission hereby gives notice that it has instituted reviews pursuant to the Tariff Act of 1930, as amended, to determine whether revocation of the countervailing and the antidumping duty orders on potassium phosphate salts from China would be likely to lead to continuation or recurrence of material injury.",
+      "history": [
+        {
+          "date": "2026-06-01",
+          "stage": "proposed",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "us-melamine-china-five-year-review-antidumping-cvd_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "Melamine From China; Institution of Five-Year Reviews",
+      "summary": "The five-year review of antidumping and countervailing duty orders on melamine from China signals continued U.S. scrutiny of Chinese chemical supply chains, which is indirectly relevant to secondary battery and green/eco domains that rely on Chinese feedstock sourcing. If duties are upheld or expanded, supply chain mapping (SCM) decisions regarding Chinese suppliers — including melamine-adjacent chemical intermediates — may be affected. This also reinforces the broader trend of U.S. trade measures targeting Chinese materials, which battery and green material teams should factor into BOM and origin-tracking preparations for Battery Passport and Scope 3 reporting.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2026-06-01",
+      "rd_impact": "The five-year review of antidumping and countervailing duty orders on melamine from China signals continued U.S. scrutiny of Chinese chemical supply chains, which is indirectly relevant to secondary battery and green/eco domains that rely on Chinese feedstock sourcing. If duties are upheld or expanded, supply chain mapping (SCM) decisions regarding Chinese suppliers — including melamine-adjacent chemical intermediates — may be affected. This also reinforces the broader trend of U.S. trade measures targeting Chinese materials, which battery and green material teams should factor into BOM and origin-tracking preparations for Battery Passport and Scope 3 reporting.",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/06/01/2026-10910/melamine-from-china-institution-of-five-year-reviews",
+      "confidence": "A",
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
+      "citation_quote": "the Commission hereby gives notice that it has instituted reviews pursuant to the Tariff Act of 1930, as amended, to determine whether revocation of the antidumping and countervailing duty orders on melamine from China would be likely to lead to continuation or recurrence of material injury",
+      "history": [
+        {
+          "date": "2026-06-01",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "bis-final-order-hans-de-geetere-hasa-invest-2026_US",
+      "domain": "space_environment",
+      "country": "US",
+      "name": "In the Matter of Hans De Geetere and Knokke-Heist Support Corporation Management (Hasa Invest) – BIS Final Decision and Order",
+      "summary": "This Final Decision and Order from the Bureau of Industry and Security (BIS) concerns an export control enforcement action against individuals and entities in Belgium, indicating active US export control enforcement against foreign parties. This is directly relevant to the space_environment domain's concern around export control eligibility, as BIS actions of this type can restrict access to controlled US-origin goods, technology, and software — including space-grade components and materials. R&D teams sourcing US space-qualified parts or collaborating with international partners must monitor BIS denied/restricted party lists to ensure compliance and avoid supply chain disruptions.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2026-05-29",
+      "rd_impact": "This Final Decision and Order from the Bureau of Industry and Security (BIS) concerns an export control enforcement action against individuals and entities in Belgium, indicating active US export control enforcement against foreign parties. This is directly relevant to the space_environment domain's concern around export control eligibility, as BIS actions of this type can restrict access to controlled US-origin goods, technology, and software — including space-grade components and materials. R&D teams sourcing US space-qualified parts or collaborating with international partners must monitor BIS denied/restricted party lists to ensure compliance and avoid supply chain disruptions.",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/05/29/2026-10682/in-the-matter-of-hans-de-geetere-paul-parmentierlaan-121-8300-knokke-heist-belgium-and-nyckeestraat",
+      "confidence": "B",
+      "checked_at": "2026-06-05",
+      "changed_this_week": true,
+      "citation_quote": "In the Matter of: Hans De Geetere, Paul Parmentierlaan 121, 8300 Knokke Heist, Belgium, and Nyckeestraat 4, 8300 Knokke Heist, Belgium, Knokke-Heist Support Corporation Management, a/k/a Hasa Invest, Paul Parmentierlaan 121, 8300 Knokke Heist, Belgium, and Nyckeestraat 4, 8300 Knokke Heist, Belgium; Final Decision and Order",
+      "history": [
+        {
+          "date": "2026-05-29",
+          "stage": "in_force",
           "note": "신규 등록",
           "source": "us-federal-register"
         }
