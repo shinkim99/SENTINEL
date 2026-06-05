@@ -1,5 +1,5 @@
 {
-  "committed_at": "2026-06-05T02:08:49.512984",
+  "committed_at": "2026-06-05T14:26:37.206864",
   "digest_id": "2026-W23",
   "regulations": [
     {
@@ -815,6 +815,425 @@
           "source": "eu-eurlex"
         }
       ]
+    },
+    {
+      "regulation_id": "battery-d9d522_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "IRA FEOC 규정 (해외우려기업)",
+      "summary": "중국·러시아·이란 기업 배터리 부품·광물 사용 시 세액공제 제외",
+      "lifecycle_stage": "in_force",
+      "date_text": "2024년~",
+      "rd_impact": "리튬메탈 원재료 공급망 재편 필수 — 흑연·전구체 공급선 다변화 시급",
+      "impact_type": "direct",
+      "alert": "urgent",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-e446b1_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "인플레이션감축법 (IRA) §45X",
+      "summary": "미국 내 배터리 셀·모듈·소재 제조 시 생산 세액공제",
+      "lifecycle_stage": "in_force",
+      "date_text": "2022~2032년",
+      "rd_impact": "미국 내 파트너십·현지화 시 R&D 비용 세액공제 연계 가능",
+      "impact_type": "indirect",
+      "alert": "opp",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-dc2690_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "IRA 수정 동향 (트럼프 행정부)",
+      "summary": "EV 세액공제 조항 변경·축소 가능성, 친화석연료 정책 전환",
+      "lifecycle_stage": "proposed",
+      "date_text": "2025~2026년 논의",
+      "rd_impact": "미국향 전략 수정 가능성 — 시나리오별 대응 플랜 사전 준비 필요",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "proposed",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-2cc654_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "미국 핵심광물 행정명령",
+      "summary": "리튬·코발트 국내 조달 강화, 동맹국 우선 공급망 구축",
+      "lifecycle_stage": "in_force",
+      "date_text": "2021년~ 지속",
+      "rd_impact": "호주·칠레 등 우방국 광물 공급선 확보 시 긍정 효과",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-5d92a4_CN",
+      "domain": "secondary_battery",
+      "country": "CN",
+      "name": "중국 흑연 수출 규제",
+      "summary": "음극재 핵심 원료 흑연 수출 허가제 도입, 물량 통제 가능",
+      "lifecycle_stage": "in_force",
+      "date_text": "2023.12~",
+      "rd_impact": "리튬메탈 음극재 공정 내 흑연 사용 구조 점검 및 대체재 R&D 선행 필요",
+      "impact_type": "direct",
+      "alert": "urgent",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-fedcdf_CN",
+      "domain": "secondary_battery",
+      "country": "CN",
+      "name": "중국 리튬 수출 제한 가능성",
+      "summary": "리튬 광석·화합물 수출 규제 카드 논의 중",
+      "lifecycle_stage": "proposed",
+      "date_text": "2025~2026년 예상",
+      "rd_impact": "리튬메탈 박막 원재료 직결 이슈 — 조달처 다변화 선제 대응 필수",
+      "impact_type": "direct",
+      "alert": "urgent",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "proposed",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-8e93f7_CN",
+      "domain": "secondary_battery",
+      "country": "CN",
+      "name": "중국 배터리 산업 발전 정책",
+      "summary": "CATL·BYD 집중 지원, 리튬·흑연 수출 무기화 병행",
+      "lifecycle_stage": "in_force",
+      "date_text": "지속 강화",
+      "rd_impact": "중국 경쟁사 TRL 가속화 — 당사 상업화 일정 압박 요인",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-f99c2f_EU",
+      "domain": "secondary_battery",
+      "country": "EU",
+      "name": "EU 배터리 규정 (EU 2023/1542)",
+      "summary": "탄소발자국 신고 의무화, 재활용 원재료 함량 기준, 디지털 배터리 여권(DPP)",
+      "lifecycle_stage": "enacted",
+      "date_text": "단계적: 2024~2027년",
+      "rd_impact": "차세대 배터리 상업화 시 DPP·탄소발자국 측정 체계 사전 내재화 필요",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "enacted",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-b620f4_EU",
+      "domain": "secondary_battery",
+      "country": "EU",
+      "name": "EU CBAM (탄소국경조정제도)",
+      "summary": "EU 수출 제품 탄소 함량에 따른 비용 부과, 소재 공정 탄소 관리 필수",
+      "lifecycle_stage": "in_force",
+      "date_text": "전면 시행 2034년",
+      "rd_impact": "습식공정 탄소 배출량 사전 측정·감축 로드맵 수립 필요",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-aaaea5_EU",
+      "domain": "secondary_battery",
+      "country": "EU",
+      "name": "EU 지속가능성 공시 (CSRD)",
+      "summary": "대기업 ESG 공시 의무화, 배터리 공급망 실사(CSDDD) 연계",
+      "lifecycle_stage": "in_force",
+      "date_text": "2024~2028년",
+      "rd_impact": "공급망 실사 범위 확대 시 협력사 ESG 요건 강화 가능성",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-77d38f_KR",
+      "domain": "secondary_battery",
+      "country": "KR",
+      "name": "K-배터리 선도전략",
+      "summary": "전고체·리튬메탈 등 차세대 배터리 R&D 지원 확대, 2030년 점유율 40% 목표",
+      "lifecycle_stage": "in_force",
+      "date_text": "2023~2030년",
+      "rd_impact": "리튬메탈 음극재 국책과제·정부 R&D 자금 연계 우선 검토",
+      "impact_type": "indirect",
+      "alert": "opp",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-18e843_KR",
+      "domain": "secondary_battery",
+      "country": "KR",
+      "name": "사용후 배터리 유통·재활용법",
+      "summary": "전기차 사용후 배터리 이력 관리, 잔존가치 평가 체계 구축 의무화",
+      "lifecycle_stage": "enacted",
+      "date_text": "2024년~",
+      "rd_impact": "리튬메탈 배터리 수명 예측 데이터 축적 필요성 증가",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "enacted",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-64f3cf_JP",
+      "domain": "secondary_battery",
+      "country": "JP",
+      "name": "일본-미국 핵심광물 협정 (JCMA)",
+      "summary": "일본산 핵심광물 IRA 세액공제 인정, 한국과 동일 우방국 지위",
+      "lifecycle_stage": "enacted",
+      "date_text": "2023.3",
+      "rd_impact": "일본 소재 기업의 미국 시장 경쟁력 강화 — 당사 차별화 전략 점검 필요",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "enacted",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-a390fe_JP",
+      "domain": "secondary_battery",
+      "country": "JP",
+      "name": "일본 GX(그린 트랜스포메이션)",
+      "summary": "배터리·수소 등 탈탄소 전략 분야 집중 투자, 차세대 배터리 상용화 지원",
+      "lifecycle_stage": "in_force",
+      "date_text": "2023~2030년",
+      "rd_impact": "일본 전고체·리튬메탈 R&D 가속화 — 경쟁 동향 모니터링 필요",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-62695d_INTL",
+      "domain": "secondary_battery",
+      "country": "INTL",
+      "name": "파리협정 NDC 강화 사이클",
+      "summary": "각국 2030 온실가스 감축 목표 상향 압력, RE100 수요 확대 동인",
+      "lifecycle_stage": "in_force",
+      "date_text": "2025년 NDC 갱신",
+      "rd_impact": "고에너지밀도 배터리 수요 확대 — 리튬메탈 상업화 시장 확대 동인",
+      "impact_type": "indirect",
+      "alert": "opp",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "in_force",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
+    },
+    {
+      "regulation_id": "battery-eccf26_INTL",
+      "domain": "secondary_battery",
+      "country": "INTL",
+      "name": "IEA 핵심광물 공급망 가이드라인",
+      "summary": "공급망 투명성·환경·사회적 책임 기준 국제 표준화 논의",
+      "lifecycle_stage": "proposed",
+      "date_text": "2025~2026년",
+      "rd_impact": "향후 글로벌 공급망 실사 기준 강화 시 원재료 관리 체계 구축 필요",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "battery-intel-portal (baseline)",
+      "source_url": "https://namgue-oh.github.io/battery-intel-portal/regulation_public.html",
+      "confidence": "B",
+      "checked_at": "2026-05-01",
+      "changed_this_week": false,
+      "citation_quote": "",
+      "history": [
+        {
+          "date": "2026-05-01",
+          "stage": "proposed",
+          "note": "baseline 등록 (battery-intel-portal)",
+          "source": "battery-intel-portal"
+        }
+      ]
     }
+  ],
+  "baseline_merged": [
+    "baseline_battery"
   ]
 }
