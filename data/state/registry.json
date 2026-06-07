@@ -1,5 +1,5 @@
 {
-  "committed_at": "2026-06-07T22:55:16.304468",
+  "committed_at": "2026-06-07T23:09:35.205585",
   "digest_id": "2026-W23",
   "regulations": [
     {
@@ -351,10 +351,10 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 (Space Development Promotion Act)",
-      "summary": "대한민국 우주개발 진흥법은 우주용 부품·소재 및 우주개발 활동 전반에 대한 법적 근거를 제공하며, 수출통제 적격성 및 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미친다. 동 법은 우주개발 관련 부품·소재의 규제 프레임워크를 형성하여 관련 R&D 활동의 인허가 및 수출통제 준수 체계 구축에 영향을 줄 수 있다. 우주 파편 경감 의무 등 국제 기준과의 정합성 확보 여부를 지속적으로 모니터링할 필요가 있다.",
+      "summary": "한국의 우주개발 진흥법은 우주용 부품·소재 및 우주 시스템 개발에 관한 규제 프레임워크를 제공하며, 수출통제 적격성 및 우주 파편 경감 의무와 직접적으로 연관된다. 동 법령은 우주개발 사업에 참여하는 기업의 부품·소재 인증 요건 및 기술 이전 통제 기준에 영향을 미칠 수 있다. 우주환경 도메인 관점에서 우주 파편 경감 및 관련 기술 규제 준수 여부를 지속적으로 모니터링할 필요가 있다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-05-27",
-      "rd_impact": "대한민국 우주개발 진흥법은 우주용 부품·소재 및 우주개발 활동 전반에 대한 법적 근거를 제공하며, 수출통제 적격성 및 우주 파편 경감 의무 등 space_environment 도메인에 직접적인 영향을 미친다. 동 법은 우주개발 관련 부품·소재의 규제 프레임워크를 형성하여 관련 R&D 활동의 인허가 및 수출통제 준수 체계 구축에 영향을 줄 수 있다. 우주 파편 경감 의무 등 국제 기준과의 정합성 확보 여부를 지속적으로 모니터링할 필요가 있다.",
+      "rd_impact": "한국의 우주개발 진흥법은 우주용 부품·소재 및 우주 시스템 개발에 관한 규제 프레임워크를 제공하며, 수출통제 적격성 및 우주 파편 경감 의무와 직접적으로 연관된다. 동 법령은 우주개발 사업에 참여하는 기업의 부품·소재 인증 요건 및 기술 이전 통제 기준에 영향을 미칠 수 있다. 우주환경 도메인 관점에서 우주 파편 경감 및 관련 기술 규제 준수 여부를 지속적으로 모니터링할 필요가 있다.",
       "impact_type": "direct",
       "alert": "mon",
       "source": "kr-law-go-kr",
@@ -383,15 +383,15 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 시행령 (Enforcement Decree of the Space Development Promotion Act)",
-      "summary": "This enforcement decree implements South Korea's Space Development Promotion Act, directly governing the regulatory framework for space development activities including component/material standards and related export control eligibility — all core concerns for the space_environment domain. It may impose specific requirements on space-grade parts and materials procurement, as well as obligations related to space debris mitigation in line with the domain concern on 우주 파편 경감 의무 (space debris reduction obligations). Compliance requirements under this decree could affect supply chain decisions for space-rated components and define export control eligibility criteria for space-use parts and materials.",
+      "summary": "이 시행령은 한국의 우주개발 활동에 관한 세부 규정을 담고 있으며, 우주용 부품·소재 규제 및 수출통제 적격성에 직접적인 영향을 미칠 수 있습니다. space_environment 도메인 관점에서 우주 파편 경감 의무, 우주용 부품·소재의 인증 및 규제 요건, 수출통제 관련 적격성 기준이 이 시행령의 하위 조항에 의해 구체화될 가능성이 높습니다. 해당 시행령의 세부 조항 전문 확보 후 우주 파편 경감, 부품 인증, 수출통제 관련 의무사항에 대한 정밀 검토가 필요합니다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-11-25",
-      "rd_impact": "This enforcement decree implements South Korea's Space Development Promotion Act, directly governing the regulatory framework for space development activities including component/material standards and related export control eligibility — all core concerns for the space_environment domain. It may impose specific requirements on space-grade parts and materials procurement, as well as obligations related to space debris mitigation in line with the domain concern on 우주 파편 경감 의무 (space debris reduction obligations). Compliance requirements under this decree could affect supply chain decisions for space-rated components and define export control eligibility criteria for space-use parts and materials.",
+      "rd_impact": "이 시행령은 한국의 우주개발 활동에 관한 세부 규정을 담고 있으며, 우주용 부품·소재 규제 및 수출통제 적격성에 직접적인 영향을 미칠 수 있습니다. space_environment 도메인 관점에서 우주 파편 경감 의무, 우주용 부품·소재의 인증 및 규제 요건, 수출통제 관련 적격성 기준이 이 시행령의 하위 조항에 의해 구체화될 가능성이 높습니다. 해당 시행령의 세부 조항 전문 확보 후 우주 파편 경감, 부품 인증, 수출통제 관련 의무사항에 대한 정밀 검토가 필요합니다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/우주개발 진흥법 시행령(010066)",
-      "confidence": "C",
+      "confidence": "B",
       "checked_at": "2026-06-07",
       "changed_this_week": false,
       "citation_quote": "우주개발 진흥법 시행령",
@@ -415,12 +415,12 @@
       "domain": "space_environment",
       "country": "KR",
       "name": "우주개발 진흥법 시행규칙 (Enforcement Rules of the Space Development Promotion Act)",
-      "summary": "This enforcement rules document under South Korea's Space Development Promotion Act directly governs the regulatory framework for space development activities, with implications for space component and material regulations as well as space debris mitigation obligations. It may establish or clarify compliance requirements for space-use parts/materials and operational standards relevant to the space_environment domain. Given its publication on 2025-04-23, stakeholders involved in space hardware, components, or related supply chains operating in or with South Korea should review for updated conformance obligations.",
+      "summary": "This is the enforcement rules (시행규칙) for South Korea's Space Development Promotion Act, directly governing space-related activities including components, materials, and operational standards. It is relevant to the space_environment domain, particularly regarding regulatory requirements for space-use parts/materials and potentially export control eligibility for space-grade components. Compliance obligations under these rules may affect procurement, qualification, and supply chain decisions for space hardware programs operating in or exporting to/from Korea.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-04-23",
-      "rd_impact": "This enforcement rules document under South Korea's Space Development Promotion Act directly governs the regulatory framework for space development activities, with implications for space component and material regulations as well as space debris mitigation obligations. It may establish or clarify compliance requirements for space-use parts/materials and operational standards relevant to the space_environment domain. Given its publication on 2025-04-23, stakeholders involved in space hardware, components, or related supply chains operating in or with South Korea should review for updated conformance obligations.",
+      "rd_impact": "This is the enforcement rules (시행규칙) for South Korea's Space Development Promotion Act, directly governing space-related activities including components, materials, and operational standards. It is relevant to the space_environment domain, particularly regarding regulatory requirements for space-use parts/materials and potentially export control eligibility for space-grade components. Compliance obligations under these rules may affect procurement, qualification, and supply chain decisions for space hardware programs operating in or exporting to/from Korea.",
       "impact_type": "direct",
-      "alert": "watch",
+      "alert": "mon",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/우주개발 진흥법 시행규칙(010078)",
       "confidence": "B",
@@ -446,18 +446,18 @@
       "regulation_id": "kr-hydrogen-economy-safety-management-act_KR",
       "domain": "hydrogen",
       "country": "KR",
-      "name": "수소경제 육성 및 수소 안전관리에 관한 법률 (수소법)",
-      "summary": "한국의 수소경제 육성 및 안전관리에 관한 법률(수소법)은 청정수소 정의·인증 기준 및 보조금 적격성 요건을 직접 규율하며, 수소 프로젝트의 인허가·안전관리 체계에 직접적인 영향을 미친다. 수소 생산·유통·활용 전 주기에 걸친 규제 프레임워크를 제공함으로써, 청정수소 인증 기준 변동 리스크 및 보조금 적격성 판단에 직접 연계된다. 또한 수소 설비의 안전관리 의무가 수소 R&D 및 실증 프로젝트의 타임라인에 영향을 줄 수 있어 지속적인 모니터링이 필요하다.",
+      "name": "수소경제 육성 및 수소 안전관리에 관한 법률 (Hydrogen Economy Promotion and Hydrogen Safety Management Act)",
+      "summary": "본 법률은 수소경제 육성 및 수소 안전관리를 포괄적으로 규율하며, 청정수소 인증 기준 및 보조금 적격성 판단에 직접적인 영향을 미친다. 청정수소의 정의·인증 체계 변동에 따라 프로젝트의 보조금 수혜 여부 및 수소 공급망 구성 전략이 달라질 수 있다. 2025년 10월 시행을 기준으로 관련 프로젝트 타임라인 및 인허가 절차를 즉시 재검토할 필요가 있다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-10-01",
-      "rd_impact": "한국의 수소경제 육성 및 안전관리에 관한 법률(수소법)은 청정수소 정의·인증 기준 및 보조금 적격성 요건을 직접 규율하며, 수소 프로젝트의 인허가·안전관리 체계에 직접적인 영향을 미친다. 수소 생산·유통·활용 전 주기에 걸친 규제 프레임워크를 제공함으로써, 청정수소 인증 기준 변동 리스크 및 보조금 적격성 판단에 직접 연계된다. 또한 수소 설비의 안전관리 의무가 수소 R&D 및 실증 프로젝트의 타임라인에 영향을 줄 수 있어 지속적인 모니터링이 필요하다.",
+      "rd_impact": "본 법률은 수소경제 육성 및 수소 안전관리를 포괄적으로 규율하며, 청정수소 인증 기준 및 보조금 적격성 판단에 직접적인 영향을 미친다. 청정수소의 정의·인증 체계 변동에 따라 프로젝트의 보조금 수혜 여부 및 수소 공급망 구성 전략이 달라질 수 있다. 2025년 10월 시행을 기준으로 관련 프로젝트 타임라인 및 인허가 절차를 즉시 재검토할 필요가 있다.",
       "impact_type": "direct",
-      "alert": "mon",
+      "alert": "watch",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/수소경제 육성 및 수소 안전관리에 관한 법률(013670)",
       "confidence": "B",
       "checked_at": "2026-06-07",
-      "changed_this_week": false,
+      "changed_this_week": true,
       "citation_quote": "수소경제 육성 및 수소 안전관리에 관한 법률",
       "history": [
         {
@@ -477,6 +477,12 @@
           "stage": "in_force",
           "note": "명칭 변경: 수소경제 육성 및 수소 안전관리에 관한 법률 (수소법)",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20251001",
+          "stage": "in_force",
+          "note": "명칭 변경: 수소경제 육성 및 수소 안전관리에 관한 법률 (Hydrogen Econo",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -484,11 +490,11 @@
       "regulation_id": "kr-hydrogen-economy-safety-enforcement-decree_KR",
       "domain": "hydrogen",
       "country": "KR",
-      "name": "수소경제 육성 및 수소 안전관리에 관한 법률 시행령",
-      "summary": "이 시행령은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 시행 기준을 규정하며, 청정수소 인증 기준·보조금 적격성·안전관리 요건 등에 직접적 영향을 미칩니다. 수소 도메인의 핵심 관심사인 청정수소 정의 및 인증 기준 변동과 보조금 적격성 판단에 직접 관련되므로, 프로젝트 인증 전략 및 보조금 수령 요건을 재점검할 필요가 있습니다. 시행령 개정 내용에 따라 기존 재생에너지 설비 활용 제한 여부 및 CfD 등 환율 연동 지원 체계와의 정합성도 모니터링이 요구됩니다.",
+      "name": "수소경제 육성 및 수소 안전관리에 관한 법률 시행령 (Hydrogen Economy Promotion and Hydrogen Safety Management Act Enforcement Decree)",
+      "summary": "This enforcement decree (시행령) operationalizes South Korea's Hydrogen Economy Promotion and Hydrogen Safety Management Act, establishing binding sub-statutory rules that directly govern hydrogen project eligibility, clean hydrogen certification standards, and safety management requirements. Changes to the decree's definitions and certification criteria for \"clean hydrogen\" may affect subsidy eligibility and project compliance timelines — a key concern given the 2028 IRA 45V deadline pressure and evolving global clean hydrogen standards. The decree also shapes domestic regulatory infrastructure that interacts with international project financing and cross-border hydrogen supply chain decisions.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-12-30",
-      "rd_impact": "이 시행령은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 시행 기준을 규정하며, 청정수소 인증 기준·보조금 적격성·안전관리 요건 등에 직접적 영향을 미칩니다. 수소 도메인의 핵심 관심사인 청정수소 정의 및 인증 기준 변동과 보조금 적격성 판단에 직접 관련되므로, 프로젝트 인증 전략 및 보조금 수령 요건을 재점검할 필요가 있습니다. 시행령 개정 내용에 따라 기존 재생에너지 설비 활용 제한 여부 및 CfD 등 환율 연동 지원 체계와의 정합성도 모니터링이 요구됩니다.",
+      "rd_impact": "This enforcement decree (시행령) operationalizes South Korea's Hydrogen Economy Promotion and Hydrogen Safety Management Act, establishing binding sub-statutory rules that directly govern hydrogen project eligibility, clean hydrogen certification standards, and safety management requirements. Changes to the decree's definitions and certification criteria for \"clean hydrogen\" may affect subsidy eligibility and project compliance timelines — a key concern given the 2028 IRA 45V deadline pressure and evolving global clean hydrogen standards. The decree also shapes domestic regulatory infrastructure that interacts with international project financing and cross-border hydrogen supply chain decisions.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
@@ -496,7 +502,7 @@
       "confidence": "B",
       "checked_at": "2026-06-07",
       "changed_this_week": true,
-      "citation_quote": "수소경제 육성 및 수소 안전관리에 관한 법률 시행령",
+      "citation_quote": "수소법 시행령",
       "history": [
         {
           "date": "20251230",
@@ -539,6 +545,12 @@
           "stage": "in_force",
           "note": "enacted → in_force",
           "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20251230",
+          "stage": "in_force",
+          "note": "명칭 변경: 수소경제 육성 및 수소 안전관리에 관한 법률 시행령 (Hydrogen E",
+          "source": "kr-law-go-kr"
         }
       ]
     },
@@ -547,10 +559,10 @@
       "domain": "hydrogen",
       "country": "KR",
       "name": "수소경제 육성 및 수소 안전관리에 관한 법률 시행규칙",
-      "summary": "이 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 하위 규정으로, 청정수소 인증 기준·절차 및 수소 관련 설비의 안전관리 요건을 구체화한다. 청정수소 정의 및 인증 기준의 변동 가능성이 있어 보조금 적격성 판단 및 프로젝트 타임라인(특히 2028년 IRA 45V 착공 마감일)에 영향을 미칠 수 있다. 또한 기존 재생에너지 설비 활용 제한 및 환율 변동성(CfD 등)과 맞물려 수소 프로젝트의 사업성 재검토가 필요할 수 있다.",
+      "summary": "본 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 집행 기준을 규정하며, 청정수소 인증·안전관리 요건 및 수소 관련 사업 운영 절차에 직접적인 영향을 미친다. 청정수소 정의 및 인증 기준의 구체적 집행 규칙이 포함될 가능성이 높아, 보조금 적격성 판단 및 프로젝트 타임라인 리스크(2028년 IRA 45V 마감 등)와 연계하여 면밀한 검토가 필요하다. 수소 안전관리 의무 강화로 설비 도입 및 운영 비용 상승이 예상되며, 기존 재생에너지 설비 활용 제한 조항 여부도 확인이 요구된다.",
       "lifecycle_stage": "in_force",
       "date_text": "2025-10-01",
-      "rd_impact": "이 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 하위 규정으로, 청정수소 인증 기준·절차 및 수소 관련 설비의 안전관리 요건을 구체화한다. 청정수소 정의 및 인증 기준의 변동 가능성이 있어 보조금 적격성 판단 및 프로젝트 타임라인(특히 2028년 IRA 45V 착공 마감일)에 영향을 미칠 수 있다. 또한 기존 재생에너지 설비 활용 제한 및 환율 변동성(CfD 등)과 맞물려 수소 프로젝트의 사업성 재검토가 필요할 수 있다.",
+      "rd_impact": "본 시행규칙은 수소경제 육성 및 수소 안전관리에 관한 법률의 세부 집행 기준을 규정하며, 청정수소 인증·안전관리 요건 및 수소 관련 사업 운영 절차에 직접적인 영향을 미친다. 청정수소 정의 및 인증 기준의 구체적 집행 규칙이 포함될 가능성이 높아, 보조금 적격성 판단 및 프로젝트 타임라인 리스크(2028년 IRA 45V 마감 등)와 연계하여 면밀한 검토가 필요하다. 수소 안전관리 의무 강화로 설비 도입 및 운영 비용 상승이 예상되며, 기존 재생에너지 설비 활용 제한 조항 여부도 확인이 요구된다.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "kr-law-go-kr",
@@ -746,24 +758,30 @@
       "regulation_id": "kr-national-rd-innovation-act_KR",
       "domain": "secondary_battery",
       "country": "KR",
-      "name": "국가연구개발혁신법 (National R&D Innovation Act)",
-      "summary": "국가연구개발혁신법은 국내 R&D 과제 수행 체계·규정을 총괄하며, 배터리·수소·우주 등 국가전략기술 분야의 연구개발 수행 방식과 참여 기관 자격 요건에 직접 영향을 미친다. 특히 외국 기업(중국 포함) 참여 제한 조항이 SCM 구성 및 배터리 원료 수급 파트너 선정에 영향을 줄 수 있다. 연구 성과물의 기술료·지식재산권 귀속 규정은 차세대 배터리·전극 제조기술 공동개발 시 기술 유출 리스크 관리에 직결된다.",
+      "name": "국가연구개발혁신법",
+      "summary": "국가연구개발혁신법은 국가 R&D 사업의 기획·평가·관리 전반을 규율하며, 이차전지 관련 연구개발 과제의 수행 요건, 연구비 사용 기준, 성과 관리 의무 등에 직접 적용된다. 배터리 소재·공정 연구의 SCM 구성(중국 기업 포함 여부) 및 기술 수출통제 적격성 판단 시 국가 R&D 과제 규정 준수 여부가 선행 조건으로 작용한다. 연구 성과물(장비·공정·전극 제조기술 등)의 이전·공개 제한 조항은 차세대 배터리 기술의 수출통제 리스크와 연동될 수 있어 지속 모니터링이 필요하다.",
       "lifecycle_stage": "in_force",
       "date_text": "2024-02-27",
-      "rd_impact": "국가연구개발혁신법은 국내 R&D 과제 수행 체계·규정을 총괄하며, 배터리·수소·우주 등 국가전략기술 분야의 연구개발 수행 방식과 참여 기관 자격 요건에 직접 영향을 미친다. 특히 외국 기업(중국 포함) 참여 제한 조항이 SCM 구성 및 배터리 원료 수급 파트너 선정에 영향을 줄 수 있다. 연구 성과물의 기술료·지식재산권 귀속 규정은 차세대 배터리·전극 제조기술 공동개발 시 기술 유출 리스크 관리에 직결된다.",
+      "rd_impact": "국가연구개발혁신법은 국가 R&D 사업의 기획·평가·관리 전반을 규율하며, 이차전지 관련 연구개발 과제의 수행 요건, 연구비 사용 기준, 성과 관리 의무 등에 직접 적용된다. 배터리 소재·공정 연구의 SCM 구성(중국 기업 포함 여부) 및 기술 수출통제 적격성 판단 시 국가 R&D 과제 규정 준수 여부가 선행 조건으로 작용한다. 연구 성과물(장비·공정·전극 제조기술 등)의 이전·공개 제한 조항은 차세대 배터리 기술의 수출통제 리스크와 연동될 수 있어 지속 모니터링이 필요하다.",
       "impact_type": "direct",
       "alert": "mon",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/국가연구개발혁신법(013774)",
       "confidence": "B",
-      "checked_at": "2026-06-05",
-      "changed_this_week": false,
+      "checked_at": "2026-06-07",
+      "changed_this_week": true,
       "citation_quote": "국가연구개발혁신법",
       "history": [
         {
           "date": "20240227",
           "stage": "in_force",
           "note": "신규 등록",
+          "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20240227",
+          "stage": "in_force",
+          "note": "명칭 변경: 국가연구개발혁신법",
           "source": "kr-law-go-kr"
         }
       ]
@@ -772,24 +790,30 @@
       "regulation_id": "kr-industrial-technology-research-cooperative-promotion-act_KR",
       "domain": "secondary_battery",
       "country": "KR",
-      "name": "산업기술연구조합 육성법 (Industrial Technology Research Association Promotion Act)",
-      "summary": "본 법은 산업기술 분야 공동 R&D를 위한 연구조합 설립·운영의 법적 근거를 제공하며, 이차전지·수소·우주 등 핵심 산업기술 분야의 컨소시엄형 연구 협력 구조에 직접 적용된다. 연구조합을 통한 공동 연구개발 활동이 제도적으로 지원됨으로써 이차전지 소재·공정 기술 개발 협업 및 SCM 구축 과정에서의 기업 간 기술 공유 체계 수립에 활용 가능성이 있다. 다만, 중국 기업 포함 여부 판단, 수출통제 적격성 등 구체적인 도메인 규제 사항은 별도 법령과의 교차 검토가 필요하다.",
+      "name": "산업기술연구조합 육성법 (Industrial Technology Research Cooperative Promotion Act)",
+      "summary": "본 법은 산업기술 분야의 연구조합 설립·운영을 규율하며, 배터리·수소·녹색 기술 관련 R&D 협력체 구성 및 공동연구 활동의 법적 근거를 제공한다. 연구조합을 통한 차세대 배터리 기술(음극재, 전극 제조 등) 공동개발 시 조합원 자격 요건 및 외국 기업(중국 포함) 참여 가능성에 유의해야 한다. 또한 조합 형태의 SCM 공동 R&D 구조 설계 시 본 법상 조합 구성·운영 요건이 직접 적용된다.",
       "lifecycle_stage": "in_force",
       "date_text": "2018-04-17",
-      "rd_impact": "본 법은 산업기술 분야 공동 R&D를 위한 연구조합 설립·운영의 법적 근거를 제공하며, 이차전지·수소·우주 등 핵심 산업기술 분야의 컨소시엄형 연구 협력 구조에 직접 적용된다. 연구조합을 통한 공동 연구개발 활동이 제도적으로 지원됨으로써 이차전지 소재·공정 기술 개발 협업 및 SCM 구축 과정에서의 기업 간 기술 공유 체계 수립에 활용 가능성이 있다. 다만, 중국 기업 포함 여부 판단, 수출통제 적격성 등 구체적인 도메인 규제 사항은 별도 법령과의 교차 검토가 필요하다.",
+      "rd_impact": "본 법은 산업기술 분야의 연구조합 설립·운영을 규율하며, 배터리·수소·녹색 기술 관련 R&D 협력체 구성 및 공동연구 활동의 법적 근거를 제공한다. 연구조합을 통한 차세대 배터리 기술(음극재, 전극 제조 등) 공동개발 시 조합원 자격 요건 및 외국 기업(중국 포함) 참여 가능성에 유의해야 한다. 또한 조합 형태의 SCM 공동 R&D 구조 설계 시 본 법상 조합 구성·운영 요건이 직접 적용된다.",
       "impact_type": "indirect",
       "alert": "mon",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/산업기술연구조합 육성법(009135)",
       "confidence": "B",
-      "checked_at": "2026-06-05",
-      "changed_this_week": false,
+      "checked_at": "2026-06-07",
+      "changed_this_week": true,
       "citation_quote": "산업기술연구조합법",
       "history": [
         {
           "date": "20180417",
           "stage": "in_force",
           "note": "신규 등록",
+          "source": "kr-law-go-kr"
+        },
+        {
+          "date": "20180417",
+          "stage": "in_force",
+          "note": "명칭 변경: 산업기술연구조합 육성법 (Industrial Technology Rese",
           "source": "kr-law-go-kr"
         },
         {
@@ -805,16 +829,16 @@
       "domain": "secondary_battery",
       "country": "KR",
       "name": "산업기술연구조합 육성법 시행령",
-      "summary": "본 시행령은 산업기술연구조합의 설립·운영 및 육성에 관한 절차적 사항을 규정하며, 이차전지·수소·우주 등 첨단 산업 분야의 공동 R&D 조합 구성 및 정부 지원 근거를 제공한다. R&D 컨소시엄 참여 자격 및 기술 협력 범위와 관련하여 중국 기업 등 외국 기업의 조합 참여 가능 여부 판단에 간접적으로 영향을 미칠 수 있다. SCM 구축 및 공동연구 파트너 선정 시 조합원 자격 요건 검토가 필요하다.",
+      "summary": "산업기술연구조합 육성법 시행령은 국내 산업기술 연구조합의 설립·운영 기준을 규정하며, 이차전지·수소·그린 분야 R&D 컨소시엄 구성 및 조합원 자격 요건에 영향을 미칩니다. 중국 기업 등 외국 기업의 조합 참여 적격성 판단 시 본 시행령의 조합원 요건 조항이 SCM 구축 파트너 선정 기준과 교차 적용될 수 있습니다. 또한 연구조합을 통한 공동 연구개발 수행 시 기술 보호 및 수출통제 준수 의무와 연계될 수 있어 차세대 배터리 공정·전극 제조기술 공동 개발 체계 설계 시 사전 검토가 필요합니다.",
       "lifecycle_stage": "in_force",
       "date_text": "2018-12-24",
-      "rd_impact": "본 시행령은 산업기술연구조합의 설립·운영 및 육성에 관한 절차적 사항을 규정하며, 이차전지·수소·우주 등 첨단 산업 분야의 공동 R&D 조합 구성 및 정부 지원 근거를 제공한다. R&D 컨소시엄 참여 자격 및 기술 협력 범위와 관련하여 중국 기업 등 외국 기업의 조합 참여 가능 여부 판단에 간접적으로 영향을 미칠 수 있다. SCM 구축 및 공동연구 파트너 선정 시 조합원 자격 요건 검토가 필요하다.",
+      "rd_impact": "산업기술연구조합 육성법 시행령은 국내 산업기술 연구조합의 설립·운영 기준을 규정하며, 이차전지·수소·그린 분야 R&D 컨소시엄 구성 및 조합원 자격 요건에 영향을 미칩니다. 중국 기업 등 외국 기업의 조합 참여 적격성 판단 시 본 시행령의 조합원 요건 조항이 SCM 구축 파트너 선정 기준과 교차 적용될 수 있습니다. 또한 연구조합을 통한 공동 연구개발 수행 시 기술 보호 및 수출통제 준수 의무와 연계될 수 있어 차세대 배터리 공정·전극 제조기술 공동 개발 체계 설계 시 사전 검토가 필요합니다.",
       "impact_type": "indirect",
       "alert": "mon",
       "source": "kr-law-go-kr",
       "source_url": "https://www.law.go.kr/법령/산업기술연구조합 육성법 시행령(003780)",
       "confidence": "B",
-      "checked_at": "2026-06-05",
+      "checked_at": "2026-06-07",
       "changed_this_week": false,
       "citation_quote": "산업기술연구조합법 시행령",
       "history": [
@@ -841,7 +865,7 @@
       "source_url": "http://publications.europa.eu/resource/cellar/a59e99ea-5ef1-11f1-aa6d-01aa75ed71a1",
       "confidence": "B",
       "checked_at": "2026-06-07",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "The use of alternatives to testing on animals for the REACH regulation : sixth report under Article 117(3) of the REACH regulation : June 2026",
       "history": [
         {
@@ -1291,16 +1315,16 @@
       "domain": "green_eco",
       "country": "US",
       "name": "Rescission of Climate-Related Disclosure Rules",
-      "summary": "The SEC's proposal to rescind climate-related disclosure requirements removes the obligation for registrants to report climate-related information in registration statements and annual reports. For green_eco domain, this reduces near-term pressure on Scope 3 and DPP-related data collection mandates originating from US securities law, potentially easing the burden of sourcing materials and components data. However, it does not eliminate parallel obligations under other jurisdictions (e.g., EU CSRD), so cross-border supply chain disclosure risk remains.",
+      "summary": "The SEC's proposal to rescind mandatory climate-related disclosure rules directly reduces the regulatory pressure on companies to publicly report Scope 3 emissions and supply chain sustainability data, which had been a key driver for DPP and Scope 3 data infrastructure investment. For green_eco domain concerns, this eases near-term compliance burden around feedstock supply chain transparency and material/component data disclosure obligations. However, it does not eliminate equivalent requirements under EU frameworks (e.g., CSRD, ESRS), meaning companies with cross-border operations must still maintain data readiness for non-US jurisdictions.",
       "lifecycle_stage": "proposed",
       "date_text": "2026-06-03",
-      "rd_impact": "The SEC's proposal to rescind climate-related disclosure requirements removes the obligation for registrants to report climate-related information in registration statements and annual reports. For green_eco domain, this reduces near-term pressure on Scope 3 and DPP-related data collection mandates originating from US securities law, potentially easing the burden of sourcing materials and components data. However, it does not eliminate parallel obligations under other jurisdictions (e.g., EU CSRD), so cross-border supply chain disclosure risk remains.",
+      "rd_impact": "The SEC's proposal to rescind mandatory climate-related disclosure rules directly reduces the regulatory pressure on companies to publicly report Scope 3 emissions and supply chain sustainability data, which had been a key driver for DPP and Scope 3 data infrastructure investment. For green_eco domain concerns, this eases near-term compliance burden around feedstock supply chain transparency and material/component data disclosure obligations. However, it does not eliminate equivalent requirements under EU frameworks (e.g., CSRD, ESRS), meaning companies with cross-border operations must still maintain data readiness for non-US jurisdictions.",
       "impact_type": "indirect",
       "alert": "watch",
       "source": "us-federal-register",
       "source_url": "https://www.federalregister.gov/documents/2026/06/03/2026-11091/rescission-of-climate-related-disclosure-rules",
       "confidence": "A",
-      "checked_at": "2026-06-05",
+      "checked_at": "2026-06-07",
       "changed_this_week": false,
       "citation_quote": "The Securities and Exchange Commission (\"Commission\") proposes to rescind amendments to its rules under the Securities Act of 1933 (\"Securities Act\") and Securities Exchange Act of 1934 (\"Exchange Act\") that require registrants to provide certain climate- related information in their registration statements and annual reports.",
       "history": [
@@ -1317,17 +1341,17 @@
       "domain": "hydrogen",
       "country": "US",
       "name": "Combined Notice of Filings #1",
-      "summary": "This FERC Combined Notice of Filings relates to energy regulatory proceedings under the Federal Energy Regulatory Commission, which has jurisdiction over electricity markets, natural gas, and hydropower — areas directly intersecting with hydrogen project permitting, interconnection, and rate filings. FERC proceedings can affect the eligibility and timeline of clean energy and hydrogen infrastructure projects, particularly those tied to IRA 45V compliance windows. Monitoring is warranted as individual filings within this notice may impact grid interconnection or gas pipeline approvals relevant to hydrogen or battery storage development.",
+      "summary": "This Federal Energy Regulatory Commission (FERC) combined notice of filings may encompass energy project applications relevant to green/clean energy supply chains and hydrogen-related infrastructure. However, the provided content is a title-level summary only, with no specific filing details, rule text, or actionable provisions disclosed. Without the actual filing contents, the precise regulatory impact on green_eco or hydrogen domains cannot be fully assessed. Ongoing monitoring is recommended to track any filings related to clean energy, hydrogen, or battery storage projects.",
       "lifecycle_stage": "unclear",
       "date_text": "2026-06-05",
-      "rd_impact": "This FERC Combined Notice of Filings relates to energy regulatory proceedings under the Federal Energy Regulatory Commission, which has jurisdiction over electricity markets, natural gas, and hydropower — areas directly intersecting with hydrogen project permitting, interconnection, and rate filings. FERC proceedings can affect the eligibility and timeline of clean energy and hydrogen infrastructure projects, particularly those tied to IRA 45V compliance windows. Monitoring is warranted as individual filings within this notice may impact grid interconnection or gas pipeline approvals relevant to hydrogen or battery storage development.",
+      "rd_impact": "This Federal Energy Regulatory Commission (FERC) combined notice of filings may encompass energy project applications relevant to green/clean energy supply chains and hydrogen-related infrastructure. However, the provided content is a title-level summary only, with no specific filing details, rule text, or actionable provisions disclosed. Without the actual filing contents, the precise regulatory impact on green_eco or hydrogen domains cannot be fully assessed. Ongoing monitoring is recommended to track any filings related to clean energy, hydrogen, or battery storage projects.",
       "impact_type": "indirect",
       "alert": "mon",
       "source": "us-federal-register",
       "source_url": "https://www.federalregister.gov/documents/2026/06/05/2026-11340/combined-notice-of-filings-1",
-      "confidence": "B",
+      "confidence": "C",
       "checked_at": "2026-06-07",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "Energy Department, Federal Energy Regulatory Commission",
       "history": [
         {
@@ -1335,6 +1359,110 @@
           "stage": "unclear",
           "note": "신규 등록",
           "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "us-section-301-forced-labor-import-prohibition-2026_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "Notice of Determinations and Request for Comments Concerning Actions in Section 301 Investigations — Forced Labor Import Prohibition",
+      "summary": "54 economies have been found to lack effective import prohibitions on goods produced with forced labor under Section 301 investigations, directly threatening battery raw material supply chains (e.g., cobalt, lithium, graphite) sourced from flagged economies. Companies must urgently evaluate whether current or planned SCM structures include suppliers from affected economies, as punitive trade actions (tariffs, import bans) could follow. Battery passport and BOM/origin data preparation obligations become critical to demonstrate clean supply chains ahead of any remedial measures.",
+      "lifecycle_stage": "proposed",
+      "date_text": "2026-06-05",
+      "rd_impact": "54 economies have been found to lack effective import prohibitions on goods produced with forced labor under Section 301 investigations, directly threatening battery raw material supply chains (e.g., cobalt, lithium, graphite) sourced from flagged economies. Companies must urgently evaluate whether current or planned SCM structures include suppliers from affected economies, as punitive trade actions (tariffs, import bans) could follow. Battery passport and BOM/origin data preparation obligations become critical to demonstrate clean supply chains ahead of any remedial measures.",
+      "impact_type": "direct",
+      "alert": "urgent",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/06/05/2026-11296/notice-of-determinations-and-request-for-comments-concerning-actions-in-section-301-investigations",
+      "confidence": "B",
+      "checked_at": "2026-06-07",
+      "changed_this_week": true,
+      "citation_quote": "The Trade Representative has determined that 54 of the investigated economies have failed to impose and effectively enforce a forced labor import prohibition.",
+      "history": [
+        {
+          "date": "2026-06-05",
+          "stage": "proposed",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "ustr-us-china-reciprocal-managed-trade-rfc-2026_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "Request for Comments on the Scope and Operation of a Mechanism To Promote Reciprocal Managed Trade With China",
+      "summary": "USTR is soliciting public comments to shape a new U.S.-China reciprocal managed trade mechanism (a \"U.S.-China Board of Trade\") covering non-sensitive products, which could directly affect tariff treatment on battery raw materials and components sourced from China. Favorable tariff modifications on both sides may ease or complicate decisions around including Chinese suppliers in SCM (supply chain management) construction, and could shift the risk calculus on China-origin battery materials (lithium, anode materials, etc.). The outcome of this negotiation could also interact with existing Chinese export controls on battery equipment and electrode manufacturing technology, warranting close monitoring.",
+      "lifecycle_stage": "proposed",
+      "date_text": "2026-06-05",
+      "rd_impact": "USTR is soliciting public comments to shape a new U.S.-China reciprocal managed trade mechanism (a \"U.S.-China Board of Trade\") covering non-sensitive products, which could directly affect tariff treatment on battery raw materials and components sourced from China. Favorable tariff modifications on both sides may ease or complicate decisions around including Chinese suppliers in SCM (supply chain management) construction, and could shift the risk calculus on China-origin battery materials (lithium, anode materials, etc.). The outcome of this negotiation could also interact with existing Chinese export controls on battery equipment and electrode manufacturing technology, warranting close monitoring.",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/06/05/2026-11291/request-for-comments-on-the-scope-and-operation-of-a-mechanism-to-promote-reciprocal-managed-trade",
+      "confidence": "B",
+      "checked_at": "2026-06-07",
+      "changed_this_week": true,
+      "citation_quote": "comment is sought on the types of non-sensitive products that would benefit from favorable tariff modifications by both sides, and considerations around the design of a new government-to-government mechanism--a U.S.-China Board of Trade",
+      "history": [
+        {
+          "date": "2026-06-05",
+          "stage": "proposed",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "us-tsca-new-chemicals-receipt-status-nov2025-jan2026_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "Certain New Chemicals; Receipt and Status Information for November 2025, December 2025, and January 2026 (TSCA)",
+      "summary": "TSCA new chemical review covers Premanufacture Notices (PMNs) and Significant New Use Notices (SNUNs) for substances that may include battery-relevant chemicals (e.g., electrolyte materials, electrode precursors, or novel lithium compounds). Any new chemical receiving an EPA restriction or consent order under TSCA could affect feedstock sourcing and supply chain decisions for secondary battery materials. Biotechnology exemption applications and test marketing exemptions (TMEs) noted in this filing may also apply to next-generation battery chemistries under development, warranting monitoring for compliance obligations tied to new material introductions in the US market.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2026-06-05",
+      "rd_impact": "TSCA new chemical review covers Premanufacture Notices (PMNs) and Significant New Use Notices (SNUNs) for substances that may include battery-relevant chemicals (e.g., electrolyte materials, electrode precursors, or novel lithium compounds). Any new chemical receiving an EPA restriction or consent order under TSCA could affect feedstock sourcing and supply chain decisions for secondary battery materials. Biotechnology exemption applications and test marketing exemptions (TMEs) noted in this filing may also apply to next-generation battery chemistries under development, warranting monitoring for compliance obligations tied to new material introductions in the US market.",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/06/05/2026-11318/certain-new-chemicals-receipt-and-status-information-for-november-2025-december-2025-and-january",
+      "confidence": "B",
+      "checked_at": "2026-06-07",
+      "changed_this_week": true,
+      "citation_quote": "This document announces the Agency's receipt of new chemical submissions under the Toxic Substances Control Act (TSCA), including information about the receipt of a Premanufacture Notice (PMN), Significant New Use Notice (SNUN), Microbial Commercial Activity Notice (MCAN), and an amendment to a previously submitted notice; test information; a biotechnology exemption application; an application for a test marketing exemption (TME); and a notice of commencement of manufacture",
+      "history": [
+        {
+          "date": "2026-06-05",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "kr-gunsupoum-gwanri-sihaengryeong_KR",
+      "domain": "space_environment",
+      "country": "KR",
+      "name": "군수품관리법 시행령",
+      "summary": "한국 군수품관리법 시행령은 군수품의 조달·관리·처분에 관한 절차를 규정하며, 우주용 부품·소재가 군수품으로 분류될 경우 수출통제 및 취급 적격성 요건이 적용될 수 있어 space_environment 도메인과 직접적 연관성이 있다. 군수품으로 지정된 부품·소재는 수출 시 별도 허가 요건을 충족해야 하며, 이는 우주용 부품의 공급망 및 수출통제 적격성 판단에 영향을 미친다. secondary_battery 도메인 측면에서도 군용 배터리 소재·부품이 군수품으로 분류될 경우 원료 수급 및 SCM 구성에 제약이 발생할 수 있다.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2025-12-30",
+      "rd_impact": "한국 군수품관리법 시행령은 군수품의 조달·관리·처분에 관한 절차를 규정하며, 우주용 부품·소재가 군수품으로 분류될 경우 수출통제 및 취급 적격성 요건이 적용될 수 있어 space_environment 도메인과 직접적 연관성이 있다. 군수품으로 지정된 부품·소재는 수출 시 별도 허가 요건을 충족해야 하며, 이는 우주용 부품의 공급망 및 수출통제 적격성 판단에 영향을 미친다. secondary_battery 도메인 측면에서도 군용 배터리 소재·부품이 군수품으로 분류될 경우 원료 수급 및 SCM 구성에 제약이 발생할 수 있다.",
+      "impact_type": "indirect",
+      "alert": "mon",
+      "source": "kr-law-go-kr",
+      "source_url": "https://www.law.go.kr/법령/군수품관리법 시행령(003000)",
+      "confidence": "C",
+      "checked_at": "2026-06-07",
+      "changed_this_week": true,
+      "citation_quote": "군수품관리법 시행령",
+      "history": [
+        {
+          "date": "20251230",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "kr-law-go-kr"
         }
       ]
     }
