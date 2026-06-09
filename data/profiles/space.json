@@ -1,11 +1,32 @@
 {
   "project_id": "space",
   "domain": "space_environment",
-  "status": "draft",
-  "watch_countries": ["KR", "US", "INTL"],
-  "keywords": ["수출통제", "전략물자", "ITAR", "EAR", "우주개발진흥법", "궤도잔해", "space debris"],
-  "concerns": ["수출통제 적격성", "우주용 부품·소재 규제", "우주 파편 경감 의무"],
-  "lifecycle_interest": ["proposed", "enacted", "amended"],
-  "open_questions": ["법·정책·수출통제 외 우주환경 시험규격(ASTM E595, ECSS 등 소재 spec) 포함 여부 — 담당자 확인 필요"],
-  "last_reviewed_by": null
+  "watch_countries": ["KR", "US", "CN", "JP", "IN", "EU", "RU"],
+  "keywords": [
+    "수출통제", "export control", "ITAR", "EAR", "전략물자", "strategic items", "dual-use",
+    "우주개발진흥법", "Space Development Promotion Act", "우주개발진흥 기본계획",
+    "궤도잔해", "우주쓰레기", "orbital debris", "space debris", "debris mitigation", "post-mission disposal",
+    "우주안보", "space security", "우주교통관리", "space traffic management", "STM",
+    "우주위험대비", "위성정보활용", "satellite data", "remote sensing", "satellite imagery", "NOAA licensing",
+    "우주과학탐사", "space exploration", "Artemis", "선저우", "Shenzhou",
+    "우주수송", "space transportation", "발사 인허가", "launch license", "reentry", "Part 450",
+    "주파수 조정", "궤도 조정", "spectrum coordination", "frequency", "ITU-R", "ITU-BR", "orbital slot",
+    "국방우주", "military space", "정찰위성", "reconnaissance satellite",
+    "국제협력", "international cooperation", "우주보험", "space insurance",
+    "우주 소부장", "space materials", "부품소재 인증", "qualification", "space-grade", "국산화",
+    "ESA", "COPUOS", "UNOOSA", "FCC", "FAA", "EUSPA", "ITU",
+    "KASA", "우주항공청", "DAPA", "방위사업청", "과기정통부", "MSIT", "무역안보관리원", "KOSTI"
+  ],
+  "concerns": [
+    "수출통제 적격성 (ITAR/EAR/전략물자)",
+    "우주용 부품·소재 규제 및 인증·시험 변화",
+    "주요 기업의 공급망 확보 어려움 / 민간 우주기업 공급망 변화",
+    "안보 정책 변화에 따른 규제 변동",
+    "국가별 정책 편차에 따른 시장 진입 난이도 증가",
+    "우주용 경량 소재 채택 (R&D trigger)",
+    "우주 소부장 국산화 사업·생태계 장려 정책 (R&D trigger)",
+    "美 FAA 상업 우주 발사 라이선스 규제 개정 (Part 450) — 2026 집중 모니터링",
+    "美 FCC 궤도 잔해물 저감 규정 및 패널티 강화 — 2026 집중 모니터링"
+  ],
+  "lifecycle_interest": ["proposed", "enacted", "in_force", "amended"]
 }

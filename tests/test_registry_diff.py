@@ -15,6 +15,8 @@ import pytest
 from app.models import ScreenedItem
 from app.registry import (
     apply_screened_items,
+    build_url_snapshot,
+    classify_changes,
     commit_registry,
     get_changed_items,
     load_registry,
@@ -30,7 +32,7 @@ from app.synthesize import build_dashboard, build_email
 class TestScenario1FirstRun:
     def test_all_items_marked_changed(self, sample_items):
         """신규 항목은 전부 changed_this_week=True."""
-        updated, changed_ids = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, changed_ids, _ = apply_screened_items(sample_items, {}, "2026-06-02")
 
         assert len(changed_ids) == 3, f"Expected 3, got {len(changed_ids)}: {changed_ids}"
         assert all(r.changed_this_week for r in updated.values()), (
@@ -39,7 +41,7 @@ class TestScenario1FirstRun:
 
     def test_initial_history_entry(self, sample_items):
         """신규 항목 history에 '신규 등록' 1건만 있어야 한다."""
-        updated, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
 
         for reg in updated.values():
             assert len(reg.history) == 1, (
@@ -49,7 +51,7 @@ class TestScenario1FirstRun:
 
     def test_regulation_ids_built_from_canonical_key(self, sample_items):
         """regulation_id = canonical_key + '_' + country."""
-        updated, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
 
         assert "eu-battery-regulation-2023-1542_EU" in updated
         assert "ira-section-45x-manufacturing-credit_US" in updated
@@ -57,7 +59,7 @@ class TestScenario1FirstRun:
 
     def test_get_changed_items_matches_all(self, sample_items):
         """get_changed_items 결과가 apply 결과와 일치."""
-        updated, changed_ids = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, changed_ids, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         changed = get_changed_items(updated)
 
         assert len(changed) == len(changed_ids) == 3
@@ -70,7 +72,7 @@ class TestScenario1FirstRun:
 class TestScenario2PendingAndCommit:
     def test_baseline_not_committed_before_approve(self, tmp_path, sample_items):
         """apply + save_pending 후 registry.json이 존재하면 안 된다."""
-        updated, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         save_pending_registry(updated, "2026-W22", tmp_path)
 
         assert not (tmp_path / "registry.json").exists(), (
@@ -85,7 +87,7 @@ class TestScenario2PendingAndCommit:
         (tmp_path / "pending").mkdir(parents=True, exist_ok=True)
         (tmp_path / "pending" / "2026-W22.html").write_text("<html/>", encoding="utf-8")
 
-        updated, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         save_pending_registry(updated, "2026-W22", tmp_path)
 
         assert (tmp_path / "pending" / "2026-W22.html").exists()
@@ -93,7 +95,7 @@ class TestScenario2PendingAndCommit:
 
     def test_commit_writes_registry_and_audit_log(self, tmp_path, sample_items):
         """commit_registry → registry.json + sent/{id}.json 모두 생성."""
-        updated, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         commit_registry(updated, "2026-W22", tmp_path)
 
         reg_path = tmp_path / "registry.json"
@@ -103,7 +105,7 @@ class TestScenario2PendingAndCommit:
 
     def test_committed_registry_reloadable(self, tmp_path, sample_items):
         """커밋된 registry.json을 재로드하면 동일 항목 수를 반환한다."""
-        updated, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         commit_registry(updated, "2026-W22", tmp_path)
 
         reloaded = load_registry(tmp_path)
@@ -111,7 +113,7 @@ class TestScenario2PendingAndCommit:
 
     def test_audit_log_changed_count(self, tmp_path, sample_items):
         """audit log의 changed_this_week 카운트가 실제 변경 수와 일치."""
-        updated, changed_ids = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated, changed_ids, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         commit_registry(updated, "2026-W22", tmp_path)
 
         audit = json.loads((tmp_path / "sent" / "2026-W22.json").read_text(encoding="utf-8"))
@@ -127,7 +129,7 @@ class TestScenario3SecondRunNoChanges:
     @pytest.fixture(autouse=True)
     def _setup(self, tmp_path, sample_items):
         """1회차 run + approve 로 baseline 수립."""
-        updated1, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated1, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         commit_registry(updated1, "2026-W22", tmp_path)
         self.state_dir = tmp_path
         self.sample_items = sample_items
@@ -135,7 +137,7 @@ class TestScenario3SecondRunNoChanges:
     def test_second_run_no_changed_items(self):
         """2회차 동일 입력 → changed_this_week=False 전원."""
         baseline = load_registry(self.state_dir)
-        updated2, changed_ids = apply_screened_items(
+        updated2, changed_ids, _ = apply_screened_items(
             self.sample_items, baseline, "2026-06-09"
         )
         changed = get_changed_items(updated2)
@@ -147,7 +149,7 @@ class TestScenario3SecondRunNoChanges:
     def test_email_has_zero_items(self):
         """2회차 이후 이메일에 포함될 항목이 0건."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
         changed = get_changed_items(updated2)
 
         email_html = build_email(changed, [], "http://localhost:8010/dashboard")
@@ -158,7 +160,7 @@ class TestScenario3SecondRunNoChanges:
     def test_dashboard_retains_all_items(self):
         """대시보드에는 변화 없는 항목도 모두 표시된다."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
 
         dashboard_html = build_dashboard(list(updated2.values()))
         all_ids = [
@@ -174,7 +176,7 @@ class TestScenario3SecondRunNoChanges:
     def test_email_count_less_than_dashboard_count(self):
         """이메일 항목 수 < 대시보드 항목 수 (0 < 3)."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
         changed = get_changed_items(updated2)
 
         email_count = len(changed)
@@ -190,14 +192,14 @@ class TestScenario3SecondRunNoChanges:
     def test_registry_preserves_all_items(self):
         """레지스트리 항목이 2회차 후에도 유지된다."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
 
         assert len(updated2) == 3, f"Registry should have 3 items, got {len(updated2)}"
 
     def test_second_run_does_not_duplicate_history(self):
         """2회차 실행 후 history가 중복 추가되지 않는다."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.sample_items, baseline, "2026-06-09")
 
         for reg in updated2.values():
             assert len(reg.history) == 1, (
@@ -213,7 +215,7 @@ class TestScenario4LifecycleChange:
     @pytest.fixture(autouse=True)
     def _setup(self, tmp_path, sample_items):
         """1회차 run + approve (proposed → baseline)."""
-        updated1, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated1, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         commit_registry(updated1, "2026-W22", tmp_path)
         self.state_dir = tmp_path
         self.sample_items = sample_items
@@ -228,7 +230,7 @@ class TestScenario4LifecycleChange:
     def test_only_changed_item_flagged(self):
         """lifecycle 변경된 항목만 changed_this_week=True."""
         baseline = load_registry(self.state_dir)
-        updated2, changed_ids = apply_screened_items(
+        updated2, changed_ids, _ = apply_screened_items(
             self.items_week2, baseline, "2026-06-09"
         )
 
@@ -243,7 +245,7 @@ class TestScenario4LifecycleChange:
     def test_history_appended_with_diff_note(self):
         """변경 history에 이전 stage 보존 및 diff 노트 포함."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
 
         reg = updated2["eu-battery-regulation-2023-1542_EU"]
         print(f"\n[Scenario 4] history: {[h.note for h in reg.history]}")
@@ -259,7 +261,7 @@ class TestScenario4LifecycleChange:
     def test_lifecycle_updated_in_registry(self):
         """레지스트리의 lifecycle_stage가 새 값으로 갱신된다."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
 
         reg = updated2["eu-battery-regulation-2023-1542_EU"]
         assert reg.lifecycle_stage == "enacted"
@@ -267,7 +269,7 @@ class TestScenario4LifecycleChange:
     def test_unchanged_items_history_not_grown(self):
         """변경 없는 항목은 history가 늘어나지 않는다."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
 
         for reg_id in [
             "ira-section-45x-manufacturing-credit_US",
@@ -281,7 +283,7 @@ class TestScenario4LifecycleChange:
     def test_changed_item_appears_in_email(self):
         """lifecycle 변경 항목은 이메일에 포함된다."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
         changed = get_changed_items(updated2)
 
         email_html = build_email(changed, [], "http://localhost:8010/dashboard")
@@ -292,7 +294,7 @@ class TestScenario4LifecycleChange:
     def test_all_items_in_dashboard(self):
         """대시보드에는 변경/미변경 항목 모두 표시된다."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
 
         dashboard_html = build_dashboard(list(updated2.values()))
 
@@ -303,7 +305,7 @@ class TestScenario4LifecycleChange:
     def test_history_week2_after_commit(self, tmp_path):
         """commit 후 reload해도 history가 유지된다."""
         baseline = load_registry(self.state_dir)
-        updated2, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
+        updated2, _, _ = apply_screened_items(self.items_week2, baseline, "2026-06-09")
         commit_registry(updated2, "2026-W23", self.state_dir)
 
         reloaded = load_registry(self.state_dir)
@@ -327,7 +329,7 @@ class TestEdgeCases:
             citation=Citation(source_id="src", quote="quote"),
             canonical_key="",  # 비어 있음
         )
-        updated, changed_ids = apply_screened_items([item], {}, "2026-06-02")
+        updated, changed_ids, _ = apply_screened_items([item], {}, "2026-06-02")
 
         # regulation_id should be derived from title slug
         assert len(changed_ids) == 1
@@ -345,19 +347,66 @@ class TestEdgeCases:
 
     def test_empty_input_no_change(self, tmp_path, sample_items):
         """수집 0건 → 레지스트리 변화 없음 (changed_this_week 전부 False)."""
-        updated1, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated1, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         commit_registry(updated1, "2026-W22", tmp_path)
 
         baseline = load_registry(tmp_path)
-        updated2, changed_ids = apply_screened_items([], baseline, "2026-06-09")
+        updated2, changed_ids, _ = apply_screened_items([], baseline, "2026-06-09")
 
         assert changed_ids == []
         assert all(not r.changed_this_week for r in updated2.values())
 
+    def test_build_url_snapshot_deduplicates_collision(self, sample_items):
+        """동일 source_url 복수 항목 → 각자 regulation_id key 로 snapshot에 유지."""
+        updated, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+
+        # EU 항목의 source_url을 US 항목과 동일하게 만들어 충돌 유도
+        eu_reg = updated["eu-battery-regulation-2023-1542_EU"]
+        us_reg = updated["ira-section-45x-manufacturing-credit_US"]
+        eu_reg.source_url = us_reg.source_url  # 의도적 충돌
+
+        snap = build_url_snapshot(updated)
+        # 충돌이 발생하면 regulation_id를 key로 사용 → 두 항목 모두 살아 있어야 함
+        assert len(snap) == 3, f"Expected 3 keys, got {len(snap)}: {list(snap.keys())}"
+        assert "eu-battery-regulation-2023-1542_EU" in snap
+        assert "ira-section-45x-manufacturing-credit_US" in snap
+
+    def test_build_url_snapshot_empty_source_url_fallback(self, sample_items):
+        """source_url 비어 있으면 canonical_key를 identity로 사용."""
+        updated, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+
+        kr_reg = updated["hydrogen-safety-act-amendment_KR"]
+        kr_reg.source_url = ""  # 강제로 비움
+
+        snap = build_url_snapshot(updated)
+        # source_url 없는 항목도 snapshot에 포함돼야 함 (canonical_key로 fallback)
+        assert len(snap) == 3, f"Expected 3 snapshot entries, got {len(snap)}"
+        # key는 canonical_key 부분("hydrogen-safety-act-amendment") 포함
+        ck_key = next((k for k in snap if "hydrogen" in k), None)
+        assert ck_key is not None, f"canonical_key fallback key not found: {list(snap.keys())}"
+
+    def test_classify_changes_correct_count_with_collision(self, sample_items):
+        """build_url_snapshot 충돌 fallback 후 classify_changes new/removed 정확."""
+        # W1: 3개 신규
+        updated1, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+
+        # EU 항목 source_url 충돌 상황에서도 diff 정확해야 함
+        eu_reg = updated1["eu-battery-regulation-2023-1542_EU"]
+        us_reg = updated1["ira-section-45x-manufacturing-credit_US"]
+        eu_reg.source_url = us_reg.source_url
+
+        snap1 = build_url_snapshot(updated1)   # W1 스냅샷 (충돌 포함)
+        snap2 = build_url_snapshot(updated1)   # W2 동일 내용 (변화 없음)
+
+        result = classify_changes(snap1, snap2)
+        assert result["new"] == []
+        assert result["removed"] == []
+        assert result["stage_changed"] == []
+
     def test_multiple_commits_accumulate_history(self, tmp_path, sample_items):
         """3주 연속 실행: W22(신규) → W23(변경) → W24(변경없음) 후 history=3."""
         # W22: proposed
-        updated1, _ = apply_screened_items(sample_items, {}, "2026-06-02")
+        updated1, _, _ = apply_screened_items(sample_items, {}, "2026-06-02")
         commit_registry(updated1, "2026-W22", tmp_path)
 
         # W23: enacted
@@ -366,7 +415,7 @@ class TestEdgeCases:
             *sample_items[1:],
         ]
         baseline2 = load_registry(tmp_path)
-        updated2, _ = apply_screened_items(items_w23, baseline2, "2026-06-09")
+        updated2, _, _ = apply_screened_items(items_w23, baseline2, "2026-06-09")
         commit_registry(updated2, "2026-W23", tmp_path)
 
         # W24: in_force
@@ -375,7 +424,7 @@ class TestEdgeCases:
             *sample_items[1:],
         ]
         baseline3 = load_registry(tmp_path)
-        updated3, _ = apply_screened_items(items_w24, baseline3, "2026-06-16")
+        updated3, _, _ = apply_screened_items(items_w24, baseline3, "2026-06-16")
         commit_registry(updated3, "2026-W24", tmp_path)
 
         final = load_registry(tmp_path)

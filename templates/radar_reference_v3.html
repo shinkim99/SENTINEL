@@ -92,7 +92,7 @@
 
     .view-toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
     .view-btn{padding:6px 14px;font-size:12px;background:var(--surface);color:var(--text2);
-      cursor:pointer;border:none;line-height:1;}
+      cursor:pointer;border:none;line-height:1;font-family:inherit;}
     .view-btn.active{background:#2a3340;color:#fff;}
     [data-theme="light"] .view-btn.active{background:var(--batt);color:#fff;}
 
@@ -127,6 +127,25 @@
     .reg-table tr:hover td{background:var(--surface2);cursor:pointer;}
     .name-cell{font-weight:600;color:var(--text);max-width:250px;}
     .impact-cell{max-width:230px;color:var(--text2);}
+
+    /* ── timeline view ── */
+    #timeline-view{padding:14px 26px 34px;display:none;}
+    .tl-legend-bar{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--text3);}
+    .tl-legend-bar span{display:inline-flex;align-items:center;gap:5px;}
+    .tl-legend-circle{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--batt);flex-shrink:0;}
+    .tl-legend-diamond{display:inline-block;width:9px;height:9px;background:var(--batt);transform:rotate(45deg);border-radius:2px;flex-shrink:0;}
+    .tl-legend-urgent{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red);flex-shrink:0;}
+    .tl-domain-group{margin-bottom:30px;}
+    .tl-domain-label{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;
+      padding-left:10px;display:flex;align-items:center;gap:8px;}
+    .tl-reg-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;
+      padding:12px 14px;margin-bottom:10px;}
+    .tl-reg-item.tl-urgent{border-left:3px solid var(--red);}
+    .tl-reg-item.tl-changed{box-shadow:0 0 0 1px rgba(91,141,239,.3);}
+    .tl-reg-header{cursor:pointer;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+    .tl-reg-name{font-size:13px;font-weight:600;color:var(--text);}
+    .tl-reg-header:hover .tl-reg-name{color:var(--batt);}
+    .tl-dot.tl-key{border-radius:2px;transform:rotate(45deg);left:-20px;top:2px;}
 
     /* ── badges ── */
     .badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:nowrap;}
@@ -170,6 +189,38 @@
     .tl-date{font-size:11px;color:var(--text3);margin-bottom:3px;}
     .tl-note{font-size:13px;color:var(--text);line-height:1.4;}
     .tl-src{font-size:11px;color:var(--text3);margin-top:2px;}
+
+    /* ── bottom panels (항상 표시) ── */
+    .bottom-panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 26px 34px;}
+    @media(max-width:700px){.bottom-panels{grid-template-columns:1fr;}}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+    .panel-header{display:flex;align-items:center;justify-content:space-between;
+      padding:13px 16px 11px;border-bottom:1px solid var(--border);}
+    .panel-title{font-size:13px;font-weight:700;color:var(--text);}
+    .panel-link{background:none;border:none;font-size:12px;color:var(--batt);cursor:pointer;
+      padding:0;font-family:inherit;}
+    .panel-link:hover{text-decoration:underline;}
+    .priority-table{width:100%;border-collapse:collapse;font-size:12px;}
+    .priority-table th{background:var(--surface2);font-size:11px;font-weight:600;color:var(--text3);
+      padding:7px 11px;text-align:left;border-bottom:1px solid var(--border);}
+    .priority-table td{padding:8px 11px;border-bottom:1px solid var(--border);vertical-align:middle;}
+    .priority-table tr:last-child td{border-bottom:none;}
+    .priority-table tr:hover td{background:var(--surface2);cursor:pointer;}
+    .priority-name{font-weight:500;color:var(--text);max-width:150px;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .cl-row{padding:5px 14px;display:flex;align-items:center;gap:8px;}
+    .cl-week{font-size:11px;color:var(--text3);min-width:60px;flex-shrink:0;}
+    .cl-track{flex:1;height:16px;background:var(--surface2);border-radius:3px;overflow:hidden;display:flex;}
+    .cl-seg{height:100%;}
+    .cl-seg-new{background:var(--green);}
+    .cl-seg-upd{background:var(--batt);}
+    .cl-seg-stage{background:var(--amber);}
+    .cl-seg-del{background:var(--red);}
+    .cl-total{font-size:11px;color:var(--text3);min-width:22px;text-align:right;}
+    .cl-legend{display:flex;gap:10px;padding:8px 14px 12px;flex-wrap:wrap;}
+    .cl-legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2);}
+    .cl-legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+    .cl-empty{text-align:center;padding:32px 12px;color:var(--text3);font-size:12px;line-height:1.6;}
 
     .empty{text-align:center;padding:60px 24px;color:var(--text3);}
     .empty-icon{font-size:38px;margin-bottom:8px;}
@@ -275,6 +326,10 @@ var REG = [
   }
 ];
 /* END SENTINEL_REG_DATA */
+
+/* SENTINEL_CHANGELOG */
+var CHANGELOG = [];
+/* END SENTINEL_CHANGELOG */
 </script>
 
 <!-- ── HEADER ── -->
@@ -322,6 +377,7 @@ var REG = [
     <div class="view-toggle">
       <button class="view-btn active" id="btn-card">▤ 카드</button>
       <button class="view-btn" id="btn-table">☰ 테이블</button>
+      <button class="view-btn" id="btn-timeline">⊟ 타임라인</button>
     </div>
   </div>
   <div class="ctrl-row">
@@ -361,6 +417,19 @@ var REG = [
   </div>
 </div>
 
+<!-- ── TIMELINE VIEW ── -->
+<div id="timeline-view">
+  <div class="tl-legend-bar">
+    <span><span class="tl-legend-circle"></span>이전 이력</span>
+    <span><span class="tl-legend-diamond"></span>핵심 일자</span>
+    <span><span class="tl-legend-urgent"></span>긴급</span>
+  </div>
+  <div id="tl-groups"></div>
+  <div class="empty" id="timeline-empty" style="display:none">
+    <div class="empty-icon">📭</div><p>표시할 규제 항목이 없습니다</p>
+  </div>
+</div>
+
 <!-- ── HISTORY MODAL ── -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
@@ -375,6 +444,33 @@ var REG = [
     <div class="timeline-label">이력 타임라인</div>
     <div class="timeline" id="modal-timeline"></div>
   </div>
+</div>
+
+<!-- ── BOTTOM PANELS (뷰 토글과 무관하게 항상 표시) ── -->
+<div class="bottom-panels">
+
+  <!-- 우선 대응 규제 -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">우선 대응 규제</span>
+      <button class="panel-link" onclick="switchView('table')">모두 보기 →</button>
+    </div>
+    <table class="priority-table">
+      <thead><tr>
+        <th>규제명</th><th>국가</th><th>단계</th><th>핵심일자</th><th>중요도</th>
+      </tr></thead>
+      <tbody id="priority-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- 최근 변경 이력 -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">최근 변경 이력</span>
+    </div>
+    <div id="changelog-chart"></div>
+  </div>
+
 </div>
 
 <div class="foot">
@@ -392,6 +488,8 @@ var DM_LABEL={secondary_battery:'2차전지',green_eco:'친환경',hydrogen:'수
 var DM_ICON={secondary_battery:'🔋',green_eco:'🌿',hydrogen:'⚡',space_environment:'🛸'};
 var CT_LABEL={EU:'EU',US:'미국',KR:'한국',CN:'중국',JP:'일본',INTL:'국제'};
 var IT_LABEL={direct:'직접',indirect:'간접'};
+var DM_COLOR={secondary_battery:'var(--batt)',green_eco:'var(--green)',hydrogen:'var(--h2)',space_environment:'var(--space)'};
+var DM_ORDER=['secondary_battery','green_eco','hydrogen','space_environment'];
 
 // ── state ──
 var activeDomain='all', activeCountry='all', currentView='card', isDark=false;
@@ -450,6 +548,133 @@ function renderTable(){
   }).join('');
 }
 
+// ── timeline render ──
+function renderTimeline(){
+  var items=filtered();
+  var grpEl=document.getElementById('tl-groups');
+  var empty=document.getElementById('timeline-empty');
+  updateCountBar(items.length);
+  if(!items.length){grpEl.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+
+  var groups={};
+  items.forEach(function(r){
+    if(!groups[r.domain]) groups[r.domain]=[];
+    groups[r.domain].push(r);
+  });
+
+  var html=DM_ORDER.filter(function(d){return groups[d]&&groups[d].length;}).map(function(dom){
+    var color=DM_COLOR[dom]||'var(--text3)';
+    var regsHtml=groups[dom].map(function(r){
+      var isUrgent=(r.alert==='urgent');
+      var hist=(r.history||[]).slice().sort(function(a,b){return a.date.localeCompare(b.date);});
+      var tlItems;
+      if(hist.length){
+        tlItems=hist.map(function(h,i){
+          var isLast=(i===hist.length-1);
+          var dotStyle=isUrgent
+            ? ' style="background:var(--red);"'
+            : (isLast ? ' style="background:var(--batt);"' : '');
+          return '<div class="tl-item">'
+            +'<div class="tl-dot'+(isLast?' tl-key':'')+'"'+dotStyle+'></div>'
+            +'<div class="tl-date">'+esc(h.date)+'</div>'
+            +'<div class="tl-note">'+lcBadge(h.stage)+' '+esc(h.note)+'</div>'
+            +(h.source?'<div class="tl-src">'+esc(h.source)+'</div>':'')
+            +'</div>';
+        });
+      } else {
+        tlItems=['<div class="tl-item">'
+          +'<div class="tl-dot tl-key"'+(isUrgent?' style="background:var(--red);"':'')+'></div>'
+          +'<div class="tl-date">'+esc(r.date_text||'—')+'</div>'
+          +'<div class="tl-note">'+lcBadge(r.lifecycle_stage)+'</div>'
+          +'</div>'];
+      }
+      return '<div class="tl-reg-item'+(isUrgent?' tl-urgent':'')+(r.changed_this_week?' tl-changed':'')+'">'
+        +'<div class="tl-reg-header" onclick="openModal(\''+esc(r.regulation_id)+'\')">'
+        +'<span class="tl-reg-name">'+esc(r.name)+'</span>'
+        +' '+ctBadge(r)+' '+alBadge(r.alert)
+        +(r.changed_this_week?' '+bdg('이번주 ★','al-watch'):'')
+        +'</div>'
+        +'<div class="timeline">'+tlItems.join('')+'</div>'
+        +'</div>';
+    }).join('');
+
+    return '<div class="tl-domain-group">'
+      +'<div class="tl-domain-label" style="border-left:3px solid '+color+';">'
+      +(DM_ICON[dom]||'')+' '+(DM_LABEL[dom]||dom)
+      +' <span style="color:var(--text3);font-size:11px;font-weight:400;">'+groups[dom].length+'건</span>'
+      +'</div>'
+      +regsHtml
+      +'</div>';
+  }).join('');
+
+  grpEl.innerHTML=html;
+}
+
+// ── priority table render (항상 REG 전체 기준) ──
+function renderPriority(){
+  var today=new Date().toISOString().slice(0,10);
+  var sorted=REG.slice().sort(function(a,b){
+    var ua=(a.alert==='urgent'?0:1), ub=(b.alert==='urgent'?0:1);
+    if(ua!==ub) return ua-ub;
+    var da=a.date_text||'', db=b.date_text||'';
+    var fa=(da>today)?da:'', fb=(db>today)?db:'';
+    if(fa&&!fb) return -1;
+    if(!fa&&fb) return 1;
+    if(fa&&fb) return fa.localeCompare(fb);
+    return (a.changed_this_week?0:1)-(b.changed_this_week?0:1);
+  });
+  var tbody=document.getElementById('priority-tbody');
+  if(!tbody) return;
+  tbody.innerHTML=sorted.slice(0,6).map(function(r){
+    var pri,priCls;
+    if(r.alert==='urgent'){pri='높음';priCls='al-urgent';}
+    else if(r.lifecycle_stage==='in_force'||r.changed_this_week){pri='중간';priCls='al-watch';}
+    else{pri='보통';priCls='al-mon';}
+    return '<tr onclick="openModal(\''+esc(r.regulation_id)+'\')">'+
+      '<td class="priority-name" title="'+esc(r.name)+'">'+esc(r.name)+'</td>'+
+      '<td>'+ctBadge(r)+'</td>'+
+      '<td>'+lcBadge(r.lifecycle_stage)+'</td>'+
+      '<td style="white-space:nowrap;font-size:11px;color:var(--text2);">'+esc(r.date_text||'—')+'</td>'+
+      '<td>'+bdg(pri,priCls)+'</td>'+
+      '</tr>';
+  }).join('');
+}
+
+// ── changelog chart render ──
+function renderChangelog(){
+  var el=document.getElementById('changelog-chart');
+  if(!el) return;
+  var legend='<div class="cl-legend">'
+    +'<div class="cl-legend-item"><div class="cl-legend-dot" style="background:var(--green);"></div>신규</div>'
+    +'<div class="cl-legend-item"><div class="cl-legend-dot" style="background:var(--batt);"></div>업데이트</div>'
+    +'<div class="cl-legend-item"><div class="cl-legend-dot" style="background:var(--amber);"></div>단계변경</div>'
+    +'<div class="cl-legend-item"><div class="cl-legend-dot" style="background:var(--red);"></div>삭제</div>'
+    +'</div>';
+  if(!CHANGELOG||!CHANGELOG.length){
+    el.innerHTML='<div class="cl-empty">데이터 누적 중<br>매주 자동 집계됩니다</div>'+legend;
+    return;
+  }
+  var maxT=Math.max.apply(null,CHANGELOG.map(function(w){
+    return (w.new||0)+(w.updated||0)+(w.stage_changed||0)+(w.deleted||0);
+  }))||1;
+  var bars=CHANGELOG.map(function(w){
+    var n=w.new||0,u=w.updated||0,s=w.stage_changed||0,d=w.deleted||0,tot=n+u+s+d;
+    function pct(v){return (v/maxT*100).toFixed(1)+'%';}
+    return '<div class="cl-row">'
+      +'<div class="cl-week">'+esc(w.week)+'</div>'
+      +'<div class="cl-track">'
+      +(n?'<div class="cl-seg cl-seg-new" style="width:'+pct(n)+';" title="신규 '+n+'"></div>':'')
+      +(u?'<div class="cl-seg cl-seg-upd" style="width:'+pct(u)+';" title="업데이트 '+u+'"></div>':'')
+      +(s?'<div class="cl-seg cl-seg-stage" style="width:'+pct(s)+';" title="단계변경 '+s+'"></div>':'')
+      +(d?'<div class="cl-seg cl-seg-del" style="width:'+pct(d)+';" title="삭제 '+d+'"></div>':'')
+      +'</div>'
+      +'<div class="cl-total">'+tot+'</div>'
+      +'</div>';
+  }).join('');
+  el.innerHTML=bars+legend;
+}
+
 // ── modal ──
 function openModal(id){
   var r=REG.find(function(x){return x.regulation_id===id;});
@@ -458,9 +683,8 @@ function openModal(id){
   document.getElementById('modal-badges').innerHTML=
     domBadge(r)+' '+ctBadge(r)+' '+lcBadge(r.lifecycle_stage)+' '+alBadge(r.alert)+' '+itBadge(r.impact_type);
   document.getElementById('modal-impact').innerHTML='<b>R&amp;D 영향</b> · '+esc(r.rd_impact);
-  // citation 인용 (있을 때만)
   var cite=document.getElementById('modal-cite');
-  if(r.citation_quote){ cite.textContent='“'+r.citation_quote+'”'; cite.style.display='block'; }
+  if(r.citation_quote){ cite.textContent='"'+r.citation_quote+'"'; cite.style.display='block'; }
   else{ cite.style.display='none'; }
   document.getElementById('modal-src').innerHTML=
     '출처: '+esc(r.source)+' | <a href="'+esc(r.source_url)+'" target="_blank" rel="noopener">원문 →</a>'
@@ -497,6 +721,18 @@ function updateCountBar(n){
   document.getElementById('count-bar').textContent='표시 '+n+'건 / 전체 '+REG.length+'건';
 }
 
+// ── view switch ──
+function switchView(v){
+  currentView=v;
+  document.getElementById('card-view').style.display=(v==='card')?'block':'none';
+  document.getElementById('table-view').style.display=(v==='table')?'block':'none';
+  document.getElementById('timeline-view').style.display=(v==='timeline')?'block':'none';
+  ['card','table','timeline'].forEach(function(id){
+    document.getElementById('btn-'+id).classList.toggle('active',id===v);
+  });
+  render();
+}
+
 // ── events ──
 document.getElementById('domain-filters').addEventListener('click',function(e){
   var b=e.target.closest('[data-domain]'); if(!b)return;
@@ -510,20 +746,9 @@ document.getElementById('country-filters').addEventListener('click',function(e){
   document.querySelectorAll('[data-country]').forEach(function(x){x.classList.toggle('active',x===b);});
   render();
 });
-document.getElementById('btn-card').addEventListener('click',function(){
-  currentView='card';
-  document.getElementById('card-view').style.display='block';
-  document.getElementById('table-view').style.display='none';
-  this.classList.add('active'); document.getElementById('btn-table').classList.remove('active');
-  render();
-});
-document.getElementById('btn-table').addEventListener('click',function(){
-  currentView='table';
-  document.getElementById('card-view').style.display='none';
-  document.getElementById('table-view').style.display='block';
-  this.classList.add('active'); document.getElementById('btn-card').classList.remove('active');
-  render();
-});
+document.getElementById('btn-card').addEventListener('click',function(){ switchView('card'); });
+document.getElementById('btn-table').addEventListener('click',function(){ switchView('table'); });
+document.getElementById('btn-timeline').addEventListener('click',function(){ switchView('timeline'); });
 document.getElementById('btn-theme').addEventListener('click',function(){
   isDark=!isDark;
   document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
@@ -536,10 +761,16 @@ document.getElementById('modal-overlay').addEventListener('click',function(e){
   if(e.target===this)this.classList.remove('open');
 });
 
-function render(){ if(currentView==='card')renderCards(); else renderTable(); }
+function render(){
+  if(currentView==='card') renderCards();
+  else if(currentView==='table') renderTable();
+  else renderTimeline();
+}
 
 // ── boot ──
 updateStats();
+renderPriority();
+renderChangelog();
 render();
 </script>
 </body>

@@ -35,6 +35,7 @@ from app.deliver import send_via_resend
 from app.models import ProfileSpec, RawItem
 from app.registry import (
     apply_screened_items,
+    classify_changes,
     commit_registry,
     dedup_screened,
     get_changed_items,
@@ -48,7 +49,73 @@ logger = logging.getLogger("run_digest")
 
 _PUBLIC_DIR = Path("public")
 _KR_INBOX_PATH = Path("data/inbox/kr_latest.json")
+_CHANGELOG_PATH = Path("data/state/changelog.json")
 _KR_STALE_DAYS = 8  # 이 일수 초과 시 KR collection_failure
+
+
+def _upsert_changelog(digest_id: str, state_dir: Path) -> None:
+    """snapshot[W] vs snapshot[W-1] diff로 changelog.json에 week 키로 upsert.
+
+    재실행 idempotent: 커밋된 스냅샷 파일 기반이므로 같은 입력 → 같은 출력.
+    같은 주 재실행 시 registry baseline이 이미 W 상태여도 스냅샷은 불변 → delta 정확.
+    """
+    snap_dir = state_dir / "snapshots"
+    curr_path = snap_dir / f"{digest_id}.json"
+    if not curr_path.exists():
+        logger.warning("changelog: snapshot %s not found — skip", curr_path)
+        return
+
+    try:
+        curr_snap = json.loads(curr_path.read_text(encoding="utf-8")).get("items", {})
+    except Exception as exc:
+        logger.warning("changelog: load current snapshot failed (%s) — skip", exc)
+        return
+
+    # W-1: 현재 주차보다 작은 스냅샷 중 가장 최근 (ISO 주차 문자열 정렬 = 시간순)
+    all_weeks = sorted(p.stem for p in snap_dir.glob("*.json"))
+    prev_week = max((w for w in all_weeks if w < digest_id), default=None)
+    prev_snap: dict = {}
+    if prev_week:
+        try:
+            prev_snap = json.loads(
+                (snap_dir / f"{prev_week}.json").read_text(encoding="utf-8")
+            ).get("items", {})
+            logger.info("changelog: diff %s → %s", prev_week, digest_id)
+        except Exception as exc:
+            logger.warning(
+                "changelog: load prev snapshot %s failed (%s) — treating all as new",
+                prev_week, exc,
+            )
+    else:
+        logger.info("changelog: no prior snapshot — all %d items counted as new", len(curr_snap))
+
+    summary = classify_changes(prev_snap, curr_snap)
+    entry = {
+        "week": digest_id,
+        "new": len(summary["new"]),
+        "stage_changed": len(summary["stage_changed"]),
+        "updated": len(summary["updated"]),
+        "removed": len(summary["removed"]),
+    }
+
+    cl_path = state_dir / "changelog.json"
+    existing: list[dict] = []
+    if cl_path.exists():
+        try:
+            existing = json.loads(cl_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            logger.warning("changelog: load failed (%s) — overwriting", exc)
+
+    existing = [w for w in existing if w.get("week") != digest_id]
+    existing.append(entry)
+    existing.sort(key=lambda w: w.get("week", ""), reverse=True)
+
+    cl_path.parent.mkdir(parents=True, exist_ok=True)
+    cl_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2), encoding="utf-8")
+    logger.info(
+        "changelog: upsert %s → new=%d stage_changed=%d updated=%d removed=%d",
+        digest_id, entry["new"], entry["stage_changed"], entry["updated"], entry["removed"],
+    )
 
 
 def _current_digest_id() -> str:
@@ -197,7 +264,7 @@ async def run(mode: str) -> int:
     )
     # ────────────────────────────────────────────────────────────────────────
 
-    updated_registry, changed_ids = apply_screened_items(deduped, registry, checked_at)
+    updated_registry, changed_ids, change_summary = apply_screened_items(deduped, registry, checked_at)
     changed_items = get_changed_items(updated_registry)
 
     # 6. stats 집계
@@ -223,6 +290,7 @@ async def run(mode: str) -> int:
         list(updated_registry.values()), stats, digest_id,
         generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
         logo_url=cfg.logo_url,
+        state_dir=cfg.state_dir,
     )
 
     # 8. 산출물 파일 출력
@@ -237,6 +305,9 @@ async def run(mode: str) -> int:
     # 9. registry.json 커밋 (다음 주 diff 기준선 — Actions 가 레포에 push)
     commit_registry(updated_registry, digest_id, cfg.state_dir)
     logger.info("[%s] registry.json 커밋 (%d개 규제)", digest_id, len(updated_registry))
+
+    # 9-b. changelog.json upsert (커밋된 스냅샷 기반 — 재실행 idempotent)
+    _upsert_changelog(digest_id, cfg.state_dir)
 
     # 10. 발송 (Resend)
     recipients = cfg.recipients_list

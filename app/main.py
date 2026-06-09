@@ -144,7 +144,7 @@ async def digest_run() -> DigestRunResult:
     # 4. Dedup + registry diff
     deduped = dedup_screened(screened_items)
     registry = load_registry(cfg.state_dir)
-    updated_registry, changed_ids = apply_screened_items(deduped, registry, checked_at)
+    updated_registry, changed_ids, _ = apply_screened_items(deduped, registry, checked_at)
     changed_items = get_changed_items(updated_registry)
 
     # 5. Synthesize email HTML (changed items only)

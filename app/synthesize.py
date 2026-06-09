@@ -439,6 +439,75 @@ _REG_DATA_RE = re.compile(
     r"/\* SENTINEL_REG_DATA \*/.*?/\* END SENTINEL_REG_DATA \*/",
     re.DOTALL,
 )
+_CHANGELOG_RE = re.compile(
+    r"/\* SENTINEL_CHANGELOG \*/.*?/\* END SENTINEL_CHANGELOG \*/",
+    re.DOTALL,
+)
+
+
+def _iso_weeks_window(anchor: str, count: int = 8) -> list[str]:
+    """anchor("YYYY-Www")를 포함한 직전 count주의 ISO 주차 라벨 리스트 (오래된순)."""
+    from datetime import date, timedelta
+    try:
+        year, wnum = int(anchor[:4]), int(anchor[6:])
+        end_mon = date.fromisocalendar(year, wnum, 1)
+    except (ValueError, AttributeError, TypeError):
+        d = date.today()
+        iso = d.isocalendar()
+        end_mon = date.fromisocalendar(iso[0], iso[1], 1)
+    return [
+        f"{(end_mon - timedelta(weeks=i)).isocalendar()[0]}-"
+        f"W{(end_mon - timedelta(weeks=i)).isocalendar()[1]:02d}"
+        for i in range(count - 1, -1, -1)
+    ]
+
+
+def _inject_changelog(html: str, state_dir: Path, digest_id: str = "") -> str:
+    """changelog.json 최근 8주를 /* SENTINEL_CHANGELOG */ 블록에 주입.
+
+    - digest_id 기준 8주 윈도우 생성 (연도 포함 라벨 — "2026-W25" 형식).
+    - 결측 주차는 {new:0, ...}으로 채워 비연속 주차 라벨링 오류 방지.
+    - 데이터 수집 이전 구간(선행 all-zero 주차)은 제거해 차트를 간결하게.
+    """
+    if not _CHANGELOG_RE.search(html):
+        logger.warning("changelog: SENTINEL_CHANGELOG marker not found — skipping")
+        return html
+
+    week_index: dict[str, dict] = {}
+    changelog_path = state_dir / "changelog.json"
+    if changelog_path.exists():
+        try:
+            raw = json.loads(changelog_path.read_text(encoding="utf-8"))
+            week_index = {w.get("week", ""): w for w in raw if w.get("week")}
+        except Exception as exc:
+            logger.warning("changelog: load failed (%s) — empty chart", exc)
+
+    anchor = digest_id or _iso_week()
+    window = _iso_weeks_window(anchor, count=8)
+
+    chart_data: list[dict] = []
+    for w in window:
+        entry = week_index.get(w)
+        chart_data.append({
+            "week": w,
+            "new": entry.get("new", 0) if entry else 0,
+            "updated": entry.get("updated", 0) if entry else 0,
+            "stage_changed": entry.get("stage_changed", 0) if entry else 0,
+            "deleted": entry.get("removed", 0) if entry else 0,
+        })
+
+    # 선행 all-zero 주차 제거 (데이터 수집 전 구간)
+    while chart_data and not any(
+        chart_data[0][k] for k in ("new", "updated", "stage_changed", "deleted")
+    ):
+        chart_data.pop(0)
+
+    replacement = (
+        "/* SENTINEL_CHANGELOG */\n"
+        f"var CHANGELOG = {_safe_json(chart_data)};\n"
+        "/* END SENTINEL_CHANGELOG */"
+    )
+    return _CHANGELOG_RE.sub(lambda _m: replacement, html, count=1)
 
 
 def build_dashboard(
@@ -447,6 +516,7 @@ def build_dashboard(
     digest_id: str = "",
     generated_at: str = "",
     logo_url: str = "",
+    state_dir: Optional[Path] = None,
 ) -> str:
     """전체 레지스트리 대시보드 HTML.
 
@@ -470,6 +540,9 @@ def build_dashboard(
 
     if logo_url:
         html = _inject_logo(html, logo_url)
+
+    _state_dir = state_dir if state_dir is not None else Path("data/state")
+    html = _inject_changelog(html, _state_dir, digest_id)
 
     return html
 

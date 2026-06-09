@@ -237,6 +237,73 @@
       "url": "https://spacenews.com",
       "health": "verify",
       "note": "tier2 발견용. RSS 확인. tier1 재검증 필수."
+    },
+
+    {
+      "id": "us-fcc-space",
+      "name": "US FCC — Space Bureau (궤도잔해·주파수 규정)",
+      "domain": "space_environment",
+      "country": "US",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.fcc.gov/space",
+      "health": "verify",
+      "note": "궤도잔해 저감 규정(5년 rule)·주파수 인가. 규칙 본문은 us-federal-register API로도 포착."
+    },
+    {
+      "id": "us-faa-ast",
+      "name": "US FAA — Office of Commercial Space Transportation (Part 450)",
+      "domain": "space_environment",
+      "country": "US",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.faa.gov/space",
+      "health": "verify",
+      "note": "상업 발사 라이선스·재진입 허가(Part 450 개정). 규칙 본문은 us-federal-register API로도 포착."
+    },
+    {
+      "id": "intl-itu-br",
+      "name": "ITU Radiocommunication Bureau (주파수·궤도슬롯 조정)",
+      "domain": "space_environment",
+      "country": "INTL",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.itu.int/en/ITU-R/space/Pages/default.aspx",
+      "health": "verify",
+      "note": "ITU-BR: 주파수 등록·궤도슬롯 조정. 위성 인허가에 직접 영향."
+    },
+    {
+      "id": "eu-esa",
+      "name": "ESA (유럽우주청) — 정책·규정 문서",
+      "domain": "space_environment",
+      "country": "EU",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.esa.int",
+      "health": "verify",
+      "note": "ESA 규정·조달 정책·우주교통관리 가이드라인. EUR-Lex로 법령 본문 재검증."
+    },
+    {
+      "id": "eu-euspa",
+      "name": "EUSPA (EU 우주 프로그램 기관)",
+      "domain": "space_environment",
+      "country": "EU",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.euspa.europa.eu",
+      "health": "verify",
+      "note": "Galileo·Copernicus 사용 정책, 우주 서비스 인허가. EUR-Lex로 위임규정 재검증."
+    },
+    {
+      "id": "us-noaa-cpos",
+      "name": "US NOAA — Commercial Remote Sensing Regulatory Affairs",
+      "domain": "space_environment",
+      "country": "US",
+      "type": "scrape",
+      "tier": 1,
+      "url": "https://www.nesdis.noaa.gov/our-offices/commercial-remote-sensing",
+      "health": "verify",
+      "note": "상업 원격탐사 위성 라이선스. 위성 영상 수출·활용 규제. federal-register API 병행."
     }
   ]
 }
