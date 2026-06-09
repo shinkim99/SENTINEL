@@ -28,3 +28,7 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+
+# 로컬 임시 산출물 — 커밋 불필요
+digest_now.html
+SENTINEL_*.md
