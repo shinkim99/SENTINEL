@@ -1,0 +1,69 @@
+name: SENTINEL Dashboard Deploy
+
+# 대시보드 전용 재배포 — 수집/스크리닝/이메일 발송 없음.
+# templates/** 또는 synthesize.py 변경 시, 또는 registry.json 갱신 시
+# 이미 커밋된 데이터로 build_dashboard만 다시 실행해 Pages를 즉시 갱신한다.
+#
+# weekly_digest.yml(전체 파이프라인)도 Pages를 배포하므로,
+# 두 워크플로우가 동시에 deploy-pages를 실행하지 않도록
+# 동일 concurrency group "pages"를 공유한다.
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "templates/**"
+      - "app/synthesize.py"
+      - "data/state/registry.json"
+      - "ico/**"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build dashboard (registry.json → public/index.html)
+        env:
+          # 대시보드 헤더 로고 — 기본값 있음, 필요 시 교체.
+          LOGO_URL: "https://shinkim99.github.io/SENTINEL/ico/icon-1.png"
+        run: python -m scripts.build_dashboard_only
+
+      - name: Copy static assets into public/
+        run: |
+          mkdir -p public/ico
+          cp ico/* public/ico/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
