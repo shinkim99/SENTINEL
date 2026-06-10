@@ -114,6 +114,7 @@ jobs:
           python -m scripts.run_digest --mode "$MODE"
 
       - name: Commit registry baseline
+        if: ${{ (github.event.inputs.mode || 'draft') == 'send' }}
         run: |
           git config user.name "sentinel-bot"
           git config user.email "actions@github.com"

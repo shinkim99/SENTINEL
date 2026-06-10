@@ -302,12 +302,18 @@ async def run(mode: str) -> int:
         digest_id,
     )
 
-    # 9. registry.json 커밋 (다음 주 diff 기준선 — Actions 가 레포에 push)
-    commit_registry(updated_registry, digest_id, cfg.state_dir)
-    logger.info("[%s] registry.json 커밋 (%d개 규제)", digest_id, len(updated_registry))
+    # 9. registry.json 커밋 — send 모드일 때만 (draft는 baseline 전진 금지)
+    if mode == "send":
+        commit_registry(updated_registry, digest_id, cfg.state_dir)
+        logger.info("[%s] registry.json 커밋 (%d개 규제)", digest_id, len(updated_registry))
+    else:
+        logger.info("[%s] draft 모드 — registry.json 커밋 건너뜀 (baseline 보존)", digest_id)
 
-    # 9-b. changelog.json upsert (커밋된 스냅샷 기반 — 재실행 idempotent)
-    _upsert_changelog(digest_id, cfg.state_dir)
+    # 9-b. changelog.json upsert — send 모드일 때만 (draft는 state 무변경)
+    if mode == "send":
+        _upsert_changelog(digest_id, cfg.state_dir)
+    else:
+        logger.info("[%s] draft 모드 — changelog upsert 건너뜀", digest_id)
 
     # 10. 발송 (Resend)
     recipients = cfg.recipients_list
