@@ -175,7 +175,7 @@ class LawGoKrCollector:
                 for law in data.get("LawSearch", {}).get("law", []):
                     law_id = law.get("법령ID") or law.get("법령id", "")
                     name_kr = law.get("법령명한글", "")
-                    url = f"https://www.law.go.kr/법령/{name_kr}({law_id})"
+                    url = f"https://www.law.go.kr/lsInfoP.do?lsId={law_id}&ancYnChk=0"
                     if url in seen_urls:
                         continue
                     seen_urls.add(url)
