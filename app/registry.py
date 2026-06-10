@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+import unicodedata
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
@@ -32,6 +33,23 @@ def _canonical_key(text: str) -> str:
     key = re.sub(r"\s+", "-", key.strip())
     key = re.sub(r"-+", "-", key)
     return key[:60].rstrip("-")
+
+
+# ── name normalization (명칭 변경 비교용) ────────────────────────────────────────
+
+_PAREN_RE = re.compile(r"[\(（][^\)）]*[\)）]")
+
+
+def _normalize_name(name: str) -> str:
+    """비교용 이름 정규화: NFC + 괄호(반각/전각) 안 약칭 제거 + 공백/대소문자 정리.
+
+    kr-law-go-kr 등 일부 출처는 괄호 안 약칭이 매주 EN↔KR로 흔들리는데(LLM 비결정성),
+    base name이 그대로면 '명칭 변경'으로 보지 않는다 (phantom 이력 누적 방지).
+    """
+    s = unicodedata.normalize("NFC", name or "")
+    s = _PAREN_RE.sub("", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s.casefold()
 
 
 # ── load / save ───────────────────────────────────────────────────────────────
@@ -254,9 +272,11 @@ def apply_screened_items(
                 changed = True
 
             if item.name and existing.name != item.name:
-                note_parts.append(f"명칭 변경: {item.name[:40]}")
+                if _normalize_name(existing.name) != _normalize_name(item.name):
+                    note_parts.append(f"명칭 변경: {item.name[:40]}")
+                    changed = True
+                # base name이 같으면(괄호 안 약칭만 EN↔KR로 흔들림) 조용히 갱신 — 이력 미기록
                 existing.name = item.name
-                changed = True
 
             if item.date_text and existing.date_text != item.date_text:
                 note_parts.append(f"시행일: {existing.date_text} → {item.date_text}")
@@ -381,7 +401,9 @@ def classify_changes(prev_snap: dict, curr_snap: dict) -> dict:
         p, c = prev_snap[url], curr_snap[url]
         if p["lifecycle_stage"] != c["lifecycle_stage"]:
             stage_changed.append(url)
-        elif p.get("date_text") != c.get("date_text") or p.get("name") != c.get("name"):
+        elif p.get("date_text") != c.get("date_text") or _normalize_name(
+            p.get("name", "")
+        ) != _normalize_name(c.get("name", "")):
             updated.append(url)
 
     return {

@@ -130,11 +130,17 @@ def _build_test_digest(cfg: Settings) -> tuple[str, str, str]:
     return digest_id, subject, html
 
 
-def main() -> None:
-    """python -m app.deliver --test → DIGEST_RECIPIENTS로 이번 주 다이제스트 1통 발송.
+def main(argv: list[str] | None = None) -> None:
+    """python -m app.deliver — 수동 발송 진입점.
 
-    send_mode(review_first/auto_send)와 무관한 수동 1회성 테스트 발송이며,
-    주간 자동 발송 흐름(scripts/run_digest.py)에는 영향을 주지 않는다.
+    --test : DIGEST_RECIPIENTS 첫 번째 주소 1명에게만 이번 주 다이제스트 발송 (검토용).
+             2명 이상으로는 어떤 경우에도 보내지 않는다.
+    --send : DIGEST_RECIPIENTS 전체 발송. 수신자 전체 목록·인원수를 먼저 출력하고,
+             표준입력으로 정확히 'yes'를 받아야 진행한다 (--yes로 생략 가능).
+    인자 없으면 도움말만 출력하고 아무것도 보내지 않는다.
+
+    send_mode(review_first/auto_send)와 무관한 수동 발송이며,
+    주간 자동 발송 흐름(scripts/run_digest.py, GitHub Actions)에는 영향을 주지 않는다.
     """
     import argparse
     import sys
@@ -144,14 +150,23 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
 
-    parser = argparse.ArgumentParser(description="SENTINEL 발송 테스트")
-    parser.add_argument(
+    parser = argparse.ArgumentParser(description="SENTINEL 발송 테스트/수동 발송")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
         "--test", action="store_true",
-        help="DIGEST_RECIPIENTS로 이번 주 다이제스트 1통을 즉시 발송",
+        help="DIGEST_RECIPIENTS 첫 번째 주소 1명에게만 이번 주 다이제스트 발송",
     )
-    args = parser.parse_args()
+    group.add_argument(
+        "--send", action="store_true",
+        help="DIGEST_RECIPIENTS 전체 발송 (확인 필요)",
+    )
+    parser.add_argument(
+        "--yes", action="store_true",
+        help="--send 시 'yes' 확인 프롬프트 생략 (비대화형 환경용)",
+    )
+    args = parser.parse_args(argv)
 
-    if not args.test:
+    if not args.test and not args.send:
         parser.print_help()
         return
 
@@ -163,8 +178,21 @@ def main() -> None:
         raise SystemExit("DIGEST_RECIPIENTS가 설정되지 않았습니다 (.env 확인)")
 
     digest_id, subject, html = _build_test_digest(cfg)
-    result = send_via_resend(html, recipients, cfg, subject=subject)
-    print(f"발송 완료: {len(recipients)}명 → {recipients}")
+
+    if args.test:
+        to = recipients[:1]
+        print(f"TEST 발송 → {to[0]}")
+    else:
+        print(f"전체 발송 대상 ({len(recipients)}명): {recipients}")
+        if not args.yes:
+            answer = input("정말 전체 발송하려면 'yes'를 입력하세요: ")
+            if answer != "yes":
+                print("발송 취소됨 — 아무것도 보내지 않았습니다.")
+                return
+        to = recipients
+
+    result = send_via_resend(html, to, cfg, subject=subject)
+    print(f"발송 완료: {len(to)}명 → {to}")
     print(f"제목: {subject}")
     print(f"Resend id: {result.get('id')}")
 

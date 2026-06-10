@@ -124,6 +124,7 @@ def build_email(
     sections = [
         _email_header(week),
         _email_metrics(len(changed_items), stats),
+        _email_top_cta(btn_url),
         _email_failure_alert(stats),
         _email_country_table(changed_items, profiles, stats),
     ]
@@ -201,6 +202,20 @@ def _email_metrics(changed_count: int, stats: dict) -> str:
         + (f"<div style='font-size:11px;color:#9ca3af;margin-top:6px;'>{escape(noise)}</div>" if noise else "")
         + "</div></td>"
         "</tr></table></td></tr>"
+    )
+
+
+def _email_top_cta(btn_url: str) -> str:
+    """요약 지표 바로 아래 · 첫 콘텐츠 섹션 위에 배치하는 대시보드 바로가기 버튼."""
+    if not btn_url or btn_url == "#":
+        return ""
+    return (
+        "<tr><td style='padding:0 22px;'>"
+        "<table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-top:16px;'>"
+        "<tr><td align='center' style='background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:18px;'>"
+        f"<a href='{escape(btn_url)}' style='display:inline-block;background:#0F2944;color:#FFFFFF;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;text-decoration:none;padding:13px 30px;border-radius:24px;'>&#x1F4CA;&nbsp; 전체 레지스트리 대시보드 보기 &nbsp;&rarr;</a>"
+        "</td></tr></table>"
+        "</td></tr>"
     )
 
 

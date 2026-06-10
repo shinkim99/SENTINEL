@@ -90,10 +90,13 @@
     .cchip:hover{border-color:var(--text3);}
     .cchip.active{color:var(--text);background:var(--surface);border-color:var(--text2);font-weight:600;}
 
-    .view-toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
-    .view-btn{padding:6px 14px;font-size:12px;background:var(--surface);color:var(--text2);
-      cursor:pointer;border:none;line-height:1;font-family:inherit;}
-    .view-btn.active{background:#2a3340;color:#fff;}
+    .view-toggle{display:inline-flex;border:1px solid var(--border);border-radius:11px;
+      overflow:hidden;background:var(--surface2);padding:3px;gap:2px;}
+    .view-btn{padding:10px 20px;font-size:13.5px;font-weight:700;background:transparent;color:var(--text2);
+      cursor:pointer;border:none;border-radius:8px;line-height:1;font-family:inherit;
+      display:inline-flex;align-items:center;gap:7px;transition:background .15s,color .15s,box-shadow .15s;}
+    .view-btn:hover{color:var(--text);}
+    .view-btn.active{background:#2a3340;color:#fff;box-shadow:0 2px 8px var(--shadow);}
     [data-theme="light"] .view-btn.active{background:var(--batt);color:#fff;}
 
     .count-bar{padding:8px 26px 0;font-size:12px;color:var(--text3);}
@@ -457,9 +460,9 @@ var CHANGELOG = [];
     </div>
     <span class="spacer"></span>
     <div class="view-toggle">
-      <button class="view-btn active" id="btn-card">▤ 카드</button>
+      <button class="view-btn active" id="btn-timeline">⊟ 타임라인</button>
       <button class="view-btn" id="btn-table">☰ 테이블</button>
-      <button class="view-btn" id="btn-timeline">⊟ 타임라인</button>
+      <button class="view-btn" id="btn-card">▤ 카드</button>
     </div>
   </div>
   <div class="ctrl-row">
@@ -572,7 +575,7 @@ var DM_COLOR={secondary_battery:'var(--batt)',green_eco:'var(--green)',hydrogen:
 var DM_ORDER=['secondary_battery','green_eco','hydrogen','space_environment'];
 
 // ── state ──
-var activeDomain='all', activeCountry='all', currentView='card', isDark=false;
+var activeDomain='all', activeCountry='all', currentView='timeline', isDark=false;
 var ganttLaneExpanded={};
 
 function filtered(){
@@ -657,7 +660,11 @@ function renderCards(){
 
 // ── table render ──
 function renderTable(){
-  var items=filtered(), tbody=document.getElementById('table-body'), empty=document.getElementById('table-empty');
+  // 기본 정렬: 확인일(checked_at) 최신순. 동률은 안정 정렬(기존 순서 유지).
+  var items=filtered().slice().sort(function(a,b){
+    return (b.checked_at||'').localeCompare(a.checked_at||'');
+  });
+  var tbody=document.getElementById('table-body'), empty=document.getElementById('table-empty');
   updateCountBar(items.length);
   if(!items.length){tbody.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
@@ -1036,6 +1043,27 @@ function renderChangelog(){
   el.innerHTML=bars+legend;
 }
 
+// ── 이력 dedup: (date, stage, 정규화 note) 동일 항목 1건으로 ──
+// kr-law-go-kr 등 일부 출처는 괄호 안 약칭이 매주 EN↔KR로 흔들려(LLM 비결정성)
+// '명칭 변경' 이력이 동일 날짜에 중복 누적될 수 있다 — 렌더 시점에 가린다.
+var HIST_PAREN_RE=/[\(（][^\)）]*[\)）]?/g;
+function normNoteForDedup(note){
+  var s=String(note||'').normalize('NFC');
+  s=s.replace(HIST_PAREN_RE,'');
+  s=s.replace(/\s+/g,' ').trim().toLowerCase();
+  return s;
+}
+function dedupHistory(hist){
+  var seen={}, out=[];
+  hist.forEach(function(h){
+    var key=(h.date||'')+'|'+(h.stage||'')+'|'+normNoteForDedup(h.note);
+    if(seen[key]) return;
+    seen[key]=true;
+    out.push(h);
+  });
+  return out;
+}
+
 // ── modal ──
 function openModal(id){
   var r=REG.find(function(x){return x.regulation_id===id;});
@@ -1051,7 +1079,7 @@ function openModal(id){
     '출처: '+esc(r.source)+' | <a href="'+esc(r.source_url)+'" target="_blank" rel="noopener">원문 →</a>'
     +' | 신뢰도 <span class="cf-'+esc(r.confidence)+'">'+esc(r.confidence)+'</span>'
     +' | 확인 '+esc(r.checked_at);
-  var hist=(r.history||[]).slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+  var hist=dedupHistory((r.history||[]).slice().sort(function(a,b){return b.date.localeCompare(a.date);}));
   document.getElementById('modal-timeline').innerHTML=hist.length
     ?hist.map(function(h){
       return '<div class="tl-item"><div class="tl-dot"></div>'
@@ -1132,7 +1160,7 @@ function render(){
 updateStats();
 renderPriority();
 renderChangelog();
-render();
+switchView(currentView);
 </script>
 </body>
 </html>
