@@ -171,11 +171,14 @@
     .gc-proposed .gantt-bar-inner{background:var(--h2);}
     .gc-unclear .gantt-bar-inner,.gc-repealed .gantt-bar-inner{background:var(--text3);}
     .gantt-urgent{outline:2px solid var(--red);outline-offset:1px;border-radius:4px;}
-    .gantt-fuzzy .gantt-bar-inner{opacity:.45;border:1.5px dashed;}
+    /* fuzzy: 채움만 반투명, 라벨 텍스트는 항상 가독(full opacity) */
+    .gantt-fuzzy .gantt-bar-inner{border:1.5px dashed;}
+    .gantt-fuzzy .gantt-bar-label{color:var(--text);font-weight:700;}
     .gc-in_force.gantt-fuzzy .gantt-bar-inner{background:rgba(34,176,125,.3)!important;border-color:var(--green);}
     .gc-enacted.gantt-fuzzy .gantt-bar-inner{background:rgba(91,141,239,.3)!important;border-color:var(--batt);}
     .gc-amended.gantt-fuzzy .gantt-bar-inner{background:rgba(217,138,31,.3)!important;border-color:var(--amber);}
     .gc-proposed.gantt-fuzzy .gantt-bar-inner{background:rgba(167,139,250,.3)!important;border-color:var(--h2);}
+    .gc-unclear.gantt-fuzzy .gantt-bar-inner,.gc-repealed.gantt-fuzzy .gantt-bar-inner{background:rgba(154,162,177,.3)!important;border-color:var(--text3);}
     .gantt-start-dot{position:absolute;left:-5px;top:50%;transform:translateY(-50%);
       width:10px;height:10px;border-radius:50%;border:2px solid;background:var(--surface);z-index:2;}
     .gantt-end-dia{position:absolute;right:-6px;top:50%;transform:translateY(-50%) rotate(45deg);
@@ -201,6 +204,30 @@
     .gl-circle{width:8px;height:8px;border-radius:50%;border:2px solid var(--text3);background:var(--surface);flex-shrink:0;}
     .gl-diamond{width:8px;height:8px;border-radius:1px;background:var(--text3);transform:rotate(45deg);flex-shrink:0;}
     .gl-fuzzy{width:18px;height:8px;border-radius:2px;border:1.5px dashed var(--text3);opacity:.55;flex-shrink:0;}
+    /* 윈도우 좌측 클램프(이전부터 계속됨) */
+    .gantt-bar.gantt-clamp-left .gantt-bar-inner{
+      -webkit-mask-image:linear-gradient(to right,transparent 0,transparent 5px,#000 18px);
+      mask-image:linear-gradient(to right,transparent 0,transparent 5px,#000 18px);}
+    .gantt-bar.gantt-clamp-left .gantt-start-dot{display:none;}
+    .gantt-clamp-tag{opacity:.85;margin-right:2px;}
+    /* 시작일 불명 점이벤트: 짧은 막대, ◆(핵심일자) 쪽에 초점 — 좌측 페이드인 */
+    .gantt-bar.gantt-stub .gantt-bar-inner{
+      -webkit-mask-image:linear-gradient(to right,transparent 0,#000 10px);
+      mask-image:linear-gradient(to right,transparent 0,#000 10px);}
+    /* 레인당 N건 캡 + 펼치기 */
+    .gantt-lane-more{padding:6px 10px 6px 158px;font-size:11px;color:var(--text3);
+      cursor:pointer;border-bottom:1px solid var(--border);background:var(--surface2);}
+    .gantt-lane-more:hover{color:var(--text);}
+    /* 좁은 막대: 라벨을 막대 밖 우측에 leader line으로 배치 */
+    .gantt-bar.gantt-ext .gantt-bar-label{visibility:hidden;}
+    .gantt-leader{position:absolute;left:100%;top:50%;width:8px;height:1px;background:var(--text3);}
+    .gantt-ext-label{position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);
+      font-size:10px;font-weight:700;white-space:nowrap;color:var(--text);pointer-events:none;}
+    .gc-in_force .gantt-ext-label{color:var(--green);}
+    .gc-enacted .gantt-ext-label{color:var(--batt);}
+    .gc-amended .gantt-ext-label{color:var(--amber);}
+    .gc-proposed .gantt-ext-label{color:var(--h2);}
+    .gc-unclear .gantt-ext-label,.gc-repealed .gantt-ext-label{color:var(--text3);}
 
     /* ── badges ── */
     .badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:nowrap;}
@@ -546,6 +573,7 @@ var DM_ORDER=['secondary_battery','green_eco','hydrogen','space_environment'];
 
 // ── state ──
 var activeDomain='all', activeCountry='all', currentView='card', isDark=false;
+var ganttLaneExpanded={};
 
 function filtered(){
   return REG.filter(function(r){
@@ -565,6 +593,8 @@ function itBadge(t){ return t ? bdg(IT_LABEL[t]||t, 'it-'+t) : ''; }
 var PRIORITY_PREVIEW=3;
 var MS_DAY=86400000;
 var MONTH_KO=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+var WINDOW_BACK_MONTHS=9, WINDOW_FWD_MONTHS=9;
+var GANTT_LANE_CAP=5;
 
 function parseKeyDate(dt){
   if(!dt) return null;
@@ -657,49 +687,73 @@ function renderTimeline(){
   empty.style.display='none';
 
   var SLOT_H=32, LANE_PAD=6;
+  var STUB_MS=22*MS_DAY; // 시작일 불명 점이벤트용 짧은 막대(약 0.7개월)
 
+  // 동적 월축 윈도우: 오늘 기준 -WINDOW_BACK_MONTHS ~ +WINDOW_FWD_MONTHS
+  var today=new Date(); today.setHours(0,0,0,0);
+  var rangeStart=new Date(today.getFullYear(),today.getMonth()-WINDOW_BACK_MONTHS,1);
+  var rangeEnd=new Date(today.getFullYear(),today.getMonth()+WINDOW_FWD_MONTHS+1,0);
+  var rangeStartMs=rangeStart.getTime(), rangeEndMs=rangeEnd.getTime();
+
+  // 막대 '시작'은 대개 인위적 — 진짜 신호는 ◆(date_text=핵심일자: 시행/발효일 우선, 없으면 공표일).
+  // start_date/published_at이 있으면 그것을 시작점으로, 없으면 stage별 폴백.
   function toBarItem(r){
     var fuzzy=isFuzzyDate(r.date_text);
-    var keyDate=parseKeyDate(r.date_text);
-    var barStart,barEnd;
+    var keyDate=parseKeyDate(r.date_text); // ◆
+    var barStart,barEnd,hasStart;
     if(fuzzy){
       var yr=getFuzzyYearRange(r.date_text);
       if(!yr) return null;
-      barStart=yr.start; barEnd=yr.end;
+      barStart=yr.start; barEnd=yr.end; hasStart=true;
     } else if(keyDate){
       barEnd=keyDate;
-      barStart=r.start_date
-        ?(parseKeyDate(r.start_date)||new Date(keyDate.getTime()-36*MS_DAY))
-        :new Date(keyDate.getTime()-36*MS_DAY);
+      var explicitStart=parseKeyDate(r.start_date||r.published_at||'');
+      if(explicitStart){
+        barStart=explicitStart; hasStart=true;
+      } else if(r.lifecycle_stage==='in_force'){
+        // 진행 중, 실제 시작 불명: 윈도우 좌측에서 이어져 와 ◆에서 끝나는 것으로 표현
+        barStart=new Date(rangeStartMs-MS_DAY);
+        hasStart=false;
+      } else {
+        // upcoming 점이벤트: 가짜 lead-in 대신 ◆ 직전의 짧은 막대
+        barStart=new Date(keyDate.getTime()-STUB_MS);
+        hasStart=false;
+      }
     } else {
       return null;
     }
-    return {r:r,fuzzy:fuzzy,barStart:barStart,barEnd:barEnd};
+    return {r:r,fuzzy:fuzzy,barStart:barStart,barEnd:barEnd,hasStart:hasStart};
   }
 
-  var ganttItems=items.map(toBarItem).filter(Boolean);
+  function inWindow(g){
+    if(g.fuzzy) return g.barEnd.getTime()>=rangeStartMs && g.barStart.getTime()<=rangeEndMs;
+    return g.barEnd.getTime()>=rangeStartMs && g.barEnd.getTime()<=rangeEndMs;
+  }
+
+  var ganttItems=items.map(toBarItem).filter(Boolean).filter(inWindow);
   if(!ganttItems.length){
-    grpEl.innerHTML='<div style="padding:40px 24px;text-align:center;color:var(--text3);font-size:12px;">날짜 정보가 있는 항목이 없습니다</div>';
+    grpEl.innerHTML='<div style="padding:40px 24px;text-align:center;color:var(--text3);font-size:12px;">표시 기간 내 날짜 정보가 있는 항목이 없습니다</div>';
     return;
   }
 
-  var allMs=[];
-  ganttItems.forEach(function(g){allMs.push(g.barStart.getTime(),g.barEnd.getTime());});
-  var minMs=Math.min.apply(null,allMs), maxMs=Math.max.apply(null,allMs);
-  var rangeStart=new Date(minMs);
-  rangeStart=new Date(rangeStart.getFullYear(),rangeStart.getMonth(),1);
-  var rangeEnd=new Date(maxMs);
-  rangeEnd=new Date(rangeEnd.getFullYear(),rangeEnd.getMonth()+1,0);
-  var mDiff=(rangeEnd.getFullYear()-rangeStart.getFullYear())*12+rangeEnd.getMonth()-rangeStart.getMonth()+1;
-  if(mDiff<7) rangeEnd=new Date(rangeEnd.getFullYear(),rangeEnd.getMonth()+(7-mDiff),0);
+  // 표시용 클램프: 윈도우 밖으로 벗어나는 막대는 윈도우 경계로 자름
+  ganttItems.forEach(function(g){
+    var s=g.barStart, e=g.barEnd;
+    g.clampLeft=s.getTime()<rangeStartMs;
+    if(g.clampLeft) s=rangeStart;
+    if(e.getTime()>rangeEndMs) e=rangeEnd;
+    if(e.getTime()<s.getTime()) e=s;
+    g.dispStart=s; g.dispEnd=e;
+    g.stub=!g.hasStart && !g.fuzzy && !g.clampLeft; // 시작일 불명 + 윈도우 내 짧은 점이벤트 막대
+  });
 
-  var totalMs=rangeEnd.getTime()-rangeStart.getTime();
-  function toL(d){return((d.getTime()-rangeStart.getTime())/totalMs*100).toFixed(3)+'%';}
+  var totalMs=rangeEndMs-rangeStartMs;
+  function toL(d){return((d.getTime()-rangeStartMs)/totalMs*100).toFixed(3)+'%';}
   function toW(s,e){return((e.getTime()-s.getTime())/totalMs*100).toFixed(3)+'%';}
 
   var months=[];
   var cur=new Date(rangeStart.getFullYear(),rangeStart.getMonth(),1);
-  while(cur.getTime()<=rangeEnd.getTime()){months.push(new Date(cur));cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);}
+  while(cur.getTime()<=rangeEndMs){months.push(new Date(cur));cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);}
 
   var monthsHtml=months.map(function(m,idx){
     var nextM=new Date(m.getFullYear(),m.getMonth()+1,1);
@@ -713,16 +767,39 @@ function renderTimeline(){
   }).join('');
 
   function assignSlots(bars){
-    var sorted=bars.slice().sort(function(a,b){return a.barStart.getTime()-b.barStart.getTime();});
+    var sorted=bars.slice().sort(function(a,b){return a.dispStart.getTime()-b.dispStart.getTime();});
     var slotEnds=[];
     sorted.forEach(function(b){
       var slot=-1;
-      for(var i=0;i<slotEnds.length;i++){if(slotEnds[i]<=b.barStart.getTime()){slot=i;break;}}
+      for(var i=0;i<slotEnds.length;i++){if(slotEnds[i]<=b.dispStart.getTime()){slot=i;break;}}
       if(slot===-1){slot=slotEnds.length;slotEnds.push(0);}
-      slotEnds[slot]=b.barEnd.getTime();
+      slotEnds[slot]=b.dispEnd.getTime();
       b.slot=slot;
     });
     return sorted;
+  }
+
+  // 레인 내 우선순위 정렬: urgent → 발효/적용 임박(in_force 전환 예정)
+  // → 윈도우 내 upcoming → 진행 중(in_force) → changed_this_week → 가까운 핵심일자.
+  // fuzzy라고 강등하지 않음(중요한 fuzzy도 캡 안에 들어올 수 있어야 함).
+  function rankBars(bars){
+    var todayMs=today.getTime();
+    function tier(g){
+      var r=g.r;
+      if(r.alert==='urgent') return 0;
+      if(is_upcoming(r) && r.lifecycle_stage!=='in_force') return 1; // 발효/적용 임박
+      if(is_upcoming(r)) return 2; // 윈도우 내 upcoming(기타)
+      if(r.lifecycle_stage==='in_force') return 3; // 진행 중
+      return 4;
+    }
+    return bars.slice().sort(function(a,b){
+      var ta=tier(a), tb=tier(b);
+      if(ta!==tb) return ta-tb;
+      var ca=a.r.changed_this_week?0:1, cb=b.r.changed_this_week?0:1;
+      if(ca!==cb) return ca-cb;
+      var da=Math.abs(a.barEnd.getTime()-todayMs), db=Math.abs(b.barEnd.getTime()-todayMs);
+      return da-db;
+    });
   }
 
   var domBars={};
@@ -732,7 +809,15 @@ function renderTimeline(){
   var lanesHtml=DM_ORDER.map(function(dom){
     var color=DM_COLOR[dom]||'var(--text3)';
     var domCount=items.filter(function(r){return r.domain===dom;}).length;
-    var bars=assignSlots(domBars[dom]||[]);
+    var allBars=domBars[dom]||[];
+    var ranked=rankBars(allBars);
+    var urgentCount=ranked.filter(function(g){return g.r.alert==='urgent';}).length;
+    var visibleN=Math.max(GANTT_LANE_CAP,urgentCount);
+    var expanded=!!ganttLaneExpanded[dom];
+    var visibleBars=expanded?ranked:ranked.slice(0,visibleN);
+    var hiddenCount=ranked.length-visibleBars.length;
+
+    var bars=assignSlots(visibleBars);
     var numSlots=bars.length?Math.max.apply(null,bars.map(function(b){return b.slot;}))+1:1;
     var laneH=numSlots*SLOT_H+LANE_PAD*2;
 
@@ -740,16 +825,26 @@ function renderTimeline(){
       var sc='gc-'+(g.r.lifecycle_stage||'unclear');
       var uc=g.r.alert==='urgent'?' gantt-urgent':'';
       var fc=g.fuzzy?' gantt-fuzzy':'';
+      var lc=g.clampLeft?' gantt-clamp-left':'';
+      var stc=g.stub?' gantt-stub':'';
       var top=LANE_PAD+g.slot*SLOT_H;
       var tip=esc(g.r.name)+' · '+esc(LC_LABEL[g.r.lifecycle_stage]||g.r.lifecycle_stage)+' · '+esc(g.r.date_text||'');
-      return '<div class="gantt-bar '+sc+uc+fc+'"'
-        +' style="left:'+toL(g.barStart)+';width:'+toW(g.barStart,g.barEnd)+';top:'+top+'px;"'
+      var label=(g.clampLeft?'<span class="gantt-clamp-tag">◂</span>':'')+esc(g.r.name);
+      var showDot=g.hasStart && !g.clampLeft;
+      return '<div class="gantt-bar '+sc+uc+fc+lc+stc+'"'
+        +' style="left:'+toL(g.dispStart)+';width:'+toW(g.dispStart,g.dispEnd)+';top:'+top+'px;"'
         +' title="'+tip+'" onclick="openModal(\''+esc(g.r.regulation_id)+'\')">'
-        +'<span class="gantt-start-dot"></span>'
-        +'<div class="gantt-bar-inner"><span class="gantt-bar-label">'+esc(g.r.name)+'</span></div>'
+        +(showDot?'<span class="gantt-start-dot"></span>':'')
+        +'<div class="gantt-bar-inner"><span class="gantt-bar-label">'+label+'</span></div>'
         +'<span class="gantt-end-dia"></span>'
         +'</div>';
     }).join('');
+
+    var moreHtml='';
+    if(hiddenCount>0||expanded){
+      var moreLabel=expanded?'▴ 접기':'▾ +'+hiddenCount+'건 더 보기';
+      moreHtml='<div class="gantt-lane-more" onclick="toggleGanttLane(\''+esc(dom)+'\')">'+esc(moreLabel)+'</div>';
+    }
 
     return '<div class="gantt-lane">'
       +'<div class="gantt-lane-label" style="border-left-color:'+color+';">'
@@ -757,7 +852,8 @@ function renderTimeline(){
       +'<div class="gantt-lane-count">'+domCount+'건</div>'
       +'</div>'
       +'<div class="gantt-lane-bars" style="height:'+laneH+'px;">'+gridHtml+barsHtml+'</div>'
-      +'</div>';
+      +'</div>'
+      +moreHtml;
   }).join('');
 
   var legendHtml='<div class="gantt-legend">'
@@ -776,6 +872,55 @@ function renderTimeline(){
     +'<div class="gantt-months">'+monthsHtml+'</div></div>'
     +lanesHtml
     +'</div>'+legendHtml+'</div>';
+
+  adjustGanttLabels();
+}
+
+// ── 레인별 펼치기/접기 토글 ──
+function toggleGanttLane(dom){
+  ganttLaneExpanded[dom]=!ganttLaneExpanded[dom];
+  renderTimeline();
+}
+
+// ── 좁은 막대: 라벨이 잘리면 막대 밖 우측에 leader line으로 배치(공간 있을 때만) ──
+function adjustGanttLabels(){
+  if(typeof document==='undefined' || !document.querySelectorAll) return;
+  var lanes=document.querySelectorAll('.gantt-lane-bars');
+  for(var li=0; li<lanes.length; li++){
+    var laneEl=lanes[li];
+    if(typeof laneEl.getBoundingClientRect!=='function') return;
+    var laneRect=laneEl.getBoundingClientRect();
+    var bars=laneEl.querySelectorAll('.gantt-bar');
+    for(var bi=0; bi<bars.length; bi++){
+      var barEl=bars[bi];
+      var inner=barEl.querySelector('.gantt-bar-inner');
+      var label=barEl.querySelector('.gantt-bar-label');
+      if(!inner||!label) continue;
+      var avail=inner.clientWidth-22; // padding 0 14px 0 8px
+      if(label.scrollWidth<=avail) continue;
+
+      var barRect=barEl.getBoundingClientRect();
+      var top=barEl.style.top;
+      var rightLimit=laneRect.right;
+      for(var oi=0; oi<bars.length; oi++){
+        var other=bars[oi];
+        if(other===barEl||other.style.top!==top) continue;
+        var oRect=other.getBoundingClientRect();
+        if(oRect.left>=barRect.right-1 && oRect.left<rightLimit) rightLimit=oRect.left;
+      }
+      var space=rightLimit-barRect.right-10;
+      if(space<label.scrollWidth+4) continue; // 공간 부족 → ellipsis 폴백 유지
+
+      barEl.classList.add('gantt-ext');
+      var leaderEl=document.createElement('span');
+      leaderEl.className='gantt-leader';
+      var extEl=document.createElement('span');
+      extEl.className='gantt-ext-label';
+      extEl.textContent=label.textContent;
+      barEl.appendChild(leaderEl);
+      barEl.appendChild(extEl);
+    }
+  }
 }
 
 // ── priority table render (upcoming 규제, REG 전체 기준) ──
@@ -831,6 +976,18 @@ function renderPriority(){
   }
 }
 
+// ── ISO 주차 문자열 (YYYY-Www, ISO-8601) ──
+function isoWeekString(d){
+  var dt=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  var dayNum=(dt.getUTCDay()+6)%7;
+  dt.setUTCDate(dt.getUTCDate()-dayNum+3);
+  var firstThu=new Date(Date.UTC(dt.getUTCFullYear(),0,4));
+  var firstDayNum=(firstThu.getUTCDay()+6)%7;
+  firstThu.setUTCDate(firstThu.getUTCDate()-firstDayNum+3);
+  var week=1+Math.round((dt.getTime()-firstThu.getTime())/(7*MS_DAY));
+  return dt.getUTCFullYear()+'-W'+(week<10?'0'+week:week);
+}
+
 // ── changelog chart render ──
 function renderChangelog(){
   var el=document.getElementById('changelog-chart');
@@ -845,10 +1002,24 @@ function renderChangelog(){
     el.innerHTML='<div class="cl-empty">데이터 누적 중<br>매주 자동 집계됩니다</div>'+legend;
     return;
   }
-  var maxT=Math.max.apply(null,CHANGELOG.map(function(w){
+  // 표시 윈도우 시작 = 오늘 주차. 이전 구축기 주차는 표시하지 않음.
+  var currentWeek=isoWeekString(new Date());
+  var data=CHANGELOG.filter(function(w){return w.week>=currentWeek;});
+  if(!data.length){
+    el.innerHTML='<div class="cl-empty">데이터 누적 중<br>매주 자동 집계됩니다</div>'+legend;
+    return;
+  }
+  // 직전 스냅샷 없이 첫 주만 존재(전체가 '신규'로 잡힌 구축기 스파이크)하면 today를 baseline(0)으로 앵커
+  if(data.length===1 && data[0].week===currentWeek){
+    var first=data[0];
+    if((first.new||0)>0 && !first.updated && !first.stage_changed && !first.deleted){
+      data=[{week:first.week,new:0,updated:0,stage_changed:0,deleted:0}];
+    }
+  }
+  var maxT=Math.max.apply(null,data.map(function(w){
     return (w.new||0)+(w.updated||0)+(w.stage_changed||0)+(w.deleted||0);
   }))||1;
-  var bars=CHANGELOG.map(function(w){
+  var bars=data.map(function(w){
     var n=w.new||0,u=w.updated||0,s=w.stage_changed||0,d=w.deleted||0,tot=n+u+s+d;
     function pct(v){return (v/maxT*100).toFixed(1)+'%';}
     return '<div class="cl-row">'
