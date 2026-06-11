@@ -1,7 +1,7 @@
 name: SENTINEL Weekly Digest
 
 # 트리거 3종:
-#  1. schedule  : 매주 월 07:00 KST(= 일 22:00 UTC) — draft 자동 발송.
+#  1. schedule  : 매주 월 10:00 KST(=월 01:00 UTC) — send 자동 발송(본부 전체).
 #  2. push      : data/inbox/kr_latest.json 변경 시 자동 실행 — draft.
 #                 회사 PC 에서 collect_kr.bat push → 다이제스트 자동 트리거.
 #                 registry 자동커밋([skip ci])은 paths 한정으로 재트리거 안 됨.
@@ -9,8 +9,8 @@ name: SENTINEL Weekly Digest
 
 on:
   schedule:
-    # GitHub Actions cron 은 UTC. 월요일 07:00 KST = 일요일 22:00 UTC.
-    - cron: "0 22 * * 0"
+    # GitHub Actions cron 은 UTC. 월요일 10:00 KST = 월요일 01:00 UTC.
+    - cron: "0 1 * * 1"
 
   push:
     branches:
@@ -101,11 +101,12 @@ jobs:
 
       - name: Run digest
         env:
-          # schedule/push 트리거는 inputs 없음 → 항상 draft.
+          # schedule 트리거는 inputs 없음 → send. push 트리거는 inputs 없음 → draft.
           # dispatch 는 선택 입력.
-          MODE: ${{ github.event.inputs.mode || 'draft' }}
+          MODE: ${{ github.event.inputs.mode || (github.event_name == 'schedule' && 'send' || 'draft') }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          DIGEST_CC: ${{ secrets.DIGEST_CC }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           # 대시보드 CTA 공개 URL (Pages). secret 아님.
           DASHBOARD_URL: "https://shinkim99.github.io/SENTINEL/"
@@ -114,7 +115,7 @@ jobs:
           python -m scripts.run_digest --mode "$MODE"
 
       - name: Commit registry baseline
-        if: ${{ (github.event.inputs.mode || 'draft') == 'send' }}
+        if: ${{ (github.event.inputs.mode || (github.event_name == 'schedule' && 'send' || 'draft')) == 'send' }}
         run: |
           git config user.name "sentinel-bot"
           git config user.email "actions@github.com"
