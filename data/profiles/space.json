@@ -15,7 +15,10 @@
     "국제협력", "international cooperation", "우주보험", "space insurance",
     "우주 소부장", "space materials", "부품소재 인증", "qualification", "space-grade", "국산화",
     "ESA", "COPUOS", "UNOOSA", "FCC", "FAA", "EUSPA", "ITU",
-    "KASA", "우주항공청", "DAPA", "방위사업청", "과기정통부", "MSIT", "무역안보관리원", "KOSTI"
+    "KASA", "우주항공청", "DAPA", "방위사업청", "과기정통부", "MSIT", "무역안보관리원", "KOSTI",
+    "국방부", "DoD", "Department of Defense", "CMMC", "Cybersecurity Maturity Model Certification", "DFARS", 
+    "우주자산보호", "space asset protection","우주안보", "space security","우주방위", "space defense",
+    "우주군", "Space Force", "USSF", "골든돔", "Golden Dome", "우주산업개발", "항공우주산업개발", "space industry development"
   ],
   "concerns": [
     "수출통제 적격성 (ITAR/EAR/전략물자)",
