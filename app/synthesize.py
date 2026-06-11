@@ -91,8 +91,7 @@ _IT_BADGE = {
 }
 
 # 이메일 상단 일회성 안내 블록. 끄려면 False로 변경.
-INTRO_NOTICE = True
-
+INTRO_NOTICE = False
 
 # ══════════════════════════════════════════════════════════════════════════════
 # EMAIL  (디자인: templates/sentinel_digest_email_v2.html)
