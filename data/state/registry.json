@@ -1,5 +1,5 @@
 {
-  "committed_at": "2026-06-10T02:20:09.169977",
+  "committed_at": "2026-06-11T02:34:05.967516",
   "digest_id": "2026-W24",
   "regulations": [
     {
@@ -455,7 +455,7 @@
       "source_url": "https://www.law.go.kr/lsInfoP.do?lsId=010078&ancYnChk=0",
       "confidence": "B",
       "checked_at": "2026-06-10",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "우주개발 진흥법 시행규칙",
       "history": [
         {
@@ -817,7 +817,7 @@
       "source_url": "https://www.law.go.kr/lsInfoP.do?lsId=013774&ancYnChk=0",
       "confidence": "B",
       "checked_at": "2026-06-10",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "국가연구개발혁신법",
       "history": [
         {
@@ -1433,23 +1433,29 @@
       "domain": "secondary_battery",
       "country": "US",
       "name": "Notice of Determinations and Request for Comments Concerning Actions in Section 301 Investigations — Forced Labor Import Prohibition",
-      "summary": "The USTR's determination that 54 economies have failed to enforce forced labor import prohibitions directly threatens battery supply chains reliant on upstream materials (e.g., lithium, cobalt, graphite) sourced from flagged economies, most notably China. Companies must urgently audit whether Chinese or other implicated suppliers appear in their BOM and origin data, as Section 301 trade actions could restrict or tariff imports of battery raw materials and components. This intersects with Battery Passport requirements around origin and recycled content traceability, and with SCM decisions on whether to include Chinese firms — heightening the need for pre-prepared, item-level supply chain data.",
-      "lifecycle_stage": "proposed",
+      "summary": "The USTR's determination that 54 economies have failed to enforce prohibitions on goods produced with forced labor directly threatens battery supply chains reliant on materials (e.g., lithium, cobalt, graphite) sourced from flagged economies, most notably China. This heightens scrutiny on Chinese suppliers within SCM structures and increases compliance burden for BOM/origin traceability as required by Battery Passport frameworks. Companies must proactively audit upstream forced labor exposure and prepare origin/certification documentation ahead of any resulting Section 301 trade actions.",
+      "lifecycle_stage": "enacted",
       "date_text": "2026-06-05",
-      "rd_impact": "The USTR's determination that 54 economies have failed to enforce forced labor import prohibitions directly threatens battery supply chains reliant on upstream materials (e.g., lithium, cobalt, graphite) sourced from flagged economies, most notably China. Companies must urgently audit whether Chinese or other implicated suppliers appear in their BOM and origin data, as Section 301 trade actions could restrict or tariff imports of battery raw materials and components. This intersects with Battery Passport requirements around origin and recycled content traceability, and with SCM decisions on whether to include Chinese firms — heightening the need for pre-prepared, item-level supply chain data.",
+      "rd_impact": "The USTR's determination that 54 economies have failed to enforce prohibitions on goods produced with forced labor directly threatens battery supply chains reliant on materials (e.g., lithium, cobalt, graphite) sourced from flagged economies, most notably China. This heightens scrutiny on Chinese suppliers within SCM structures and increases compliance burden for BOM/origin traceability as required by Battery Passport frameworks. Companies must proactively audit upstream forced labor exposure and prepare origin/certification documentation ahead of any resulting Section 301 trade actions.",
       "impact_type": "direct",
       "alert": "watch",
       "source": "us-federal-register",
       "source_url": "https://www.federalregister.gov/documents/2026/06/05/2026-11296/notice-of-determinations-and-request-for-comments-concerning-actions-in-section-301-investigations",
       "confidence": "B",
-      "checked_at": "2026-06-09",
-      "changed_this_week": false,
+      "checked_at": "2026-06-11",
+      "changed_this_week": true,
       "citation_quote": "The Trade Representative has determined that 54 of the investigated economies have failed to impose and effectively enforce a forced labor import prohibition.",
       "history": [
         {
           "date": "2026-06-05",
           "stage": "proposed",
           "note": "신규 등록",
+          "source": "us-federal-register"
+        },
+        {
+          "date": "2026-06-05",
+          "stage": "enacted",
+          "note": "proposed → enacted",
           "source": "us-federal-register"
         }
       ]
@@ -1459,16 +1465,16 @@
       "domain": "secondary_battery",
       "country": "US",
       "name": "Request for Comments on the Scope and Operation of a Mechanism To Promote Reciprocal Managed Trade With China",
-      "summary": "USTR is soliciting comments on a proposed U.S.-China Board of Trade mechanism aimed at reciprocal tariff modifications for non-sensitive products, which could directly affect secondary battery supply chain decisions—particularly around whether Chinese battery material and equipment suppliers can be included in SCM builds. Favorable tariff modifications, if extended to battery-related inputs, could reduce raw material procurement costs and ease logistics risks for lithium and anode materials. However, the \"non-sensitive products\" scope qualifier introduces significant uncertainty; battery materials, next-generation electrode technologies, and related equipment may be classified as sensitive and excluded, requiring close monitoring of the negotiation's product coverage list.",
+      "summary": "USTR의 대중국 관리무역 메커니즘(U.S.-China Board of Trade) 설립 논의는 배터리 핵심 원료(리튬, 흑연 등) 공급망에서 중국 기업 포함 여부 및 타리프 조정에 직접적인 영향을 줄 수 있음. 비민감 품목에 대한 양측 관세 수정 논의는 중국산 배터리 소재·부품의 수입 조건을 변화시킬 수 있어 SCM 구축 시 중국 기업 포함 여부 판단에 중요한 변수가 됨. 동 메커니즘의 설계 방향에 따라 중국 수출통제 품목(차세대 배터리 장비·전극 제조기술 등)과의 교차 규제 리스크도 부상할 수 있어 지속 모니터링 필요.",
       "lifecycle_stage": "proposed",
       "date_text": "2026-06-05",
-      "rd_impact": "USTR is soliciting comments on a proposed U.S.-China Board of Trade mechanism aimed at reciprocal tariff modifications for non-sensitive products, which could directly affect secondary battery supply chain decisions—particularly around whether Chinese battery material and equipment suppliers can be included in SCM builds. Favorable tariff modifications, if extended to battery-related inputs, could reduce raw material procurement costs and ease logistics risks for lithium and anode materials. However, the \"non-sensitive products\" scope qualifier introduces significant uncertainty; battery materials, next-generation electrode technologies, and related equipment may be classified as sensitive and excluded, requiring close monitoring of the negotiation's product coverage list.",
-      "impact_type": "direct",
+      "rd_impact": "USTR의 대중국 관리무역 메커니즘(U.S.-China Board of Trade) 설립 논의는 배터리 핵심 원료(리튬, 흑연 등) 공급망에서 중국 기업 포함 여부 및 타리프 조정에 직접적인 영향을 줄 수 있음. 비민감 품목에 대한 양측 관세 수정 논의는 중국산 배터리 소재·부품의 수입 조건을 변화시킬 수 있어 SCM 구축 시 중국 기업 포함 여부 판단에 중요한 변수가 됨. 동 메커니즘의 설계 방향에 따라 중국 수출통제 품목(차세대 배터리 장비·전극 제조기술 등)과의 교차 규제 리스크도 부상할 수 있어 지속 모니터링 필요.",
+      "impact_type": "indirect",
       "alert": "watch",
       "source": "us-federal-register",
       "source_url": "https://www.federalregister.gov/documents/2026/06/05/2026-11291/request-for-comments-on-the-scope-and-operation-of-a-mechanism-to-promote-reciprocal-managed-trade",
       "confidence": "B",
-      "checked_at": "2026-06-10",
+      "checked_at": "2026-06-11",
       "changed_this_week": false,
       "citation_quote": "comment is sought on the types of non-sensitive products that would benefit from favorable tariff modifications by both sides, and considerations around the design of a new government-to-government mechanism--a U.S.-China Board of Trade",
       "history": [
@@ -1574,17 +1580,17 @@
       "regulation_id": "ftz-52-photonics-industries-laser-systems-ronkonkoma_US",
       "domain": "space_environment",
       "country": "US",
-      "name": "Foreign-Trade Zone (FTZ) 52, Notification of Proposed Production Activity; Photonics Industries International, Inc.; (Laser Systems); Ronkonkoma, New York",
-      "summary": "Photonics Industries International is seeking FTZ production activity approval for laser systems in Ronkonkoma, NY. Laser systems are a dual-use technology with direct relevance to space and defense applications, intersecting with ITAR/EAR export control regimes. FTZ status can affect the classification and origin of components used in these systems, potentially influencing export control eligibility and supply chain compliance for space-grade photonics/laser hardware. R&D and procurement teams sourcing or developing laser-based components for space applications should monitor whether FTZ-produced laser systems carry distinct export control designations or restrictions.",
+      "name": "Foreign-Trade Zone (FTZ) 52 – Proposed Production Activity; Photonics Industries International, Inc. (Laser Systems); Ronkonkoma, New York",
+      "summary": "FTZ 52에서 Photonics Industries International의 레이저 시스템 생산 활동이 승인될 경우, 우주·방산용 레이저 부품의 수입 원자재에 대한 관세 혜택이 부여될 수 있어 우주용 레이저 광학 부품 공급망에 직접적인 영향을 미칩니다. 레이저 시스템은 ITAR/EAR 통제 대상 품목에 해당할 가능성이 높으며, FTZ 내 생산 승인 여부에 따라 수출통제 적격성 및 부품 조달 경로가 변동될 수 있습니다. 관련 공급망 참여 기업은 FTZ 생산 허가 결과를 모니터링하며 우주용 레이저 소부장 조달 전략을 사전 검토할 필요가 있습니다.",
       "lifecycle_stage": "proposed",
       "date_text": "2026-06-09",
-      "rd_impact": "Photonics Industries International is seeking FTZ production activity approval for laser systems in Ronkonkoma, NY. Laser systems are a dual-use technology with direct relevance to space and defense applications, intersecting with ITAR/EAR export control regimes. FTZ status can affect the classification and origin of components used in these systems, potentially influencing export control eligibility and supply chain compliance for space-grade photonics/laser hardware. R&D and procurement teams sourcing or developing laser-based components for space applications should monitor whether FTZ-produced laser systems carry distinct export control designations or restrictions.",
+      "rd_impact": "FTZ 52에서 Photonics Industries International의 레이저 시스템 생산 활동이 승인될 경우, 우주·방산용 레이저 부품의 수입 원자재에 대한 관세 혜택이 부여될 수 있어 우주용 레이저 광학 부품 공급망에 직접적인 영향을 미칩니다. 레이저 시스템은 ITAR/EAR 통제 대상 품목에 해당할 가능성이 높으며, FTZ 내 생산 승인 여부에 따라 수출통제 적격성 및 부품 조달 경로가 변동될 수 있습니다. 관련 공급망 참여 기업은 FTZ 생산 허가 결과를 모니터링하며 우주용 레이저 소부장 조달 전략을 사전 검토할 필요가 있습니다.",
       "impact_type": "indirect",
       "alert": "watch",
       "source": "us-federal-register",
       "source_url": "https://www.federalregister.gov/documents/2026/06/09/2026-11546/foreign-trade-zone-ftz-52-notification-of-proposed-production-activity-photonics-industries",
       "confidence": "B",
-      "checked_at": "2026-06-10",
+      "checked_at": "2026-06-11",
       "changed_this_week": true,
       "citation_quote": "Foreign-Trade Zone (FTZ) 52, Notification of Proposed Production Activity; Photonics Industries International, Inc.; (Laser Systems); Ronkonkoma, New York",
       "history": [
@@ -1598,6 +1604,12 @@
           "date": "2026-06-09",
           "stage": "proposed",
           "note": "명칭 변경: Foreign-Trade Zone (FTZ) 52, Notificatio",
+          "source": "us-federal-register"
+        },
+        {
+          "date": "2026-06-09",
+          "stage": "proposed",
+          "note": "명칭 변경: Foreign-Trade Zone (FTZ) 52 – Proposed P",
           "source": "us-federal-register"
         }
       ]
@@ -1701,7 +1713,7 @@
       "source_url": "https://www.law.go.kr/lsInfoP.do?lsId=000936&ancYnChk=0",
       "confidence": "C",
       "checked_at": "2026-06-10",
-      "changed_this_week": true,
+      "changed_this_week": false,
       "citation_quote": "군수품관리법",
       "history": [
         {
@@ -1799,6 +1811,90 @@
           "stage": "unclear",
           "note": "신규 등록",
           "source": "kr-law-go-kr"
+        }
+      ]
+    },
+    {
+      "regulation_id": "us-dod-chinese-military-company-designation-2026_US",
+      "domain": "secondary_battery",
+      "country": "US",
+      "name": "Notice of Availability of Designation of Chinese Military Companies",
+      "summary": "The DoD designation of entities as \"Chinese military companies\" directly constrains supply chain decisions involving those listed firms, most critically for secondary battery teams evaluating Chinese suppliers for raw materials (e.g., lithium, anode/cathode materials) and equipment. Inclusion of designated companies in SCM structures raises legal and compliance risk under Section 1260H of the NDAA. This also intersects with space_environment domain concerns around export control eligibility (ITAR/EAR), as designated entities may trigger additional screening requirements for dual-use components and materials sourced from China.",
+      "lifecycle_stage": "in_force",
+      "date_text": "2026-06-10",
+      "rd_impact": "The DoD designation of entities as \"Chinese military companies\" directly constrains supply chain decisions involving those listed firms, most critically for secondary battery teams evaluating Chinese suppliers for raw materials (e.g., lithium, anode/cathode materials) and equipment. Inclusion of designated companies in SCM structures raises legal and compliance risk under Section 1260H of the NDAA. This also intersects with space_environment domain concerns around export control eligibility (ITAR/EAR), as designated entities may trigger additional screening requirements for dual-use components and materials sourced from China.",
+      "impact_type": "direct",
+      "alert": "urgent",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/06/10/2026-11571/notice-of-availability-of-designation-of-chinese-military-companies",
+      "confidence": "A",
+      "checked_at": "2026-06-11",
+      "changed_this_week": true,
+      "citation_quote": "The Deputy Secretary of Defense has determined that the entities listed in the SUPPLEMENTARY INFORMATION section of this notice satisfy the requirements to be designated as a \"Chinese military company.\"",
+      "history": [
+        {
+          "date": "2026-06-10",
+          "stage": "in_force",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "ftz-26-viasat-satellite-comms-lawrenceville-ga_US",
+      "domain": "space_environment",
+      "country": "US",
+      "name": "Foreign-Trade Zone (FTZ) 26 – Viasat, Inc. Proposed Production Activity (Satellite Communications Technology)",
+      "summary": "Viasat's proposed FTZ production activity for satellite communications technology in Georgia may trigger or adjust ITAR/EAR export control classifications for satellite components and subsystems manufactured within the zone, directly relevant to the space_environment domain concern around export control eligibility. FTZ status can alter supply chain structures for space-grade parts, potentially affecting how foreign-origin materials and components (including those from restricted suppliers) are processed and re-exported — a key watch point for민간 우주기업 공급망 변화 (commercial space supply chain shifts). This notification signals an expanding U.S. commercial satellite manufacturing footprint that R&D stakeholders should monitor for downstream procurement and certification implications.",
+      "lifecycle_stage": "proposed",
+      "date_text": "2026-06-10",
+      "rd_impact": "Viasat's proposed FTZ production activity for satellite communications technology in Georgia may trigger or adjust ITAR/EAR export control classifications for satellite components and subsystems manufactured within the zone, directly relevant to the space_environment domain concern around export control eligibility. FTZ status can alter supply chain structures for space-grade parts, potentially affecting how foreign-origin materials and components (including those from restricted suppliers) are processed and re-exported — a key watch point for민간 우주기업 공급망 변화 (commercial space supply chain shifts). This notification signals an expanding U.S. commercial satellite manufacturing footprint that R&D stakeholders should monitor for downstream procurement and certification implications.",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "us-federal-register",
+      "source_url": "https://www.federalregister.gov/documents/2026/06/10/2026-11631/foreign-trade-zone-ftz-26-notification-of-proposed-production-activity-viasat-inc-satellite",
+      "confidence": "B",
+      "checked_at": "2026-06-11",
+      "changed_this_week": true,
+      "citation_quote": "Foreign-Trade Zone (FTZ) 26, Notification of Proposed Production Activity; Viasat, Inc.; (Satellite Communications Technology); Lawrenceville, Duluth, and Pendergrass, Georgia",
+      "history": [
+        {
+          "date": "2026-06-10",
+          "stage": "proposed",
+          "note": "신규 등록",
+          "source": "us-federal-register"
+        }
+      ]
+    },
+    {
+      "regulation_id": "eu-sfdr-priips-amendment-proposal-2026_EU",
+      "domain": "green_eco",
+      "country": "EU",
+      "name": "Proposal to Amend SFDR (EU 2019/2088) and PRIIPs (EU 1286/2014), repealing Delegated Regulation (EU) 2022/1288",
+      "summary": "This proposal amends the EU Sustainable Finance Disclosure Regulation (SFDR) and PRIIPs, directly affecting how financial products disclose sustainability-related information including ESG metrics, supply chain data, and recycled content disclosures. For green_eco domain concerns, this regulation intensifies data obligations around Scope 3 emissions and material/component sustainability disclosures (DPP-adjacent), potentially increasing EPR and compliance reporting burdens for firms reliant on sustainable feedstocks and supply chain transparency. The repeal of Delegated Regulation (EU) 2022/1288 signals a structural reset in sustainability disclosure methodology, which may alter how green investments and eco-friendly products are classified and funded.",
+      "lifecycle_stage": "proposed",
+      "date_text": "2026-06-10",
+      "rd_impact": "This proposal amends the EU Sustainable Finance Disclosure Regulation (SFDR) and PRIIPs, directly affecting how financial products disclose sustainability-related information including ESG metrics, supply chain data, and recycled content disclosures. For green_eco domain concerns, this regulation intensifies data obligations around Scope 3 emissions and material/component sustainability disclosures (DPP-adjacent), potentially increasing EPR and compliance reporting burdens for firms reliant on sustainable feedstocks and supply chain transparency. The repeal of Delegated Regulation (EU) 2022/1288 signals a structural reset in sustainability disclosure methodology, which may alter how green investments and eco-friendly products are classified and funded.",
+      "impact_type": "indirect",
+      "alert": "watch",
+      "source": "eu-eurlex",
+      "source_url": "http://publications.europa.eu/resource/cellar/b0885d36-6528-11f1-9b18-01aa75ed71a1",
+      "confidence": "B",
+      "checked_at": "2026-06-11",
+      "changed_this_week": true,
+      "citation_quote": "Proposal for a Regulation of the European Parliament and of the Council amending Regulation (EU) 2019/2088 on sustainability-related disclosures in the financial services sector (SFDR), Regulation (EU) No 1286/2014 on key information documents for packaged retail and insurance-based investment products (PRIIPs) and repealing Commission Delegated Regulation (EU) 2022/1288",
+      "history": [
+        {
+          "date": "2026-06-10",
+          "stage": "proposed",
+          "note": "신규 등록",
+          "source": "eu-eurlex"
+        },
+        {
+          "date": "2026-06-10",
+          "stage": "proposed",
+          "note": "명칭 변경: Proposal to Amend SFDR (EU 2019/2088) an",
+          "source": "eu-eurlex"
         }
       ]
     }
