@@ -328,10 +328,12 @@ async def run(mode: str) -> int:
         to = recipients[:1]
         subject = f"[검토] SENTINEL 주간 규제 다이제스트 {digest_id}"
         from_email = cfg.resend_from_email
+        cc = []
     else:  # send
         to = recipients
         subject = f"SENTINEL 주간 규제 다이제스트 {digest_id}"
         from_email = cfg.resend_from_email
+        cc = cfg.cc_list
 
     if not cfg.resend_api_key:
         logger.error(
@@ -341,7 +343,7 @@ async def run(mode: str) -> int:
         return 3
 
     try:
-        result = send_via_resend(email_html, to, cfg, subject=subject, from_email=from_email)
+        result = send_via_resend(email_html, to, cfg, subject=subject, from_email=from_email, cc=cc)
         logger.info(
             "[%s] 발송 완료 mode=%s → %d명 (id=%s)",
             digest_id, mode, len(to), result.get("id"),

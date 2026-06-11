@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     # 발송 설정
     send_mode: str = "review_first"  # review_first | auto_send
     digest_recipients: str = ""       # 본부 수신(쉼표 구분) — OPERATOR_EMAIL 와 별개
+    digest_cc: str = ""               # 참조(CC, 쉼표 구분) — send 모드에서만 사용
     digest_reply_to: str = "shinkim99@gmail.com"  # 회신 수신 (운영자 본인)
     operator_email: str = ""          # 검토 메일 수신(운영자 본인)
     digest_from_email: str = ""       # SMTP 발송 시 From (Gmail 노드는 불필요)
@@ -84,6 +85,10 @@ class Settings(BaseSettings):
     @property
     def recipients_list(self) -> list[str]:
         return [r.strip() for r in self.digest_recipients.split(",") if r.strip()]
+
+    @property
+    def cc_list(self) -> list[str]:
+        return [r.strip() for r in self.digest_cc.split(",") if r.strip()]
 
 
 @lru_cache(maxsize=1)

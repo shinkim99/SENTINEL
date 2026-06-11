@@ -9,6 +9,7 @@ import logging
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from typing import Optional
 
 import httpx
 
@@ -28,6 +29,7 @@ def send_via_resend(
     subject: str = _DEFAULT_SUBJECT,
     from_email: str = "",
     reply_to: str = "",
+    cc: Optional[list[str]] = None,
 ) -> dict:
     """HTML 다이제스트를 Resend API로 발송.
 
@@ -52,6 +54,8 @@ def send_via_resend(
     rt = reply_to or cfg.digest_reply_to
     if rt:
         payload["reply_to"] = rt
+    if cc:
+        payload["cc"] = cc
 
     try:
         resp = httpx.post(
