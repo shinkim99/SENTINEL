@@ -125,6 +125,12 @@ async def screen_pass1(
 
     domains_ctx = "\n".join(
         f"- {p.domain} (countries: {', '.join(p.watch_countries)}): {', '.join(p.keywords[:8])}"
+        + (
+            f"\n  ⚠ Negative signals for {p.domain}: {', '.join(p.exclude_keywords)}. "
+            "If an item's topic matches these negative signals, exclude it from this domain — "
+            "UNLESS hydrogen/fuel cell topics are also covered, in which case keep it."
+            if p.exclude_keywords else ""
+        )
         for p in profiles
     )
 

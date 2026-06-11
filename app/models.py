@@ -94,6 +94,7 @@ class ProfileSpec(BaseModel):
     status: str = ""          # 프로필 JSON에 없는 경우 빈 문자열로 기본 처리
     watch_countries: list[str]
     keywords: list[str]
+    exclude_keywords: list[str] = []
     concerns: list[str]
     lifecycle_interest: list[_LifecycleStageField]
     open_questions: Optional[list[str]] = None

@@ -7,7 +7,19 @@
     "CHPS", "청정수소 인증", "청정수소발전의무화",
     "CfD", "EAC", "Guarantee of Origin", "CertifHy",
     "three pillars", "additionality", "temporal matching",
-    "lifecycle emissions", "RED III", "수소법", "수소사회추진법"
+    "lifecycle emissions", "RED III", "수소법", "수소사회추진법",
+    "연료전지", "fuel cell", "수전해", "electrolyzer",
+    "그린수소", "청정수소", "수소충전소", "refueling station",
+    "수소차", "FCEV", "수소전기차", "fuel cell vehicle",
+    "액화수소", "liquid hydrogen", "암모니아(수소 운반체)"
+  ],
+  "exclude_keywords": [
+    "이차전지", "secondary battery", "리튬이온", "lithium-ion",
+    "양극재", "음극재", "cathode", "anode",
+    "전해액(배터리)", "electrolyte (battery)",
+    "분리막(배터리)", "separator (battery)",
+    "battery passport", "배터리 재활용", "recycled content (battery)",
+    "순수전기차", "BEV", "FMVSS 305", "UNECE R100"
   ],
   "concerns": [
     "청정수소 정의·인증 기준 변동",
