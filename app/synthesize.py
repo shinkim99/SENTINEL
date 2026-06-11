@@ -90,6 +90,9 @@ _IT_BADGE = {
     "indirect": ("간접", "#eef0f3", "#6b7280"),
 }
 
+# 이메일 상단 일회성 안내 블록. 끄려면 False로 변경.
+INTRO_NOTICE = True
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # EMAIL  (디자인: templates/sentinel_digest_email_v2.html)
@@ -123,6 +126,7 @@ def build_email(
 
     sections = [
         _email_header(week),
+        _email_intro_notice(),
         _email_metrics(len(changed_items), stats),
         _email_top_cta(btn_url),
         _email_failure_alert(stats),
@@ -169,6 +173,55 @@ def _email_header(week: str) -> str:
         "<td align='right' style='vertical-align:middle;white-space:nowrap;'>"
         f"<div style='display:inline-block;background:rgba(255,255,255,.18);color:#ffffff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;'>{escape(week)}</div>"
         "</td></tr></table></td></tr>"
+    )
+
+
+def _email_intro_notice() -> str:
+    """본부 발송 다이제스트 상단 일회성 안내 블록. INTRO_NOTICE=False로 비활성화."""
+    if not INTRO_NOTICE:
+        return ""
+    return (
+        "<tr><td style='padding:20px 22px 0 22px;'>"
+        "<section style=\"margin:0 0 24px;padding:18px 20px;border:1px solid #e2e5e9;border-radius:8px;background:#fafbfc;color:#374151;font-size:13.5px;line-height:1.65;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;\">"
+        "<div style=\"font-size:14.5px;font-weight:700;color:#111827;margin-bottom:4px;\">안내 &mdash; 규제 인텔리전스 수집 체계</div>"
+        "<div style=\"color:#6b7280;font-size:12.5px;margin-bottom:16px;\">본 다이제스트가 어떤 출처를, 어떻게 검증해 전달하는지 공유드립니다.</div>"
+        "<div style=\"text-transform:uppercase;letter-spacing:.04em;font-size:10.5px;font-weight:700;color:#0f766e;margin:0 0 8px;\">1. 수집 범위</div>"
+        "<table width='100%' style='border-collapse:separate;border-spacing:8px 0;margin:0 0 12px;'>"
+        "<tr>"
+        "<td style='text-align:center;padding:12px 4px;background:#f0faf6;border-radius:8px;width:33%;'><div style='font-size:23px;font-weight:700;color:#0f766e;line-height:1;'>4</div><div style='font-size:11px;color:#5f6b66;margin-top:5px;'>추적 도메인</div></td>"
+        "<td style='text-align:center;padding:12px 4px;background:#f0faf6;border-radius:8px;width:33%;'><div style='font-size:23px;font-weight:700;color:#0f766e;line-height:1;'>3</div><div style='font-size:11px;color:#5f6b66;margin-top:5px;'>규제 권역 KR&middot;US&middot;EU</div></td>"
+        "<td style='text-align:center;padding:12px 4px;background:#f0faf6;border-radius:8px;width:33%;'><div style='font-size:23px;font-weight:700;color:#0f766e;line-height:1;'>9</div><div style='font-size:11px;color:#5f6b66;margin-top:5px;'>1차 출처 (관보&middot;규제기관)</div></td>"
+        "</tr>"
+        "</table>"
+        "<div style='font-size:11px;color:#6b7280;margin:0 0 6px;'>공통 (전 도메인)</div>"
+        "<div style='margin:0 0 10px;'>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">국가법령정보센터<span style='color:#90a4ae;'> &middot; KR</span></span>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">Federal Register<span style='color:#90a4ae;'> &middot; US</span></span>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">EUR-Lex<span style='color:#90a4ae;'> &middot; EU</span></span>"
+        "</div>"
+        "<div style='font-size:11px;color:#6b7280;margin:0 0 6px;'>우주환경 전문기관</div>"
+        "<div style='margin:0 0 10px;'>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">FCC</span>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">FAA/AST</span>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">ITU-BR</span>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">ESA</span>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">EUSPA</span>"
+        "<span style=\"display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border:1px solid #cfd8dc;border-radius:6px;background:#fff;font-size:12px;color:#37474f;\">NOAA</span>"
+        "</div>"
+        "<div style='font-size:12px;color:#6b7280;margin:0 0 16px;'>모두 관보&middot;규제기관 등 1차 출처입니다. 산업 매체는 발견 보조용으로만 쓰고, 1차 출처로 검증된 항목만 보고에 포함합니다.</div>"
+        "<div style=\"text-transform:uppercase;letter-spacing:.04em;font-size:10.5px;font-weight:700;color:#0f766e;margin:0 0 6px;\">2. 검증 방식</div>"
+        "<div style='margin:0 0 16px;'>수집 &rarr; 도메인&middot;국가 선별 &rarr; 영향도&middot;규제단계 분석 + <strong>원문 인용 검증</strong> &rarr; 지난주 대비 변경분 추출. 각 항목의 규제 단계(<strong>입법예고 / 공포 / 시행 / 개정 / 폐지</strong>)를 명시하며, 원문 인용으로 검증되지 않는 항목은 제외합니다(추정&middot;환각 차단). 특정 출처의 수집 0건은 '변화 없음'이 아니라 '<strong>수집 실패</strong>'로 구분&middot;표시해 조용한 누락을 막습니다. <span style='color:#6b7280;'>(운영: 국내 출처는 접근 제약으로 사내에서 주 1회 동기화합니다.)</span></div>"
+        "<div style=\"text-transform:uppercase;letter-spacing:.04em;font-size:10.5px;font-weight:700;color:#0f766e;margin:0 0 6px;\">3. 확장 예정</div>"
+        "<div style='margin:0 0 16px;'>국민참여입법센터 Open API 연계 &rarr; 우주항공청(KASA) 등 <strong>입법예고&middot;행정예고(공포 이전 단계)</strong> 수집 추가 (현재 연동 검증 중).</div>"
+        "<div style='padding:14px 16px;background:#f0faf6;border-radius:8px;'>"
+        "<div style=\"text-transform:uppercase;letter-spacing:.04em;font-size:10.5px;font-weight:700;color:#0f766e;margin:0 0 8px;\">커버리지 &mdash; 공백은 투명하게, 보완은 계획적으로</div>"
+        "<div style='margin:0 0 5px;'>입법예고(국내&middot;공포 이전) <span style='color:#0f766e;font-weight:600;'>&rarr; 국민참여입법센터 연계로 보완 중</span></div>"
+        "<div style='margin:0 0 5px;'>관심국 확장(중국 등) <span style='color:#0f766e;font-weight:600;'>&rarr; 출처 검증되는 대로 순차 추가</span></div>"
+        "<div style='margin:0 0 10px;'>포털 외 고시&middot;공고 <span style='color:#0f766e;font-weight:600;'>&rarr; 누락 의심 회신 시 출처 즉시 보강</span></div>"
+        "<div style=\"font-size:13px;color:#1f2937;border-top:1px solid #d4ebe2;padding-top:10px;\">확보된 출처 범위는 빠짐없이 추적하도록 설계했으며, <strong>보고된 항목은 모두 1차 출처로 검증된 사실</strong>입니다. 공백은 위처럼 공유하고 순차 보완하니 신뢰하셔도 됩니다.</div>"
+        "</div>"
+        "</section>"
+        "</td></tr>"
     )
 
 
