@@ -120,7 +120,7 @@
     },
     {
       "regulation_id": "us-fmvss-214-305a-307-side-impact-ev-hydrogen-2026_US",
-      "domain": "hydrogen",
+      "domain": "secondary_battery",
       "country": "US",
       "name": "Federal Motor Vehicle Safety Standard No. 305a; Electric-Powered Vehicles: Electric Powertrain Integrity",
       "summary": "This final rule amends FMVSS No. 305a governing electric powertrain integrity, which directly affects battery system safety requirements for electric vehicles. For secondary battery R&D, this may impose or clarify design, testing, and certification requirements for EV battery packs, impacting BOM documentation and compliance data preparation. Supply chain and component sourcing decisions—including Chinese supplier inclusion—may need to align with updated powertrain integrity standards.",
